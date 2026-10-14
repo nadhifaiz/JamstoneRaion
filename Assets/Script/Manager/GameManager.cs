@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // Untuk mengatur tombol UI (Button)
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -28,7 +28,10 @@ public class GameManager : MonoBehaviour
     public MaterialSpawner spawner;
     public CraneController craneController;
     public BatteryManager batteryManager;
-    public GameObject bin;
+    public BinController bin;
+
+    [Header("Craft System References")]
+    public CraftingUIManager craftingUIManager; // TAMBAHAN: Referensi ke UI Crafting
 
     [Header("UI Panels")]
     public GameObject hubPanel;
@@ -79,7 +82,10 @@ public class GameManager : MonoBehaviour
         collectUIPanel.SetActive(false);
         craftUIPanel.SetActive(false);
         sellUIPanel.SetActive(false);
-        craneController.enabled = false;
+
+        ClearCollectPhaseObjects();
+        ClearCraftPhaseObjects();
+        ClearSellPhaseObjects();
 
         switch (currentState)
         {
@@ -95,15 +101,12 @@ public class GameManager : MonoBehaviour
 
             case GameState.Collect:
                 collectUIPanel.SetActive(true);
-                craneController.enabled = true;
-                bin.SetActive(true);
-
-                spawner.StartSpawning();
-                batteryManager.StartBattery();
+                InitializeCollectPhaseObjects();
                 break;
 
             case GameState.Craft:
                 craftUIPanel.SetActive(true);
+                InitializeCraftPhaseObjects(); // TAMBAHAN: Panggil inisialisasi fase Craft
                 break;
 
             case GameState.Sell:
@@ -134,18 +137,12 @@ public class GameManager : MonoBehaviour
     public void SkipCollectPhase()
     {
         Debug.Log("Fase Collect di-skip oleh pemain!");
-        batteryManager.StopBattery();
         EndCollectPhase();
     }
 
     private void EndCollectPhase()
     {
         Debug.Log("Fase Collect Selesai.");
-
-        spawner.StopSpawning();
-        spawner.ClearAllMaterials();
-        bin.SetActive(false);
-
         hasCollectedToday = true;
         ChangeState(GameState.Hub);
     }
@@ -182,5 +179,46 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GAME TAMAT! 30 Hari Selesai.");
         }
+    }
+
+    // --- Fungsi Helper Fase ---
+    private void ClearCollectPhaseObjects()
+    {
+        spawner.StopSpawning();
+        spawner.ClearAllMaterials();
+
+        bin.gameObject.SetActive(false);
+        craneController.gameObject.SetActive(false);
+        batteryManager.StopBattery();
+    }
+
+    private void InitializeCollectPhaseObjects()
+    {
+        craneController.gameObject.SetActive(true);
+        bin.gameObject.SetActive(true);
+
+        spawner.StartSpawning();
+        batteryManager.StartBattery();
+    }
+
+    private void InitializeCraftPhaseObjects()
+    {
+        if (craftingUIManager != null)
+        {
+            craftingUIManager.SetupCraftingUI();
+        }
+    }
+
+    private void ClearCraftPhaseObjects()
+    {
+        if (craftingUIManager != null)
+        {
+            craftingUIManager.ForceClearMeja();
+        }
+    }
+
+    private void ClearSellPhaseObjects()
+    {
+        // Tambahkan logika pembersihan objek terkait fase sell jika diperlukan
     }
 }

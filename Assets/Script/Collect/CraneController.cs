@@ -13,7 +13,6 @@ public class CraneController : MonoBehaviour
     public Transform grabPoint;
     public float grabRadius = 0.5f;
     public LayerMask materialLayer;
-    public LayerMask binLayer;
 
     [Header("Juice (Efek Fisika)")]
     public float pushForce = 5f;
@@ -70,7 +69,7 @@ public class CraneController : MonoBehaviour
     {
         if (grabbedMaterial != null)
         {
-            ReleaseOrCollect();
+            Release();
         }
     }
 
@@ -164,39 +163,32 @@ public class CraneController : MonoBehaviour
         }
     }
 
-    private void ReleaseOrCollect()
+    private void Release()
     {
-        Collider2D binHit = Physics2D.OverlapCircle(grabPoint.position, grabRadius, binLayer);
+        // Dilepaskan
+        grabbedMaterial.transform.SetParent(null);
 
-        if (binHit != null)
+        // Mengaktifkan collider
+        Rigidbody2D materialRb = grabbedMaterial.GetComponent<Rigidbody2D>();
+        materialRb.bodyType = RigidbodyType2D.Dynamic;
+
+        grabbedMaterial.GetComponent<Collider2D>().enabled = true;
+
+        // Memaksa barang dibawahnya turun layer jika ada barang.
+        int layer2Mask = 1 << 8;
+        Collider2D topHit = Physics2D.OverlapPoint(grabbedMaterial.transform.position, layer2Mask);
+
+        if (topHit != null)
         {
-            Debug.Log($"Berhasil mengumpulkan: {grabbedMaterial.materialData.itemName}");
-            Destroy(grabbedMaterial.gameObject);
-        }
-        else
-        {
-            grabbedMaterial.transform.SetParent(null);
-
-            Rigidbody2D materialRb = grabbedMaterial.GetComponent<Rigidbody2D>();
-            materialRb.bodyType = RigidbodyType2D.Dynamic;
-
-            grabbedMaterial.GetComponent<Collider2D>().enabled = true;
-
-            // --- SISTEM GENCET (CRUSH) ---
-            int layer2Mask = 1 << 8;
-            Collider2D topHit = Physics2D.OverlapPoint(grabbedMaterial.transform.position, layer2Mask);
-
-            if (topHit != null)
+            MaterialObject underneathMat = topHit.GetComponent<MaterialObject>();
+            if (underneathMat != null)
             {
-                MaterialObject underneathMat = topHit.GetComponent<MaterialObject>();
-                if (underneathMat != null)
-                {
-                    underneathMat.DemoteLayer();
-                }
+                underneathMat.DemoteLayer();
             }
-
-            grabbedMaterial.Initialize(grabbedMaterial.materialData, 2);
         }
+
+        grabbedMaterial.Initialize(grabbedMaterial.materialData, 2);
+
 
         grabbedMaterial = null;
     }

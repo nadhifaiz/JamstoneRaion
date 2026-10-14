@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
+  m_Name: Tameng
+  m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  itemName: Tameng Pertahanan
+  itemSprite: {fileID: -1968991776694640386, guid: 3a3514f35298bb246be7c68ace999562, type: 3}
+  requiredTag1: 1
+  requiredTag2: 1
+  basePrice: 20

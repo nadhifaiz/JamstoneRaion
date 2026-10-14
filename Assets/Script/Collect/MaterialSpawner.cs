@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq; // Tambahkan ini untuk mempermudah penghitungan layer
+using System.Linq;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class MaterialSpawner : MonoBehaviour
