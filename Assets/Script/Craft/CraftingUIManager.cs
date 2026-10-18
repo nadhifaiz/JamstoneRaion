@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,23 +24,14 @@ public class CraftingUIManager : MonoBehaviour
     // Membaca data InventoryManager dan memunculkan visual kotak di Gudang Kiri
     private void RefreshInventoryUI()
     {
-        foreach (Transform child in inventoryGridContent)
-        {
-            Destroy(child.gameObject);
-        }
+        var materials = InventoryManager.Instance.collectedMaterials
+            .Where(kvp => kvp.Value > 0)
+            .OrderBy(kvp => kvp.Key.itemName);
 
-        foreach (var kvp in InventoryManager.Instance.collectedMaterials)
+        UIListHelper.Populate(inventoryGridContent, inventoryItemPrefab, materials, (go, kvp) =>
         {
-            MaterialSO material = kvp.Key;
-            int count = kvp.Value;
-
-            if (count > 0)
-            {
-                GameObject newObj = Instantiate(inventoryItemPrefab, inventoryGridContent);
-                MaterialUI uiItem = newObj.GetComponent<MaterialUI>();
-                uiItem.Initialize(material, count, this);
-            }
-        }
+            go.GetComponent<MaterialUI>().Initialize(kvp.Key, kvp.Value, this);
+        });
     }
 
     // Dipanggil MaterialUI saat diklik: slot kosong pertama (null kalau penuh)
@@ -93,7 +85,6 @@ public class CraftingUIManager : MonoBehaviour
 
         var inv = InventoryManager.Instance;
 
-        // Validasi stok SEBELUM mengonsumsi apa pun (tidak perlu rollback)
         if (mat1 == mat2)
         {
             if (inv.GetMaterialCount(mat1) < 2) return;
@@ -102,8 +93,6 @@ public class CraftingUIManager : MonoBehaviour
         {
             if (inv.GetMaterialCount(mat1) < 1 || inv.GetMaterialCount(mat2) < 1) return;
         }
-
-        // Resep dicek dulu sebelum mat1/mat2 dipakai
         CraftedItemSO resultItem = recipeManager.CheckRecipe(mat1, mat2);
 
         inv.ConsumeMaterial(mat1, 1);
