@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 1947020430825007542}
   - component: {fileID: 6209065264035819161}
   m_Layer: 5
-  m_Name: MaterialUI
+  m_Name: MaterialItemUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
