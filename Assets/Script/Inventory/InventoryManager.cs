@@ -9,8 +9,8 @@ public class InventoryManager : MonoBehaviour
     // 1. Penyimpanan Bahan Baku (Rongsokan)
     public Dictionary<MaterialSO, int> collectedMaterials { get; private set; } = new Dictionary<MaterialSO, int>();
 
-    // 2. Penyimpanan Barang Jadi (Hasil Crafting)
-    public Dictionary<CraftedItemSO, int> craftedItems { get; private set; } = new Dictionary<CraftedItemSO, int>();
+    // 2. Penyimpanan Barang Jadi (Hasil Crafting). Kunci = item + harga jual, jadi harga tersimpan per unit.
+    public Dictionary<CraftedItemKey, int> craftedItems { get; private set; } = new Dictionary<CraftedItemKey, int>();
 
     void Awake()
     {
@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         {
             collectedMaterials[material] -= amount;
             if (collectedMaterials[material] == 0)
-                collectedMaterials.Remove(material); // Bersihkan memori jika habis
+                collectedMaterials.Remove(material);
 
             return true;
         }
@@ -61,33 +61,37 @@ public class InventoryManager : MonoBehaviour
     // BAGIAN 2: LOGIKA BARANG JADI (CRAFTED ITEM)
     // ==========================================
 
-    public void AddCraftedItem(CraftedItemSO item, int amount = 1)
+    public void AddCraftedItem(CraftedItemKey key, int amount = 1)
     {
-        if (craftedItems.ContainsKey(item))
-            craftedItems[item] += amount;
-        else
-            craftedItems.Add(item, amount);
+        if (key.IsEmpty) return;
 
-        Debug.Log($"[Inventory] Barang Jadi: {item.itemName} (+{amount}). Total: {craftedItems[item]}");
+        if (craftedItems.ContainsKey(key))
+            craftedItems[key] += amount;
+        else
+            craftedItems.Add(key, amount);
+
+        Debug.Log($"[Inventory] Barang Jadi: {key.item.itemName} @{key.price} (+{amount}). Total: {craftedItems[key]}");
     }
 
-    // Fungsi ini akan dipakai saat fase Selling (barang dijual)
-    public bool ConsumeCraftedItem(CraftedItemSO item, int amount)
+    // Dipakai saat barang ditaruh di etalase
+    public bool ConsumeCraftedItem(CraftedItemKey key, int amount)
     {
-        if (craftedItems.ContainsKey(item) && craftedItems[item] >= amount)
+        if (key.IsEmpty) return false;
+
+        if (craftedItems.ContainsKey(key) && craftedItems[key] >= amount)
         {
-            craftedItems[item] -= amount;
-            if (craftedItems[item] == 0)
-                craftedItems.Remove(item);
+            craftedItems[key] -= amount;
+            if (craftedItems[key] == 0)
+                craftedItems.Remove(key);
 
             return true;
         }
         return false;
     }
 
-    public int GetCraftedItemCount(CraftedItemSO item)
+    public int GetCraftedItemCount(CraftedItemKey key)
     {
-        if (craftedItems.ContainsKey(item)) return craftedItems[item];
+        if (craftedItems.ContainsKey(key)) return craftedItems[key];
         return 0;
     }
 }

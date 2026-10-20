@@ -1,7 +1,6 @@
 using System.Linq;
 using UnityEngine;
 
-// Letakkan di dalam sellUIPanel. panelRoot = panel "Etalase" yang di-toggle.
 public class EtalaseUIManager : MonoBehaviour
 {
     [Header("References")]
@@ -9,8 +8,8 @@ public class EtalaseUIManager : MonoBehaviour
     public SellManager sellManager;
     public GameObject panelRoot;
     public Transform gridContent;
-    public GameObject gridItemPrefab;          // prefab dengan EtalaseItemUI
-    public EtalaseSlotUI[] slotUIs;            // urutan array = urutan slot (tanpa ID manual)
+    public GameObject gridItemPrefab;
+    public EtalaseSlotUI[] slotUIs;
 
     public bool IsOpen => panelRoot.activeSelf;
 
@@ -55,7 +54,8 @@ public class EtalaseUIManager : MonoBehaviour
     {
         var items = InventoryManager.Instance.craftedItems
             .Where(kvp => kvp.Value > 0)
-            .OrderBy(kvp => kvp.Key.itemName)
+            .OrderBy(kvp => kvp.Key.item.itemName)
+            .ThenByDescending(kvp => kvp.Key.price)
             .ToList();
 
         UIListHelper.Populate(gridContent, gridItemPrefab, items, (go, kvp) =>
@@ -64,16 +64,18 @@ public class EtalaseUIManager : MonoBehaviour
         });
     }
 
-    // --- Dipanggil EtalaseItemUI / EtalaseSlotUI / tombol ---
+    // ==========================================
+    // Fungsi Eksternal
+    // ==========================================
 
-    public void PlaceItem(CraftedItemSO item, int slotIndex)
+    public void PlaceItem(CraftedItemKey key, int slotIndex)
     {
-        if (etalase.TryPlace(item, slotIndex)) RefreshGrid();
+        if (etalase.TryPlace(key, slotIndex)) RefreshGrid();
     }
 
-    public void PlaceInFirstEmpty(CraftedItemSO item)
+    public void PlaceInFirstEmpty(CraftedItemKey key)
     {
-        if (etalase.TryPlaceFirstEmpty(item)) RefreshGrid();
+        if (etalase.TryPlaceFirstEmpty(key)) RefreshGrid();
     }
 
     public void RemoveFromSlot(int slotIndex)
@@ -81,13 +83,13 @@ public class EtalaseUIManager : MonoBehaviour
         if (etalase.Remove(slotIndex)) RefreshGrid();
     }
 
-    // Tombol "put all item": isi slot kosong dengan stok yang ada
     public void PutAll()
     {
         var snapshot = InventoryManager.Instance.craftedItems
             .Where(kvp => kvp.Value > 0)
-            .OrderBy(kvp => kvp.Key.itemName)
-            .ToList(); // snapshot, karena dictionary berubah saat item ditaruh
+            .OrderBy(kvp => kvp.Key.item.itemName)
+            .ThenByDescending(kvp => kvp.Key.price)
+            .ToList();
 
         foreach (var kvp in snapshot)
         {

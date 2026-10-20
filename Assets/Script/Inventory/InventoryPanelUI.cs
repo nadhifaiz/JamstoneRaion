@@ -75,20 +75,23 @@ public class InventoryPanelUI : MonoBehaviour
                 break;
 
             case InventoryTab.CraftedItems:
+                // Item sama dengan harga berbeda tampil sebagai tumpukan terpisah
                 var crafted = inv.craftedItems
                     .Where(kvp => kvp.Value > 0)
-                    .OrderBy(kvp => kvp.Key.itemName)
+                    .OrderBy(kvp => kvp.Key.item.itemName)
+                    .ThenByDescending(kvp => kvp.Key.price)
                     .ToList();
-                Fill(crafted, c => c.itemSprite);
+                Fill(crafted, k => k.item.itemSprite, k => k.price);
                 break;
         }
     }
 
-    private void Fill<T>(List<KeyValuePair<T, int>> entries, Func<T, Sprite> getSprite)
+    private void Fill<T>(List<KeyValuePair<T, int>> entries, Func<T, Sprite> getSprite, Func<T, int> getPrice = null)
     {
         UIListHelper.Populate(gridContent, itemPrefab, entries, (go, kvp) =>
         {
-            go.GetComponent<InventoryItemUI>().Initialize(getSprite(kvp.Key), kvp.Value);
+            int price = getPrice != null ? getPrice(kvp.Key) : -1;
+            go.GetComponent<InventoryItemUI>().Initialize(getSprite(kvp.Key), kvp.Value, price);
         });
 
         if (emptyLabel != null) emptyLabel.SetActive(entries.Count == 0);

@@ -7,67 +7,66 @@ public class EtalaseManager : MonoBehaviour
 
     public event Action OnChanged;
 
-    private CraftedItemSO[] slots;
+    private CraftedItemKey[] slots;
 
-    private CraftedItemSO[] Slots
+    private CraftedItemKey[] Slots
     {
         get
         {
-            if (slots == null) slots = new CraftedItemSO[slotCount];
+            if (slots == null) slots = new CraftedItemKey[slotCount];
             return slots;
         }
     }
 
     public int SlotCount => Slots.Length;
 
-    public CraftedItemSO GetSlot(int index)
+    public CraftedItemKey GetSlot(int index)
     {
-        if (index < 0 || index >= Slots.Length) return null;
+        if (index < 0 || index >= Slots.Length) return default;
         return Slots[index];
     }
 
     public bool HasAnyItem()
     {
-        foreach (var s in Slots) if (s != null) return true;
+        foreach (var s in Slots) if (!s.IsEmpty) return true;
         return false;
     }
 
     public int GetFirstEmptyIndex()
     {
-        for (int i = 0; i < Slots.Length; i++) if (Slots[i] == null) return i;
+        for (int i = 0; i < Slots.Length; i++) if (Slots[i].IsEmpty) return i;
         return -1;
     }
 
-    public bool TryPlace(CraftedItemSO item, int index)
+    public bool TryPlace(CraftedItemKey key, int index)
     {
-        if (item == null || index < 0 || index >= Slots.Length) return false;
-        if (Slots[index] != null) return false;
-        if (!InventoryManager.Instance.ConsumeCraftedItem(item, 1)) return false;
+        if (key.IsEmpty || index < 0 || index >= Slots.Length) return false;
+        if (!Slots[index].IsEmpty) return false;
+        if (!InventoryManager.Instance.ConsumeCraftedItem(key, 1)) return false;
 
-        Slots[index] = item;
+        Slots[index] = key;
         OnChanged?.Invoke();
         return true;
     }
 
-    public bool TryPlaceFirstEmpty(CraftedItemSO item)
+    public bool TryPlaceFirstEmpty(CraftedItemKey key)
     {
         int index = GetFirstEmptyIndex();
         if (index < 0) return false;
-        return TryPlace(item, index);
+        return TryPlace(key, index);
     }
 
     // Tarik item dari etalase kembali ke inventory
     public bool Remove(int index)
     {
-        if (index < 0 || index >= Slots.Length || Slots[index] == null) return false;
+        if (index < 0 || index >= Slots.Length || Slots[index].IsEmpty) return false;
 
         InventoryManager.Instance.AddCraftedItem(Slots[index], 1);
-        Slots[index] = null;
+        Slots[index] = default;
         OnChanged?.Invoke();
         return true;
     }
 
-    // Dipanggil saat pelanggan membeli. Item terjual (tidak balik ke inventory).
     public bool TrySell(CraftedItemSO wanted, out int price)
     {
         price = 0;
@@ -75,10 +74,10 @@ public class EtalaseManager : MonoBehaviour
 
         for (int i = 0; i < Slots.Length; i++)
         {
-            if (Slots[i] == wanted)
+            if (!Slots[i].IsEmpty && Slots[i].item == wanted)
             {
-                price = wanted.basePrice;
-                Slots[i] = null;
+                price = Slots[i].price;
+                Slots[i] = default;
                 OnChanged?.Invoke();
                 return true;
             }
@@ -92,9 +91,9 @@ public class EtalaseManager : MonoBehaviour
         bool changed = false;
         for (int i = 0; i < Slots.Length; i++)
         {
-            if (Slots[i] == null) continue;
+            if (Slots[i].IsEmpty) continue;
             InventoryManager.Instance.AddCraftedItem(Slots[i], 1);
-            Slots[i] = null;
+            Slots[i] = default;
             changed = true;
         }
         if (changed) OnChanged?.Invoke();

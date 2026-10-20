@@ -9,17 +9,20 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("UI References")]
     public Image itemIcon;
     public TextMeshProUGUI countText;
+    [Tooltip("Opsional: menampilkan harga jual unit ini")]
+    public TextMeshProUGUI priceText;
 
-    private CraftedItemSO itemData;
+    private CraftedItemKey itemKey;
     private EtalaseUIManager ui;
     private GameObject ghostIcon;
 
-    public void Initialize(CraftedItemSO item, int count, EtalaseUIManager manager)
+    public void Initialize(CraftedItemKey key, int count, EtalaseUIManager manager)
     {
-        itemData = item;
+        itemKey = key;
         ui = manager;
-        itemIcon.sprite = item.itemSprite;
+        itemIcon.sprite = key.item.itemSprite;
         countText.text = count > 1 ? $"x{count}" : "";
+        if (priceText != null) priceText.text = key.price.ToString();
     }
 
     void OnDisable()
@@ -31,7 +34,7 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.dragging) return;
-        ui.PlaceInFirstEmpty(itemData);
+        ui.PlaceInFirstEmpty(itemKey);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -41,7 +44,7 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         ghostIcon.transform.SetAsLastSibling();
 
         Image ghostImage = ghostIcon.AddComponent<Image>();
-        ghostImage.sprite = itemData.itemSprite;
+        ghostImage.sprite = itemKey.item.itemSprite;
         ghostImage.raycastTarget = false;
 
         ghostIcon.GetComponent<RectTransform>().sizeDelta = GetComponent<RectTransform>().sizeDelta;
@@ -61,6 +64,6 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         EtalaseSlotUI slot = target != null ? target.GetComponentInParent<EtalaseSlotUI>() : null;
 
         // Stok tidak diubah selama drag; baru berkurang kalau drop berhasil
-        if (slot != null) ui.PlaceItem(itemData, slot.Index);
+        if (slot != null) ui.PlaceItem(itemKey, slot.Index);
     }
 }

@@ -1,27 +1,121 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CraftingUIManager : MonoBehaviour
 {
     [Header("References")]
     public CraftingManager recipeManager;
+
+    [Header("Inventory UI")]
     public Transform inventoryGridContent;
+    [Tooltip("Prefab MaterialUI yang akan ditampilkan di grid inventory")]
     public GameObject inventoryItemPrefab;
 
-    [Header("Meja Rakit")]
+    [Header("Meja Rakit (Blind Crafting)")]
     public CraftingSlot slot1;
     public CraftingSlot slot2;
-    public Image resultPreviewImage;
-
-    [Header("Buttons")]
     public Button craftButton;
+    public GameObject blockRaycastPanel;
+
+    [Header("UI Overview (Pop-up Result)")]
+    public GameObject overviewPanel;
+    public Image overviewItemImage;
+    public TextMeshProUGUI overviewTitleText;
+    public TextMeshProUGUI overviewDetailText;
+    public TextMeshProUGUI overviewPriceText;
+    public Sprite failSprite;
 
     private MaterialSO mat1;
     private MaterialSO mat2;
 
-    // Membaca data InventoryManager dan memunculkan visual kotak di Gudang Kiri
+    // ==========================================
+    // FUNGSI UTAMA
+    // ==========================================
+
+    public void ExecuteCraft()
+    {
+        if (mat1 == null || mat2 == null) return;
+        if (!HasEnoughStock(mat1, mat2)) return;
+
+        StartCoroutine(CraftSequenceRoutine(mat1, mat2));
+    }
+
+    // Material dioper sebagai parameter supaya tidak berubah selama animasi berjalan
+    private IEnumerator CraftSequenceRoutine(MaterialSO usedMat1, MaterialSO usedMat2)
+    {
+        SetInputBlocked(true);
+
+        // TODO: Animasi 4 frame
+        yield return new WaitForSeconds(1.2f);
+
+        // Cek ulang stok tepat sebelum konsumsi (jangan percaya pengecekan 1,2 detik lalu)
+        if (!HasEnoughStock(usedMat1, usedMat2))
+        {
+            SetInputBlocked(false);
+            yield break;
+        }
+
+        var inv = InventoryManager.Instance;
+        inv.ConsumeMaterial(usedMat1, 1);
+        inv.ConsumeMaterial(usedMat2, 1);
+
+        CraftedItemSO resultItem = recipeManager.CheckRecipe(usedMat1, usedMat2);
+        int finalPrice = 0;
+
+        if (resultItem != null)
+        {
+            // Harga melekat pada unit item (CraftedItemKey), bukan pada ScriptableObject
+            finalPrice = recipeManager.CalculateFinalPrice(resultItem, usedMat1, usedMat2);
+            inv.AddCraftedItem(new CraftedItemKey(resultItem, finalPrice), 1);
+        }
+
+        ShowOverview(resultItem, finalPrice);
+
+        ResetMejaRakit();
+        RefreshInventoryUI();
+        SetInputBlocked(false);
+    }
+
+    private bool HasEnoughStock(MaterialSO a, MaterialSO b)
+    {
+        var inv = InventoryManager.Instance;
+
+        // Dua slot berisi material yang sama butuh minimal 2 di stok
+        if (a == b) return inv.GetMaterialCount(a) >= 2;
+        return inv.GetMaterialCount(a) >= 1 && inv.GetMaterialCount(b) >= 1;
+    }
+
+    private void SetInputBlocked(bool blocked)
+    {
+        if (blockRaycastPanel != null) blockRaycastPanel.SetActive(blocked);
+        craftButton.interactable = !blocked && mat1 != null && mat2 != null;
+    }
+
+    public CraftingSlot GetFirstEmptySlot()
+    {
+        if (slot1.IsEmpty()) return slot1;
+        if (slot2.IsEmpty()) return slot2;
+        return null;
+    }
+
+    public void UpdateSlotData(CraftingSlot slot, MaterialSO material)
+    {
+        if (slot == slot1) mat1 = material;
+        else if (slot == slot2) mat2 = material;
+
+        // Tombol RAKIT hanya bisa ditekan jika KEDUA slot terisi
+        craftButton.interactable = (mat1 != null && mat2 != null);
+    }
+
+    // ==========================================
+    // UI & INTERAKSI
+    // ==========================================
+
+    // Method yang bertanggung jawab untuk memperbarui UI daftar material.
     private void RefreshInventoryUI()
     {
         var materials = InventoryManager.Instance.collectedMaterials
@@ -34,88 +128,39 @@ public class CraftingUIManager : MonoBehaviour
         });
     }
 
-    // Dipanggil MaterialUI saat diklik: slot kosong pertama (null kalau penuh)
-    public CraftingSlot GetFirstEmptySlot()
+    private void ShowOverview(CraftedItemSO resultItem, int finalPrice)
     {
-        if (slot1.IsEmpty()) return slot1;
-        if (slot2.IsEmpty()) return slot2;
-        return null;
-    }
-
-    // Dipanggil oleh CraftingSlot saat diisi atau dikosongkan
-    public void UpdateSlotData(CraftingSlot slot, MaterialSO material)
-    {
-        if (slot == slot1) mat1 = material;
-        else if (slot == slot2) mat2 = material;
-        else Debug.LogError($"[CraftingUIManager] Slot {slot.name} tidak cocok dengan slot1/slot2. Cek referensi di inspector.", slot);
-
-        CheckLiveRecipe();
-    }
-
-    // Mengecek resep secara real-time untuk memunculkan Preview
-    private void CheckLiveRecipe()
-    {
-        if (mat1 != null && mat2 != null)
-        {
-            craftButton.interactable = true;
-            CraftedItemSO result = recipeManager.CheckRecipe(mat1, mat2);
-
-            if (result != null)
-            {
-                resultPreviewImage.sprite = result.itemSprite;
-                resultPreviewImage.color = Color.white;
-            }
-            else
-            {
-                resultPreviewImage.sprite = null;
-                resultPreviewImage.color = Color.black;
-            }
-        }
-        else
-        {
-            craftButton.interactable = false;
-            resultPreviewImage.sprite = null;
-            resultPreviewImage.color = new Color(1, 1, 1, 0);
-        }
-    }
-
-    public void ExecuteCraft()
-    {
-        if (mat1 == null || mat2 == null) return;
-
-        var inv = InventoryManager.Instance;
-
-        if (mat1 == mat2)
-        {
-            if (inv.GetMaterialCount(mat1) < 2) return;
-        }
-        else
-        {
-            if (inv.GetMaterialCount(mat1) < 1 || inv.GetMaterialCount(mat2) < 1) return;
-        }
-        CraftedItemSO resultItem = recipeManager.CheckRecipe(mat1, mat2);
-
-        inv.ConsumeMaterial(mat1, 1);
-        inv.ConsumeMaterial(mat2, 1);
+        overviewPanel.SetActive(true);
 
         if (resultItem != null)
         {
-            inv.AddCraftedItem(resultItem, 1);
-            Debug.Log($"BERHASIL RAKIT: {resultItem.itemName}");
+            overviewItemImage.sprite = resultItem.itemSprite;
+            overviewTitleText.text = "PEMBUATAN BERHASIL!";
+            overviewDetailText.text = $"Kamu berhasil merakit {resultItem.itemName}!";
+            overviewPriceText.enabled = true; // dinyalakan lagi, karena cabang gagal mematikannya
+            overviewPriceText.text = $"Harga Jual: {finalPrice} Amber";
         }
         else
         {
-            Debug.Log("RESEP SALAH! Bahan jadi debu.");
+            overviewItemImage.sprite = failSprite;
+            overviewTitleText.text = "GAGAL MERAKIT!";
+            overviewDetailText.text = "Bahan baku hangus menjadi debu...";
+            overviewPriceText.enabled = false;
         }
+    }
 
-        ResetMejaRakit();
-        RefreshInventoryUI();
+    public void CloseOverview()
+    {
+        overviewPanel.SetActive(false);
     }
 
     private void ResetMejaRakit()
     {
         slot1.ClearSlot();
         slot2.ClearSlot();
+        mat1 = null;
+        mat2 = null;
+        craftButton.interactable = false;
     }
 
     public void FinishCraftingPhase()
@@ -125,6 +170,9 @@ public class CraftingUIManager : MonoBehaviour
 
     public void SetupCraftingUI()
     {
+        if (overviewPanel != null) overviewPanel.SetActive(false);
+        if (blockRaycastPanel != null) blockRaycastPanel.SetActive(false);
+
         RefreshInventoryUI();
         ResetMejaRakit();
     }

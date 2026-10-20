@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [Header("Game Data")]
     public GameState currentState;
     public int currentDay = 1;
-    public int maxDays = 30;
+    public int maxDays = 7;
 
     [Header("Daily Progress (Urutan)")]
     public bool hasCollectedToday = false;
@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("GAME TAMAT! 30 Hari Selesai.");
+            Debug.Log("GAME TAMAT! 7 Hari Selesai.");
         }
     }
 
