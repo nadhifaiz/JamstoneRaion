@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-// Pelanggan sengaja dibuat "bodoh": hanya bisa bergerak. Keputusan beli/tidak ada di SellManager.
-// Hook onBought / onLeftEmpty disiapkan untuk animasi/efek nanti.
 public class CustomerController : MonoBehaviour
 {
     public float moveSpeed = 3f;

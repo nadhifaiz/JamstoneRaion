@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class BatteryManager : MonoBehaviour
 {
@@ -15,6 +17,15 @@ public class BatteryManager : MonoBehaviour
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference interactAction;
 
+    [Header("Tampilan Baterai (UI, isi yang dipakai)")]
+    [Tooltip("Slider dengan Min 0 dan Max 1 (nilai dinormalisasi).")]
+    [SerializeField] private Slider batterySlider;
+    [Tooltip("Image bertipe Filled (Fill Amount dipakai sebagai bar).")]
+    [SerializeField] private Image batteryFillImage;
+    [SerializeField] private TextMeshProUGUI batteryPercentText;
+    [Tooltip("{0} akan diganti dengan persen baterai.")]
+    [SerializeField] private string percentFormat = "{0}%";
+
     public event Action OnBatteryEmpty;
 
     // Read-only untuk UI baterai nanti
@@ -27,6 +38,7 @@ public class BatteryManager : MonoBehaviour
     {
         currentBattery = maxBattery;
         isActive = true;
+        UpdateBatteryUI();
     }
 
     public void StopBattery()
@@ -54,14 +66,25 @@ public class BatteryManager : MonoBehaviour
 
     private void DrainBattery()
     {
-        currentBattery -= drainRate * Time.deltaTime;
+        currentBattery = Mathf.Max(0f, currentBattery - drainRate * Time.deltaTime);
+        UpdateBatteryUI();
 
-        if (currentBattery <= 0)
+        if (currentBattery <= 0f)
         {
-            currentBattery = 0;
             isActive = false;
-
             OnBatteryEmpty?.Invoke();
+        }
+    }
+
+    private void UpdateBatteryUI()
+    {
+        float normalized = maxBattery > 0f ? Mathf.Clamp01(currentBattery / maxBattery) : 0f;
+
+        if (batterySlider != null) batterySlider.value = normalized;
+        if (batteryFillImage != null) batteryFillImage.fillAmount = normalized;
+        if (batteryPercentText != null)
+        {
+            batteryPercentText.text = string.Format(percentFormat, Mathf.RoundToInt(normalized * 100f));
         }
     }
 }

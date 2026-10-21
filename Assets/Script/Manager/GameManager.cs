@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [Header("Game Data")]
     public GameState currentState;
     public int currentDay = 1;
-    public int maxDays = 7;
+    public int maxDays = 30;
 
     [Header("Daily Progress (Urutan)")]
     public bool hasCollectedToday = false;
@@ -32,24 +32,17 @@ public class GameManager : MonoBehaviour
     public bool hasSoldToday = false;
 
     [Header("Tampilan Hari (UI)")]
-    [Tooltip("Masukkan semua teks hari dari tiap panel (Hub, Collect, Craft, Sell, dll).")]
     public TextMeshProUGUI[] dayTexts;
     public string dayTextFormat = "Day {0}";
     public UnityEvent<int> onDayChanged;
 
-    [Header("Background Hub (Berubah Sesuai Progres Hari Ini)")]
     public Image mainBackgroundImage;
-    [Tooltip("Hub saat Collect belum dikerjakan.")]
     public Sprite bgHubCollect;
-    [Tooltip("Hub saat Collect sudah, Craft belum.")]
     public Sprite bgHubCraft;
-    [Tooltip("Hub saat Craft sudah, Sell belum.")]
     public Sprite bgHubSell;
 
     [Header("Transisi Pergantian Hari")]
-    [Tooltip("Panel hitam fullscreen (Image hitam + CanvasGroup). Taruh paling bawah di hierarki Canvas agar menutupi semua UI.")]
     public CanvasGroup transitionCanvasGroup;
-    [Tooltip("Teks di tengah panel hitam.")]
     public TextMeshProUGUI transitionText;
     public float screenFadeDuration = 1f;
     public float textFadeDuration = 0.8f;
@@ -82,6 +75,9 @@ public class GameManager : MonoBehaviour
     public Button btnSell;
 
     private bool isTransitioning = false;
+
+    // Dipakai PauseManager supaya pause tidak menyela transisi pergantian hari
+    public bool IsTransitioning => isTransitioning;
 
     // ==========================================
     // SIKLUS HIDUP UNITY
@@ -134,7 +130,7 @@ public class GameManager : MonoBehaviour
         currentState = newState;
         GameLog.Log($"--- Masuk ke Fase: {currentState} | Hari: {currentDay} ---");
 
-        // Transisi hari.
+        // DayEnd: jangan sembunyikan panel dulu, biar transisi fade menutupi tampilan terakhir
         if (newState == GameState.DayEnd)
         {
             EndDayLogic();
@@ -201,7 +197,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ==========================================
-    // UPDATE UI HUB
+    // UPDATE UI HARI & BACKGROUND HUB
     // ==========================================
 
     private void UpdateDayUI()
@@ -219,14 +215,13 @@ public class GameManager : MonoBehaviour
         onDayChanged?.Invoke(currentDay);
     }
 
-    // Background hanya berlaku untuk Hub, mengikuti tahap progres hari ini
     private void UpdateHubBackground()
     {
         Sprite newBg;
 
-        if (!hasCollectedToday) newBg = bgHubCollect;       // tahap Collect
-        else if (!hasCraftedToday) newBg = bgHubCraft;      // tahap Craft
-        else newBg = bgHubSell;                             // tahap Sell (dan sesaat sebelum DayEnd)
+        if (!hasCollectedToday) newBg = bgHubCollect;
+        else if (!hasCraftedToday) newBg = bgHubCraft;
+        else newBg = bgHubSell;
 
         if (mainBackgroundImage != null && newBg != null)
         {
@@ -241,7 +236,7 @@ public class GameManager : MonoBehaviour
         btnSell.interactable = hasCraftedToday && !hasSoldToday;
     }
 
-    // Dipanggil dari tombol UI (nama method jangan diubah, terhubung di inspector)
+    // Dipanggil dari tombol UI
     public void Button_StartCollect() => ChangeState(GameState.Collect);
     public void Button_StartCraft() => ChangeState(GameState.Craft);
     public void Button_StartSell() => ChangeState(GameState.Sell);

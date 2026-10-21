@@ -59,6 +59,7 @@ public class CraneController : MonoBehaviour
 
     private void OnGrabStarted(InputAction.CallbackContext context)
     {
+        if (PauseManager.IsPaused) return; // event Input System tetap jalan saat timeScale = 0
         if (grabbedMaterial == null) TryGrab();
     }
 
