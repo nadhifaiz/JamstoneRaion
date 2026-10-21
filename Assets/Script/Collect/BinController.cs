@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class BinController : MonoBehaviour
 {
-
+    // Mengumpulkan SETIAP MaterialObject yang menyentuh trigger bin
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        MaterialObject material = collision.GetComponent<MaterialObject>();
-        if (material != null)
-        {
-            InventoryManager.Instance.AddMaterial(material.materialData);
-            Debug.Log($"Berhasil mengumpulkan: {material.materialData.itemName}");
-            Destroy(material.gameObject);
-        }
+        if (!collision.TryGetComponent(out MaterialObject material)) return;
+
+        InventoryManager.Instance.AddMaterial(material.MaterialData);
+        Destroy(material.gameObject);
     }
 }

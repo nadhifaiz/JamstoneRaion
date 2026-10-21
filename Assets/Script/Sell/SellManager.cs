@@ -39,6 +39,8 @@ public class SellManager : MonoBehaviour
     public void StartSellPhase()
     {
         isActive = true;
+        if (!ValidateReferences()) return;
+
         timerEnded = false;
         isSelling = !startTimerOnFirstClose;
         timeRemaining = phaseDuration;
@@ -46,6 +48,21 @@ public class SellManager : MonoBehaviour
         UpdateTimerText();
 
         etalaseUI.Open();
+    }
+
+    // Memberi tahu persis referensi mana yang belum diisi di inspector
+    private bool ValidateReferences()
+    {
+        bool ok = true;
+
+        if (etalase == null) { Debug.LogError("[SellManager] 'etalase' belum di-assign.", this); ok = false; }
+        if (etalaseUI == null) { Debug.LogError("[SellManager] 'etalaseUI' belum di-assign.", this); ok = false; }
+        if (recipeManager == null) { Debug.LogError("[SellManager] 'recipeManager' belum di-assign.", this); ok = false; }
+        if (customerPrefab == null) { Debug.LogError("[SellManager] 'customerPrefab' belum di-assign.", this); ok = false; }
+        if (spawnPoint == null) { Debug.LogError("[SellManager] 'spawnPoint' belum di-assign.", this); ok = false; }
+        if (centerPoint == null) { Debug.LogError("[SellManager] 'centerPoint' belum di-assign.", this); ok = false; }
+
+        return ok;
     }
 
     public void NotifyEtalaseClosed()
@@ -144,12 +161,12 @@ public class SellManager : MonoBehaviour
         if (etalase.TrySell(wanted, out int price))
         {
             CurrencyManager.Instance.Add(price);
-            Debug.Log($"[Sell] Pelanggan membeli {wanted.itemName} seharga {price}");
+            GameLog.Log($"[Sell] Pelanggan membeli {wanted.itemName} seharga {price}");
             customer.NotifyBought();
         }
         else
         {
-            Debug.Log($"[Sell] Pelanggan mencari {wanted.itemName}, tidak ada. Pergi.");
+            GameLog.Log($"[Sell] Pelanggan mencari {wanted.itemName}, tidak ada. Pergi.");
             customer.NotifyLeftEmpty();
         }
 

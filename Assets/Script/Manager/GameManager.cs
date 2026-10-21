@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using TMPro;
 
 public enum GameState
 {
@@ -28,6 +31,30 @@ public class GameManager : MonoBehaviour
     public bool hasCraftedToday = false;
     public bool hasSoldToday = false;
 
+    [Header("Tampilan Hari (UI)")]
+    [Tooltip("Masukkan semua teks hari dari tiap panel (Hub, Collect, Craft, Sell, dll).")]
+    public TextMeshProUGUI[] dayTexts;
+    public string dayTextFormat = "Day {0}";
+    public UnityEvent<int> onDayChanged;
+
+    [Header("Background Hub (Berubah Sesuai Progres Hari Ini)")]
+    public Image mainBackgroundImage;
+    [Tooltip("Hub saat Collect belum dikerjakan.")]
+    public Sprite bgHubCollect;
+    [Tooltip("Hub saat Collect sudah, Craft belum.")]
+    public Sprite bgHubCraft;
+    [Tooltip("Hub saat Craft sudah, Sell belum.")]
+    public Sprite bgHubSell;
+
+    [Header("Transisi Pergantian Hari")]
+    [Tooltip("Panel hitam fullscreen (Image hitam + CanvasGroup). Taruh paling bawah di hierarki Canvas agar menutupi semua UI.")]
+    public CanvasGroup transitionCanvasGroup;
+    [Tooltip("Teks di tengah panel hitam.")]
+    public TextMeshProUGUI transitionText;
+    public float screenFadeDuration = 1f;
+    public float textFadeDuration = 0.8f;
+    public float textHoldDuration = 1.2f;
+
     [Header("Collect System References")]
     public MaterialSpawner spawner;
     public CraneController craneController;
@@ -41,7 +68,7 @@ public class GameManager : MonoBehaviour
     public SellManager sellManager;
 
     [Header("Shared UI References")]
-    public InventoryPanelUI inventoryPanel; // panel inventory ditutup otomatis tiap ganti fase
+    public InventoryPanelUI inventoryPanel;
 
     [Header("UI Panels")]
     public GameObject hubPanel;
@@ -53,6 +80,8 @@ public class GameManager : MonoBehaviour
     public Button btnCollect;
     public Button btnCraft;
     public Button btnSell;
+
+    private bool isTransitioning = false;
 
     // ==========================================
     // SIKLUS HIDUP UNITY
@@ -77,6 +106,14 @@ public class GameManager : MonoBehaviour
             batteryManager.OnBatteryEmpty += EndCollectPhase;
         }
 
+        // Pastikan layar transisi mati di awal
+        if (transitionCanvasGroup != null)
+        {
+            transitionCanvasGroup.alpha = 0f;
+            transitionCanvasGroup.gameObject.SetActive(false);
+        }
+
+        UpdateDayUI();
         ChangeState(GameState.Hub);
     }
 
@@ -95,7 +132,14 @@ public class GameManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         currentState = newState;
-        Debug.Log($"--- Masuk ke Fase: {currentState} | Hari: {currentDay} ---");
+        GameLog.Log($"--- Masuk ke Fase: {currentState} | Hari: {currentDay} ---");
+
+        // Transisi hari.
+        if (newState == GameState.DayEnd)
+        {
+            EndDayLogic();
+            return;
+        }
 
         HideAllPanels();
         ClearAllPhaseObjects();
@@ -106,7 +150,6 @@ public class GameManager : MonoBehaviour
             case GameState.Collect: EnterCollect(); break;
             case GameState.Craft: EnterCraft(); break;
             case GameState.Sell: EnterSell(); break;
-            case GameState.DayEnd: EndDayLogic(); break;
         }
     }
 
@@ -130,6 +173,7 @@ public class GameManager : MonoBehaviour
     private void EnterHub()
     {
         hubPanel.SetActive(true);
+        UpdateHubBackground();
         UpdateHubButtons();
 
         if (hasCollectedToday && hasCraftedToday && hasSoldToday)
@@ -152,13 +196,43 @@ public class GameManager : MonoBehaviour
 
     private void EnterSell()
     {
-        sellUIPanel.SetActive(true); // harus aktif dulu sebelum fase dimulai
+        sellUIPanel.SetActive(true);
         InitializeSellPhaseObjects();
     }
 
     // ==========================================
-    // HUB MENU
+    // UPDATE UI HUB
     // ==========================================
+
+    private void UpdateDayUI()
+    {
+        string label = string.Format(dayTextFormat, currentDay);
+
+        if (dayTexts != null)
+        {
+            foreach (var t in dayTexts)
+            {
+                if (t != null) t.text = label;
+            }
+        }
+
+        onDayChanged?.Invoke(currentDay);
+    }
+
+    // Background hanya berlaku untuk Hub, mengikuti tahap progres hari ini
+    private void UpdateHubBackground()
+    {
+        Sprite newBg;
+
+        if (!hasCollectedToday) newBg = bgHubCollect;       // tahap Collect
+        else if (!hasCraftedToday) newBg = bgHubCraft;      // tahap Craft
+        else newBg = bgHubSell;                             // tahap Sell (dan sesaat sebelum DayEnd)
+
+        if (mainBackgroundImage != null && newBg != null)
+        {
+            mainBackgroundImage.sprite = newBg;
+        }
+    }
 
     private void UpdateHubButtons()
     {
@@ -178,52 +252,121 @@ public class GameManager : MonoBehaviour
 
     public void SkipCollectPhase()
     {
-        Debug.Log("Fase Collect di-skip oleh pemain!");
+        GameLog.Log("Fase Collect di-skip oleh pemain!");
         EndCollectPhase();
     }
 
     private void EndCollectPhase()
     {
-        Debug.Log("Fase Collect Selesai.");
+        GameLog.Log("Fase Collect Selesai.");
         hasCollectedToday = true;
         ChangeState(GameState.Hub);
     }
 
     public void EndCraftPhase()
     {
-        Debug.Log("Fase Craft Selesai.");
+        GameLog.Log("Fase Craft Selesai.");
         hasCraftedToday = true;
         ChangeState(GameState.Hub);
     }
 
     public void EndSellPhase()
     {
-        Debug.Log("Fase Sell Selesai.");
+        GameLog.Log("Fase Sell Selesai.");
         hasSoldToday = true;
         ChangeState(GameState.Hub);
     }
 
     // ==========================================
-    // PERGANTIAN HARI
+    // PERGANTIAN HARI (DENGAN TRANSISI)
     // ==========================================
 
     private void EndDayLogic()
     {
-        Debug.Log($"Hari ke-{currentDay} berakhir.");
+        GameLog.Log($"Hari ke-{currentDay} berakhir.");
+
+        if (isTransitioning) return;
 
         if (currentDay < maxDays)
         {
-            currentDay++;
-            hasCollectedToday = false;
-            hasCraftedToday = false;
-            hasSoldToday = false;
-
-            ChangeState(GameState.Hub);
+            StartCoroutine(DayTransitionRoutine());
         }
         else
         {
-            Debug.Log("GAME TAMAT! 7 Hari Selesai.");
+            GameLog.Log($"GAME TAMAT! {maxDays} Hari Selesai.");
+            // TODO: tampilkan panel Game Over / ending di sini
         }
+    }
+
+    private IEnumerator DayTransitionRoutine()
+    {
+        isTransitioning = true;
+
+        // Siapkan panel (blokir klik selama transisi)
+        transitionCanvasGroup.gameObject.SetActive(true);
+        transitionCanvasGroup.blocksRaycasts = true;
+        transitionCanvasGroup.alpha = 0f;
+        SetTransitionTextAlpha(0f);
+        transitionText.text = $"Day {currentDay} Ended";
+
+        // 1. Layar jadi gelap (fade in hitam)
+        yield return FadeScreen(0f, 1f, screenFadeDuration);
+
+        // 2. Teks "Day X Ended" fade in -> tahan -> fade out
+        yield return FadeText(0f, 1f, textFadeDuration);
+        yield return new WaitForSecondsRealtime(textHoldDuration);
+        yield return FadeText(1f, 0f, textFadeDuration);
+
+        // 3. Di balik layar hitam: naikkan hari, reset progres, kembali ke Hub
+        currentDay++;
+        hasCollectedToday = false;
+        hasCraftedToday = false;
+        hasSoldToday = false;
+
+        UpdateDayUI();
+        ChangeState(GameState.Hub);
+
+        // 4. Teks "Day X+1 Started..." fade in -> tahan -> fade out
+        transitionText.text = $"Day {currentDay} Started...";
+        yield return FadeText(0f, 1f, textFadeDuration);
+        yield return new WaitForSecondsRealtime(textHoldDuration);
+        yield return FadeText(1f, 0f, textFadeDuration);
+
+        // 5. Layar jadi terang lagi (fade out hitam)
+        yield return FadeScreen(1f, 0f, screenFadeDuration);
+
+        transitionCanvasGroup.blocksRaycasts = false;
+        transitionCanvasGroup.gameObject.SetActive(false);
+        isTransitioning = false;
+    }
+
+    private IEnumerator FadeScreen(float from, float to, float duration)
+    {
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.unscaledDeltaTime;
+            transitionCanvasGroup.alpha = Mathf.Lerp(from, to, t / duration);
+            yield return null;
+        }
+        transitionCanvasGroup.alpha = to;
+    }
+
+    private IEnumerator FadeText(float from, float to, float duration)
+    {
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.unscaledDeltaTime;
+            SetTransitionTextAlpha(Mathf.Lerp(from, to, t / duration));
+            yield return null;
+        }
+        SetTransitionTextAlpha(to);
+    }
+
+    private void SetTransitionTextAlpha(float a)
+    {
+        transitionText.alpha = a;
     }
 
     // ==========================================
@@ -278,6 +421,10 @@ public class GameManager : MonoBehaviour
         if (sellManager != null)
         {
             sellManager.StartSellPhase();
+        }
+        else
+        {
+            Debug.LogError("[GameManager] 'sellManager' belum di-assign di inspector, logika Sell tidak jalan.", this);
         }
     }
 

@@ -20,7 +20,7 @@ public class CurrencyManager : MonoBehaviour
     {
         if (amount <= 0) return;
         Amber += amount;
-        Debug.Log($"[Currency] +{amount} Amber. Total: {Amber}");
+        GameLog.Log($"[Currency] +{amount} Amber. Total: {Amber}");
         OnAmberChanged?.Invoke(Amber);
     }
 

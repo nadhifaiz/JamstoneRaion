@@ -7,22 +7,22 @@ using System.Linq;
 public class MaterialSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    public GameObject materialPrefabTemplate;
-    public MaterialSO[] availableMaterials;
+    [SerializeField] private GameObject materialPrefabTemplate;
+    [SerializeField] private MaterialSO[] availableMaterials;
 
-    public float spawnInterval = 0.5f;
-    [Tooltip("Batas maksimal rongsokan UNTUK SETIAP LAYER (Total = max * 3)")]
-    public int maxPerLayer = 30;
+    [SerializeField] private float spawnInterval = 0.5f;
+    [Tooltip("Batas maksimal rongsokan UNTUK SETIAP LAYER tumpukan (total = batas x jumlah layer)")]
+    [SerializeField] private int maxPerLayer = 30;
 
     [Header("Probability Curves (X = Hari, Y = Bobot)")]
     [Tooltip("Bobot relatif, tidak harus berjumlah 100: dinormalisasi otomatis. Setelah keyframe terakhir, nilainya bertahan.")]
-    public AnimationCurve tier1Curve = new AnimationCurve(new Keyframe(1, 68), new Keyframe(7, 10));
-    public AnimationCurve tier2Curve = new AnimationCurve(new Keyframe(1, 27), new Keyframe(4, 40), new Keyframe(7, 25));
-    public AnimationCurve tier3Curve = new AnimationCurve(new Keyframe(1, 5), new Keyframe(7, 65));
+    [SerializeField] private AnimationCurve tier1Curve = new AnimationCurve(new Keyframe(1, 68), new Keyframe(7, 10));
+    [SerializeField] private AnimationCurve tier2Curve = new AnimationCurve(new Keyframe(1, 27), new Keyframe(4, 40), new Keyframe(7, 25));
+    [SerializeField] private AnimationCurve tier3Curve = new AnimationCurve(new Keyframe(1, 5), new Keyframe(7, 65));
 
     private BoxCollider2D spawnArea;
     private Coroutine spawnCoroutine;
-    public List<MaterialObject> activeMaterials = new List<MaterialObject>();
+    private readonly List<MaterialObject> activeMaterials = new List<MaterialObject>();
 
     private Dictionary<int, List<MaterialSO>> materialsByTier;
     private readonly HashSet<int> warnedTiers = new HashSet<int>(); // peringatan tier kosong cukup sekali
@@ -63,16 +63,23 @@ public class MaterialSpawner : MonoBehaviour
         {
             activeMaterials.RemoveAll(item => item == null);
 
-            int count0 = activeMaterials.Count(m => m.layerIndex == 0);
-            int count1 = activeMaterials.Count(m => m.layerIndex == 1);
-            int count2 = activeMaterials.Count(m => m.layerIndex == 2);
-
-            if (count0 < maxPerLayer) SpawnAtLayer(0);
-            else if (count1 < maxPerLayer) SpawnAtLayer(1);
-            else if (count2 < maxPerLayer) SpawnAtLayer(2);
+            // Isi dari layer paling bawah dulu; naik ke layer berikutnya kalau sudah penuh
+            for (int layer = 0; layer <= MaterialLayers.MaxIndex; layer++)
+            {
+                if (CountAtLayer(layer) < maxPerLayer)
+                {
+                    SpawnAtLayer(layer);
+                    break;
+                }
+            }
 
             yield return new WaitForSeconds(spawnInterval);
         }
+    }
+
+    private int CountAtLayer(int layer)
+    {
+        return activeMaterials.Count(m => m.LayerIndex == layer);
     }
 
     private void SpawnAtLayer(int targetLayer)
@@ -94,12 +101,12 @@ public class MaterialSpawner : MonoBehaviour
         }
         else
         {
-            List<MaterialObject> baseCandidates = activeMaterials.FindAll(m => m.layerIndex == targetLayer - 1);
+            List<MaterialObject> baseCandidates = activeMaterials.FindAll(m => m.LayerIndex == targetLayer - 1);
             baseCandidates = baseCandidates.OrderBy(x => Random.value).ToList();
 
             foreach (MaterialObject cand in baseCandidates)
             {
-                int layerMaskToCheck = 1 << (6 + targetLayer);
+                int layerMaskToCheck = MaterialLayers.ToMask(targetLayer);
                 Collider2D hit = Physics2D.OverlapPoint(cand.transform.position, layerMaskToCheck);
 
                 if (hit == null)
@@ -193,11 +200,11 @@ public class MaterialSpawner : MonoBehaviour
 
             if (total <= 0f)
             {
-                Debug.Log($"Hari {day}: semua bobot 0");
+                GameLog.Log($"Hari {day}: semua bobot 0");
                 continue;
             }
 
-            Debug.Log($"Hari {day}: T1 {w[0] / total * 100f:F1}% | T2 {w[1] / total * 100f:F1}% | T3 {w[2] / total * 100f:F1}%");
+            GameLog.Log($"Hari {day}: T1 {w[0] / total * 100f:F1}% | T2 {w[1] / total * 100f:F1}% | T3 {w[2] / total * 100f:F1}%");
         }
     }
 }

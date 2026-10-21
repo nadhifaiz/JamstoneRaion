@@ -86,13 +86,12 @@ public class CraftingManager : MonoBehaviour
         }
     }
 
-    // Harga satu material.
+    // Harga satu material = harga dasar tag x pengali tier
     public float GetMaterialPrice(MaterialSO mat)
     {
         return GetTagBasePrice(mat.materialType) * GetTierMultiplier(mat.tier);
     }
 
-    // Harga jual akhir dari barang jadi.
     public int CalculateFinalPrice(CraftedItemSO resultItem, MaterialSO mat1, MaterialSO mat2)
     {
         float total = resultItem.basePrice + GetMaterialPrice(mat1) + GetMaterialPrice(mat2);

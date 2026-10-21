@@ -4,16 +4,22 @@ using System;
 
 public class BatteryManager : MonoBehaviour
 {
-    public bool isActionBasedDrain;
-    public float maxBattery = 100f;
-    public float currentBattery;
-    public float drainRate = 5f;
+    [Header("Battery Settings")]
+    [Tooltip("True: baterai hanya terkuras saat crane bergerak/menggenggam")]
+    [SerializeField] private bool isActionBasedDrain;
+    [SerializeField] private float maxBattery = 100f;
+    [SerializeField] private float drainRate = 5f;
+    [SerializeField] private float currentBattery;
 
     [Header("Input Actions")]
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference interactAction;
 
     public event Action OnBatteryEmpty;
+
+    // Read-only untuk UI baterai nanti
+    public float CurrentBattery => currentBattery;
+    public float MaxBattery => maxBattery;
 
     private bool isActive = false;
 

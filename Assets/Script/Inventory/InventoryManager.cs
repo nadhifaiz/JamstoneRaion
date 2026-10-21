@@ -35,7 +35,7 @@ public class InventoryManager : MonoBehaviour
         else
             collectedMaterials.Add(material, amount);
 
-        Debug.Log($"[Inventory] {material.itemName} (+{amount}). Total: {collectedMaterials[material]}");
+        GameLog.Log($"[Inventory] {material.itemName} (+{amount}). Total: {collectedMaterials[material]}");
     }
 
     public bool ConsumeMaterial(MaterialSO material, int amount)
@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         {
             collectedMaterials[material] -= amount;
             if (collectedMaterials[material] == 0)
-                collectedMaterials.Remove(material);
+                collectedMaterials.Remove(material); // Bersihkan memori jika habis
 
             return true;
         }
@@ -70,7 +70,7 @@ public class InventoryManager : MonoBehaviour
         else
             craftedItems.Add(key, amount);
 
-        Debug.Log($"[Inventory] Barang Jadi: {key.item.itemName} @{key.price} (+{amount}). Total: {craftedItems[key]}");
+        GameLog.Log($"[Inventory] Barang Jadi: {key.item.itemName} @{key.price} (+{amount}). Total: {craftedItems[key]}");
     }
 
     // Dipakai saat barang ditaruh di etalase

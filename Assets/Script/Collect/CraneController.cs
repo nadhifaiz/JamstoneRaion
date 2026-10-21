@@ -5,24 +5,24 @@ using UnityEngine.InputSystem;
 public class CraneController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-    private Vector2 moveInput;
-    private Rigidbody2D rb;
+    [SerializeField] private float moveSpeed = 5f;
 
     [Header("Grab Settings")]
-    public Transform grabPoint;
-    public float grabRadius = 0.5f;
-    public LayerMask materialLayer;
+    [SerializeField] private Transform grabPoint;
+    [SerializeField] private float grabRadius = 0.5f;
+    [SerializeField] private LayerMask materialLayer;
 
     [Header("Juice (Efek Fisika)")]
-    public float pushForce = 5f;
-    public float pushRadius = 1.5f;
+    [SerializeField] private float pushForce = 5f;
+    [SerializeField] private float pushRadius = 1.5f;
 
     [Header("Input Actions")]
-    public InputActionReference moveAction;
-    public InputActionReference grabAction;
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference grabAction;
 
-    private MaterialObject grabbedMaterial = null;
+    private Rigidbody2D rb;
+    private Vector2 moveInput;
+    private MaterialObject grabbedMaterial;
 
     void Awake()
     {
@@ -59,86 +59,79 @@ public class CraneController : MonoBehaviour
 
     private void OnGrabStarted(InputAction.CallbackContext context)
     {
-        if (grabbedMaterial == null)
-        {
-            TryGrab();
-        }
+        if (grabbedMaterial == null) TryGrab();
     }
 
     private void OnGrabCanceled(InputAction.CallbackContext context)
     {
-        if (grabbedMaterial != null)
-        {
-            Release();
-        }
+        if (grabbedMaterial != null) Release();
     }
+
+    // ==========================================
+    // MENGAMBIL
+    // ==========================================
 
     private void TryGrab()
     {
-        // Ambil semua objek di radius capit
+        MaterialObject target = FindBestMaterial();
+        if (target == null) return;
+
+        grabbedMaterial = target;
+        Vector2 originalPos = target.transform.position;
+
+        target.AttachTo(grabPoint);
+        PromoteMaterialsUnder(originalPos);
+        PushNearbyMaterials();
+    }
+
+    // Material terdekat di radius capit yang terekspos (paling atas di tumpukannya)
+    private MaterialObject FindBestMaterial()
+    {
         Collider2D[] hits = Physics2D.OverlapCircleAll(grabPoint.position, grabRadius, materialLayer);
 
-        MaterialObject bestMaterial = null;
+        MaterialObject best = null;
         float closestDistance = float.MaxValue;
 
         foreach (Collider2D hit in hits)
         {
-            MaterialObject mat = hit.GetComponent<MaterialObject>();
-            if (mat == null) continue;
+            if (!hit.TryGetComponent(out MaterialObject mat)) continue;
+            if (!IsTopmost(mat)) continue;
 
-            // 1. Validasi: Cek apakah barang ini terekspos (berada paling atas di koordinat aslinya)
-            bool isTopmost = true;
-            Collider2D[] checks = Physics2D.OverlapPointAll(mat.transform.position, materialLayer);
-            foreach (Collider2D checkHit in checks)
+            float dist = Vector2.Distance(grabPoint.position, mat.transform.position);
+            if (dist < closestDistance)
             {
-                MaterialObject upperMat = checkHit.GetComponent<MaterialObject>();
-
-                if (upperMat != null && upperMat != mat && upperMat.layerIndex > mat.layerIndex)
-                {
-                    isTopmost = false;
-                    break;
-                }
-            }
-
-            // 2. Jika dia terekspos (paling atas di tumpukannya), cek jaraknya ke capit
-            if (isTopmost)
-            {
-                float dist = Vector2.Distance(grabPoint.position, mat.transform.position);
-                if (dist < closestDistance)
-                {
-                    closestDistance = dist;
-                    bestMaterial = mat;
-                }
+                closestDistance = dist;
+                best = mat;
             }
         }
 
-        if (bestMaterial != null)
+        return best;
+    }
+
+    // Terekspos = tidak ada material di layer lebih tinggi pada koordinat yang sama
+    private bool IsTopmost(MaterialObject mat)
+    {
+        Collider2D[] checks = Physics2D.OverlapPointAll(mat.transform.position, materialLayer);
+        foreach (Collider2D checkHit in checks)
         {
-            grabbedMaterial = bestMaterial;
-            Vector2 originalPos = grabbedMaterial.transform.position;
-
-            grabbedMaterial.transform.SetParent(grabPoint);
-            grabbedMaterial.transform.localPosition = Vector3.zero;
-
-            Rigidbody2D materialRb = grabbedMaterial.GetComponent<Rigidbody2D>();
-            materialRb.bodyType = RigidbodyType2D.Kinematic;
-            materialRb.linearVelocity = Vector2.zero;
-
-            grabbedMaterial.GetComponent<Collider2D>().enabled = false;
-
-            // --- 3. LOGIKA PROMOTE LAYER ---
-            Collider2D[] underHits = Physics2D.OverlapPointAll(originalPos, materialLayer);
-            foreach (Collider2D hit in underHits)
+            if (checkHit.TryGetComponent(out MaterialObject upper) && upper != mat && upper.LayerIndex > mat.LayerIndex)
             {
-                MaterialObject underMat = hit.GetComponent<MaterialObject>();
-                if (underMat != null && underMat != grabbedMaterial)
-                {
-                    underMat.PromoteLayer();
-                }
+                return false;
             }
+        }
+        return true;
+    }
 
-            // --- 4. EFEK DORONG ---
-            PushNearbyMaterials();
+    // Material yang tadinya tertimpa naik satu layer. Dipanggil SETELAH collider yang dipegang dimatikan.
+    private void PromoteMaterialsUnder(Vector2 position)
+    {
+        Collider2D[] underHits = Physics2D.OverlapPointAll(position, materialLayer);
+        foreach (Collider2D hit in underHits)
+        {
+            if (hit.TryGetComponent(out MaterialObject underMat) && underMat != grabbedMaterial)
+            {
+                underMat.PromoteLayer();
+            }
         }
     }
 
@@ -149,58 +142,42 @@ public class CraneController : MonoBehaviour
         {
             if (col.gameObject == grabbedMaterial.gameObject) continue;
 
-            MaterialObject nearbyMat = col.GetComponent<MaterialObject>();
-
-            if (nearbyMat != null && nearbyMat.layerIndex == grabbedMaterial.layerIndex)
+            if (col.TryGetComponent(out MaterialObject nearbyMat) &&
+                nearbyMat.LayerIndex == grabbedMaterial.LayerIndex &&
+                col.TryGetComponent(out Rigidbody2D nearbyRb))
             {
-                Rigidbody2D nearbyRb = col.GetComponent<Rigidbody2D>();
-                if (nearbyRb != null)
-                {
-                    Vector2 pushDirection = (col.transform.position - grabPoint.position).normalized;
-                    nearbyRb.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
-                }
+                Vector2 pushDirection = (col.transform.position - grabPoint.position).normalized;
+                nearbyRb.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
             }
         }
     }
 
+    // ==========================================
+    // MELEPAS
+    // ==========================================
+
     private void Release()
     {
-        // Dilepaskan
-        grabbedMaterial.transform.SetParent(null);
+        MaterialObject released = grabbedMaterial;
+        released.Detach();
 
-        // Mengaktifkan collider
-        Rigidbody2D materialRb = grabbedMaterial.GetComponent<Rigidbody2D>();
-        materialRb.bodyType = RigidbodyType2D.Dynamic;
-
-        grabbedMaterial.GetComponent<Collider2D>().enabled = true;
-
-        // Memaksa barang dibawahnya turun layer jika ada barang.
-        int layer2Mask = 1 << 8;
-        Collider2D topHit = Physics2D.OverlapPoint(grabbedMaterial.transform.position, layer2Mask);
-
-        if (topHit != null)
+        Collider2D topHit = Physics2D.OverlapPoint(released.transform.position, MaterialLayers.TopMask);
+        if (topHit != null && topHit.TryGetComponent(out MaterialObject underneath))
         {
-            MaterialObject underneathMat = topHit.GetComponent<MaterialObject>();
-            if (underneathMat != null)
-            {
-                underneathMat.DemoteLayer();
-            }
+            underneath.DemoteLayer();
         }
 
-        grabbedMaterial.Initialize(grabbedMaterial.materialData, 2);
-
-
+        released.Initialize(released.MaterialData, MaterialLayers.MaxIndex);
         grabbedMaterial = null;
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (grabPoint != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(grabPoint.position, grabRadius);
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(grabPoint.position, pushRadius);
-        }
+        if (grabPoint == null) return;
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(grabPoint.position, grabRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(grabPoint.position, pushRadius);
     }
 }
