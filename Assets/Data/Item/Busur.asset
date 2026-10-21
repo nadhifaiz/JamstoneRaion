@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
   itemName: Busur Panah
   itemSprite: {fileID: -5917275153293277177, guid: 8553e83537ffe124b8207977f0721b44, type: 3}
+  description: Senjata kuat yang berpotensi menjadi senjata utama para semut!!!
   requiredTag1: 2
   requiredTag2: 3
   basePrice: 25

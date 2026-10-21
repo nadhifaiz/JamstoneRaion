@@ -16,3 +16,4 @@ MonoBehaviour:
   itemSprite: {fileID: -1064632321852759441, guid: a889ba7e72abc9042a814d2df8d490a6, type: 3}
   materialType: 0
   tier: 1
+  description: batu kerikil alami dari planet bumi yang berguna untukmembuat peralatan.

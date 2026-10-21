@@ -16,3 +16,4 @@ MonoBehaviour:
   itemSprite: {fileID: 8269234595954245631, guid: 47a39ff7b50d3b042b6c25d0a5cde7ed, type: 3}
   materialType: 1
   tier: 3
+  description: Material untuk membuat item.

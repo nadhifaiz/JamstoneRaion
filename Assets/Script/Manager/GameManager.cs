@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
         sellUIPanel.SetActive(false);
 
         if (inventoryPanel != null) inventoryPanel.Close();
+        if (ItemDetailPanel.Instance != null) ItemDetailPanel.Instance.Hide(); // ← baris baru
     }
 
     private void ClearAllPhaseObjects()

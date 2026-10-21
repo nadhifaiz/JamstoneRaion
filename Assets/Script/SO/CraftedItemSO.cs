@@ -7,6 +7,9 @@ public class CraftedItemSO : ScriptableObject
     public string itemName;
     public Sprite itemSprite;
 
+    [TextArea(2, 4)]
+    public string description;
+
     [Header("Resep (Tag Kombinasi)")]
     public MaterialType requiredTag1;
     public MaterialType requiredTag2;
