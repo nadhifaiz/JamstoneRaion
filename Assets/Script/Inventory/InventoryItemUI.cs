@@ -2,22 +2,50 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// View statis item di panel Inventory (material maupun barang jadi). Tidak bisa di-drag.
+// Pasang juga ItemDetailTrigger di prefab agar bisa diklik untuk melihat rincian.
 public class InventoryItemUI : MonoBehaviour
 {
-    public Image itemIcon;
-    public TextMeshProUGUI countText;
-    [Tooltip("Opsional: harga jual, dipakai tab Barang Jadi. Kosongkan kalau prefab tidak butuh.")]
-    public TextMeshProUGUI priceText;
+    [SerializeField] private Image itemIcon;
+    [SerializeField] private TextMeshProUGUI countText;
+    [Tooltip("Opsional: harga jual, hanya tampil untuk barang jadi")]
+    [SerializeField] private TextMeshProUGUI priceText;
+    [Tooltip("Opsional: penanda tag, hanya tampil untuk material")]
+    [SerializeField] private TagBadgeUI tagBadge;
 
-    public void Initialize(Sprite icon, int count, int price = -1)
+    private ItemDetailTrigger detailTrigger;
+
+    void Awake()
     {
-        itemIcon.sprite = icon;
-        countText.text = count > 1 ? $"x{count}" : "";
+        detailTrigger = GetComponent<ItemDetailTrigger>();
+    }
+
+    public void InitializeMaterial(MaterialSO material, int count)
+    {
+        itemIcon.sprite = material.itemSprite;
+        SetCount(count);
+
+        if (priceText != null) priceText.gameObject.SetActive(false);
+        if (tagBadge != null) tagBadge.Show(material.materialType);
+        if (detailTrigger != null) detailTrigger.SetMaterial(material, true);
+    }
+
+    public void InitializeCrafted(CraftedItemKey key, int count)
+    {
+        itemIcon.sprite = key.item.itemSprite;
+        SetCount(count);
 
         if (priceText != null)
         {
-            priceText.gameObject.SetActive(price >= 0);
-            if (price >= 0) priceText.text = price.ToString();
+            priceText.gameObject.SetActive(true);
+            priceText.text = key.price.ToString();
         }
+        if (tagBadge != null) tagBadge.Hide();
+        if (detailTrigger != null) detailTrigger.SetCraftedItem(key, true);
+    }
+
+    private void SetCount(int count)
+    {
+        countText.text = count > 1 ? $"x{count}" : "";
     }
 }

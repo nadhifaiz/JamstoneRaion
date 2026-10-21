@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// Item barang jadi di grid kiri Etalase. Bisa di-drag ke slot atau diklik (masuk slot kosong pertama).
+// Item barang jadi di grid kiri Etalase. Drag ke slot, atau double-click (masuk slot kosong pertama).
+// Klik 1x dipakai ItemDetailTrigger (pasang di prefab yang sama) untuk menampilkan rincian.
 public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [Header("UI References")]
@@ -15,6 +16,12 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private CraftedItemKey itemKey;
     private EtalaseUIManager ui;
     private GameObject ghostIcon;
+    private ItemDetailTrigger detailTrigger;
+
+    void Awake()
+    {
+        detailTrigger = GetComponent<ItemDetailTrigger>();
+    }
 
     public void Initialize(CraftedItemKey key, int count, EtalaseUIManager manager)
     {
@@ -23,6 +30,8 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         itemIcon.sprite = key.item.itemSprite;
         countText.text = count > 1 ? $"x{count}" : "";
         if (priceText != null) priceText.text = key.price.ToString();
+
+        if (detailTrigger != null) detailTrigger.SetCraftedItem(key, true);
     }
 
     void OnDisable()
@@ -33,7 +42,7 @@ public class EtalaseItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.dragging) return;
+        if (eventData.dragging || eventData.clickCount != 2) return;
         ui.PlaceInFirstEmpty(itemKey);
     }
 

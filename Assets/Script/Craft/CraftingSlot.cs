@@ -9,18 +9,23 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
     [Header("UI Visual")]
     public Image slotImage;
     public Sprite emptySprite;
+    [SerializeField] private TagBadgeUI tagBadge; // opsional: tag material yang ada di slot
 
     private MaterialSO currentMaterial = null;
     private MaterialUI originItemUI = null;
+    private ItemDetailTrigger detailTrigger;
 
     void Awake()
     {
         // Fallback kalau referensi lupa diisi di inspector
         if (uiManager == null) uiManager = GetComponentInParent<CraftingUIManager>();
         if (slotImage == null) slotImage = GetComponent<Image>();
+        detailTrigger = GetComponent<ItemDetailTrigger>();
 
         if (uiManager == null) Debug.LogError($"[CraftingSlot] uiManager belum di-assign di {name}", this);
         if (slotImage == null) Debug.LogError($"[CraftingSlot] slotImage belum di-assign di {name}", this);
+
+        if (tagBadge != null) tagBadge.Hide();
     }
 
     public bool IsEmpty() => currentMaterial == null;
@@ -33,11 +38,18 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
         slotImage.sprite = currentMaterial.itemSprite;
         slotImage.color = Color.white;
 
+        // Stok tidak ditampilkan: material di slot masih tercatat di inventory sampai RAKIT
+        if (detailTrigger != null) detailTrigger.SetMaterial(currentMaterial, false);
+        if (tagBadge != null) tagBadge.Show(currentMaterial.materialType);
+
         uiManager.UpdateSlotData(this, currentMaterial);
     }
 
+    // Double-click = tarik material kembali ke gudang (klik 1x dipakai ItemDetailTrigger)
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.clickCount != 2) return;
+
         if (!IsEmpty())
         {
             ClearSlotAndReturnItem();
@@ -60,8 +72,9 @@ public class CraftingSlot : MonoBehaviour, IPointerClickHandler
         originItemUI = null;
 
         slotImage.sprite = emptySprite;
-        // Opsional: Transparan jika tidak ada gambar emptySprite
-        // slotImage.color = new Color(1, 1, 1, 0);
+
+        if (detailTrigger != null) detailTrigger.Clear();
+        if (tagBadge != null) tagBadge.Hide();
 
         uiManager.UpdateSlotData(this, null);
     }

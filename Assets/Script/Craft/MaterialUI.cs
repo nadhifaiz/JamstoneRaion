@@ -8,6 +8,7 @@ public class MaterialUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [Header("UI References")]
     public Image itemIcon;
     public TextMeshProUGUI countText;
+    [SerializeField] private TagBadgeUI tagBadge; // opsional: penanda tag material
 
     [HideInInspector] public MaterialSO materialData;
     [HideInInspector] public CraftingUIManager uiManager;
@@ -15,6 +16,7 @@ public class MaterialUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private int currentDisplayCount;
     private GameObject ghostIcon;
     private CanvasGroup cg;
+    private ItemDetailTrigger detailTrigger; // opsional: ada kalau prefab punya ItemDetailTrigger
 
     void Awake()
     {
@@ -22,6 +24,8 @@ public class MaterialUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         // supaya event drag tetap jalan saat stok tinggal 1.
         cg = GetComponent<CanvasGroup>();
         if (cg == null) cg = gameObject.AddComponent<CanvasGroup>();
+
+        detailTrigger = GetComponent<ItemDetailTrigger>();
     }
 
     public void Initialize(MaterialSO data, int count, CraftingUIManager manager)
@@ -33,6 +37,9 @@ public class MaterialUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         itemIcon.sprite = data.itemSprite;
         UpdateCountText();
         ApplyVisibility();
+
+        if (tagBadge != null) tagBadge.Show(data.materialType);
+        if (detailTrigger != null) detailTrigger.SetMaterial(data, true);
     }
 
     public void UpdateDisplayCount(int change)
@@ -54,13 +61,11 @@ public class MaterialUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         countText.text = currentDisplayCount > 1 ? $"x{currentDisplayCount}" : "";
     }
 
-    // --- KLIK: isi slot kosong pertama ---
+    // --- DOUBLE-CLICK: isi slot kosong pertama (klik 1x dipakai ItemDetailTrigger untuk rincian) ---
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Unity tidak mengirim click kalau sebelumnya terjadi drag,
-        // tapi tetap dijaga untuk aman.
-        if (eventData.dragging) return;
+        if (eventData.dragging || eventData.clickCount != 2) return;
         if (currentDisplayCount <= 0) return;
 
         CraftingSlot slot = uiManager.GetFirstEmptySlot();

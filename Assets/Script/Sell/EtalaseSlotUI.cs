@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 // Satu slot etalase. Pasang di objek slot yang punya Image background (raycastTarget = true).
-// itemImage = Image anak untuk menampilkan item. Klik slot terisi = tarik item kembali.
+// itemImage = Image anak untuk menampilkan item. Double-click slot terisi = tarik item kembali.
+// Pasang ItemDetailTrigger di objek yang sama untuk rincian (klik 1x).
 public class EtalaseSlotUI : MonoBehaviour, IPointerClickHandler
 {
     public Image itemImage;
@@ -12,7 +13,13 @@ public class EtalaseSlotUI : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI priceText;
 
     private EtalaseUIManager ui;
+    private ItemDetailTrigger detailTrigger;
     public int Index { get; private set; }
+
+    void Awake()
+    {
+        detailTrigger = GetComponent<ItemDetailTrigger>();
+    }
 
     public void Init(EtalaseUIManager manager, int index)
     {
@@ -31,10 +38,18 @@ public class EtalaseSlotUI : MonoBehaviour, IPointerClickHandler
             priceText.gameObject.SetActive(hasItem);
             if (hasItem) priceText.text = key.price.ToString();
         }
+
+        // Stok tidak ditampilkan: unit di etalase sudah keluar dari inventory
+        if (detailTrigger != null)
+        {
+            if (hasItem) detailTrigger.SetCraftedItem(key, false);
+            else detailTrigger.Clear();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.clickCount != 2) return;
         if (ui != null) ui.RemoveFromSlot(Index);
     }
 }

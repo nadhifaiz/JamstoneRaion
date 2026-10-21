@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,6 +60,7 @@ public class InventoryPanelUI : MonoBehaviour
     public void Refresh()
     {
         var inv = InventoryManager.Instance;
+        int entryCount = 0;
 
         switch (currentTab)
         {
@@ -71,7 +70,12 @@ public class InventoryPanelUI : MonoBehaviour
                     .OrderBy(kvp => kvp.Key.tier)
                     .ThenBy(kvp => kvp.Key.itemName)
                     .ToList();
-                Fill(mats, m => m.itemSprite);
+
+                UIListHelper.Populate(gridContent, itemPrefab, mats, (go, kvp) =>
+                {
+                    go.GetComponent<InventoryItemUI>().InitializeMaterial(kvp.Key, kvp.Value);
+                });
+                entryCount = mats.Count;
                 break;
 
             case InventoryTab.CraftedItems:
@@ -81,20 +85,16 @@ public class InventoryPanelUI : MonoBehaviour
                     .OrderBy(kvp => kvp.Key.item.itemName)
                     .ThenByDescending(kvp => kvp.Key.price)
                     .ToList();
-                Fill(crafted, k => k.item.itemSprite, k => k.price);
+
+                UIListHelper.Populate(gridContent, itemPrefab, crafted, (go, kvp) =>
+                {
+                    go.GetComponent<InventoryItemUI>().InitializeCrafted(kvp.Key, kvp.Value);
+                });
+                entryCount = crafted.Count;
                 break;
         }
-    }
 
-    private void Fill<T>(List<KeyValuePair<T, int>> entries, Func<T, Sprite> getSprite, Func<T, int> getPrice = null)
-    {
-        UIListHelper.Populate(gridContent, itemPrefab, entries, (go, kvp) =>
-        {
-            int price = getPrice != null ? getPrice(kvp.Key) : -1;
-            go.GetComponent<InventoryItemUI>().Initialize(getSprite(kvp.Key), kvp.Value, price);
-        });
-
-        if (emptyLabel != null) emptyLabel.SetActive(entries.Count == 0);
+        if (emptyLabel != null) emptyLabel.SetActive(entryCount == 0);
     }
 
     private void SetTabVisual(Button tab, bool selected)

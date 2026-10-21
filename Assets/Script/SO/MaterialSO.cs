@@ -16,4 +16,7 @@ public class MaterialSO : ScriptableObject
     public Sprite itemSprite;
     public MaterialType materialType;
     public int tier = 1;
+
+    [TextArea(2, 4)]
+    public string description;
 }

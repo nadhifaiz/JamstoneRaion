@@ -65,15 +65,19 @@ public class CraftingUIManager : MonoBehaviour
 
         CraftedItemSO resultItem = recipeManager.CheckRecipe(usedMat1, usedMat2);
         int finalPrice = 0;
+        bool isNewDiscovery = false;
 
         if (resultItem != null)
         {
             // Harga melekat pada unit item (CraftedItemKey), bukan pada ScriptableObject
             finalPrice = recipeManager.CalculateFinalPrice(resultItem, usedMat1, usedMat2);
             inv.AddCraftedItem(new CraftedItemKey(resultItem, finalPrice), 1);
+
+            // Craft sukses = resep tercatat permanen di buku resep
+            isNewDiscovery = RecipeBookManager.Instance != null && RecipeBookManager.Instance.Discover(resultItem);
         }
 
-        ShowOverview(resultItem, finalPrice);
+        ShowOverview(resultItem, finalPrice, isNewDiscovery);
 
         ResetMejaRakit();
         RefreshInventoryUI();
@@ -128,7 +132,7 @@ public class CraftingUIManager : MonoBehaviour
         });
     }
 
-    private void ShowOverview(CraftedItemSO resultItem, int finalPrice)
+    private void ShowOverview(CraftedItemSO resultItem, int finalPrice, bool isNewDiscovery)
     {
         overviewPanel.SetActive(true);
 
@@ -137,6 +141,7 @@ public class CraftingUIManager : MonoBehaviour
             overviewItemImage.sprite = resultItem.itemSprite;
             overviewTitleText.text = "PEMBUATAN BERHASIL!";
             overviewDetailText.text = $"Kamu berhasil merakit {resultItem.itemName}!";
+            if (isNewDiscovery) overviewDetailText.text += "\nResep baru tercatat di buku resep!";
             overviewPriceText.enabled = true; // dinyalakan lagi, karena cabang gagal mematikannya
             overviewPriceText.text = $"Harga Jual: {finalPrice} Amber";
         }
