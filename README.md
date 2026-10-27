@@ -1,6 +1,6 @@
-# JamstoneRaion
+# My Spaceship is Broken - Jamstone Raion
 
-Game 2D buatan Unity dengan siklus harian selama 30 hari. Tiap hari pemain melewati tiga fase berurutan, masing-masing hanya bisa dibuka sekali per hari lewat Hub: **Collect → Craft → Sell**.
+Game 2D yang dibuat menggunakan Unity Engine 6 dengan siklus harian selama 30 hari yang terbagi kedalam 4 season. Di setiap harinya pemain melewati tiga fase berurutan, masing-masing hanya bisa dibuka sekali per hari lewat Hub: **Collect → Craft → Sell**.
 
 ## Alur Game
 
@@ -13,19 +13,24 @@ Game 2D buatan Unity dengan siklus harian selama 30 hari. Tiap hari pemain melew
 ### Ekonomi
 - Harga jual barang = `basePrice` barang + harga bahan 1 + harga bahan 2.
 - Harga bahan = harga dasar tag (tabel di `CraftingManager`) x pengali tier (Tier 1 = 100%, Tier 2 = 120%, Tier 3 = 140%).
-- Harga disimpan per unit barang di inventory, bukan di ScriptableObject.
+- Harga disimpan per unit barang di inventory
 
 ## Struktur Kode
 
 ```
 Assets/Script/
-├── Collect/     Capit, spawner rongsokan, bin, baterai
-├── Craft/       Resep, meja rakit, UI crafting
-├── Inventory/   Penyimpanan bahan & barang jadi, panel inventory
-├── Sell/        Etalase, pelanggan, SellManager, mata uang (Amber)
-├── Manager/     GameManager (state machine Hub/Collect/Craft/Sell/DayEnd)
-├── SO/          ScriptableObject data (MaterialSO, CraftedItemSO)
-└── UI/          Helper UI yang dipakai bersama
+├── Collect/           Capit, spawner rongsokan, bin, baterai
+├── Craft/             Resep, meja rakit, UI crafting
+├── Inventory/         Penyimpanan bahan & barang jadi, panel inventory
+├── Sell/              Etalase, pelanggan, SellManager, mata uang (Amber)
+├── Manager/           GameManager (state machine Hub/Collect/Craft/Sell/DayEnd)
+├── Recipe Book/       RecipeBookManager tempat menyimpan progress resep yang ditemukan.
+├── SO/                ScriptableObject data (MaterialSO, CraftedItemSO)
+├── System/            Save system dan sound system dalam game
+└── UI/                Helper UI yang dipakai bersama
+  ├── Detail Object/   Logika UI yang menampilkan detail item dalam game
+  └── Tutorial/        UI tutorial cara bermain game
+
 ```
 
 ## Menjalankan
@@ -38,4 +43,3 @@ Assets/Script/
 ## Catatan Pengembangan
 
 - Log debug memakai `GameLog.Log(...)` yang otomatis hilang dari build rilis.
-- Urutan enum `MaterialType` jangan diubah, karena tersimpan sebagai angka di aset.
