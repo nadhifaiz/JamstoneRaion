@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
   m_Name: Tombak
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: 77750985c9c94e26a486a2951a3c75eb
   itemName: Tombak
   itemSprite: {fileID: -2791450573545181145, guid: 13a86fec5a5815a4f91d0198c0e025ae, type: 3}
   description: senjata yang kuat dan mematikan, namun susah dikuasai.

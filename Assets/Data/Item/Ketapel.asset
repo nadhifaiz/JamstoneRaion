@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
   m_Name: Ketapel
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: 7b3fe7d17dc442a1a22e6dd555270275
   itemName: Ketapel Tarik
   itemSprite: {fileID: -2565190333505340326, guid: a8f3335c9fcf6034d8ec5070edc2e6dd, type: 3}
   description: Senjata yang efektif untuk melawan burung dengan daya serang yang

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
   m_Name: Ranting Rapuh
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: 93a4b9c17b7146bf954a12bf9bbb3cf0
   itemName: Ranting Rapuh
   itemSprite: {fileID: -7069655990304581711, guid: 542f53b8517f68f41b71259a94c9ea31, type: 3}
   materialType: 4

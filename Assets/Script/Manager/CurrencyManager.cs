@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 using TMPro;
@@ -9,40 +10,58 @@ public class CurrencyManager : MonoBehaviour
     [Header("Tampilan Saldo (UI)")]
     [Tooltip("Masukkan semua teks saldo dari tiap panel (Hub, Collect, Craft, Sell, dll).")]
     public TextMeshProUGUI[] amberTexts;
+
     [Tooltip("{0} akan diganti dengan jumlah Amber.")]
     public string amberTextFormat = "{0} Amber";
 
     public int Amber { get; private set; }
 
-    // Untuk UI saldo nanti: CurrencyManager.Instance.OnAmberChanged += ...
+    // Dipanggil ketika saldo berubah.
     public event Action<int> OnAmberChanged;
 
     void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()
     {
-        UpdateAmberUI(); // tampilkan saldo awal
+        UpdateAmberUI();
     }
 
     public void Add(int amount)
     {
         if (amount <= 0) return;
+
         Amber += amount;
+
         GameLog.Log($"[Currency] +{amount} Amber. Total: {Amber}");
+
         UpdateAmberUI();
         OnAmberChanged?.Invoke(Amber);
+    }
+
+    // Mengatur saldo tanpa memicu event, khusus untuk load save.
+    public void SetAmberSilently(int value)
+    {
+        Amber = Mathf.Max(0, value);
+        UpdateAmberUI();
     }
 
     public bool TrySpend(int amount)
     {
         if (amount <= 0 || Amber < amount) return false;
+
         Amber -= amount;
+
         UpdateAmberUI();
         OnAmberChanged?.Invoke(Amber);
+
         return true;
     }
 
@@ -51,9 +70,11 @@ public class CurrencyManager : MonoBehaviour
         if (amberTexts == null) return;
 
         string label = string.Format(amberTextFormat, Amber);
-        foreach (var t in amberTexts)
+
+        foreach (TextMeshProUGUI text in amberTexts)
         {
-            if (t != null) t.text = label;
+            if (text != null)
+                text.text = label;
         }
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
   m_Name: Daun Kering
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: a7f2d3873b4047f1963ecc3894033ca3
   itemName: Daun Kering
   itemSprite: {fileID: -3793382921514480323, guid: 2b3341060374df544913c58a85ceeed3, type: 3}
   materialType: 0

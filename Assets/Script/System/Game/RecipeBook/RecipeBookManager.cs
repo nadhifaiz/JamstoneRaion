@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Mencatat resep yang sudah ditemukan pemain. Data hidup selama sesi permainan dan
-// TIDAK di-reset saat ganti hari. Taruh di objek yang selalu aktif (mis. bersama InventoryManager).
+// Mencatat resep yang sudah ditemukan pemain. Data ikut disimpan di file save (lihat SaveManager)
+// dan TIDAK di-reset saat ganti hari. Taruh di objek yang selalu aktif (mis. bersama InventoryManager).
 // Satu resep = satu CraftedItemSO (kombinasi tag-nya ada di CraftedItemSO itu sendiri).
 public class RecipeBookManager : MonoBehaviour
 {
@@ -13,7 +14,12 @@ public class RecipeBookManager : MonoBehaviour
 
     private readonly HashSet<CraftedItemSO> discovered = new HashSet<CraftedItemSO>();
 
+    // Dipicu saat ada resep BARU ditemukan (dipakai SaveManager untuk live save)
+    public event Action OnChanged;
+
     public IReadOnlyList<CraftedItemSO> AllRecipes => recipeManager.allRecipes;
+
+    public IEnumerable<CraftedItemSO> DiscoveredRecipes => discovered;
 
     public int TotalCount => recipeManager.allRecipes.Count(r => r != null);
 
@@ -48,7 +54,21 @@ public class RecipeBookManager : MonoBehaviour
         if (recipe == null) return false;
 
         bool isNew = discovered.Add(recipe);
-        if (isNew) GameLog.Log($"[RecipeBook] Resep baru ditemukan: {recipe.itemName}");
+        if (isNew)
+        {
+            GameLog.Log($"[RecipeBook] Resep baru ditemukan: {recipe.itemName}");
+            OnChanged?.Invoke();
+        }
         return isNew;
+    }
+
+    // Mengganti seluruh daftar secara diam-diam (tanpa OnChanged), khusus dipakai saat load save
+    public void LoadDiscovered(IEnumerable<CraftedItemSO> recipes)
+    {
+        discovered.Clear();
+        foreach (CraftedItemSO recipe in recipes)
+        {
+            if (recipe != null) discovered.Add(recipe);
+        }
     }
 }

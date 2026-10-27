@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
   m_Name: Batu Kerikil
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: dc0e78e7d81f47e1955aa670361a3a85
   itemName: Batu Kerikil
   itemSprite: {fileID: -1064632321852759441, guid: a889ba7e72abc9042a814d2df8d490a6, type: 3}
   materialType: 0

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
   m_Name: Kancing Emas
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: 450f262f2912430eb6138b6e3db67d66
   itemName: Kancing Emas
   itemSprite: {fileID: 8269234595954245631, guid: 47a39ff7b50d3b042b6c25d0a5cde7ed, type: 3}
   materialType: 1

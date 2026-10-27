@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class InventoryManager : MonoBehaviour
 
     // 2. Penyimpanan Barang Jadi (Hasil Crafting). Kunci = item + harga jual, jadi harga tersimpan per unit.
     public Dictionary<CraftedItemKey, int> craftedItems { get; private set; } = new Dictionary<CraftedItemKey, int>();
+
+    // Dipicu setiap kali isi inventory berubah (dipakai SaveManager untuk live save)
+    public event Action OnChanged;
 
     void Awake()
     {
@@ -36,6 +40,7 @@ public class InventoryManager : MonoBehaviour
             collectedMaterials.Add(material, amount);
 
         GameLog.Log($"[Inventory] {material.itemName} (+{amount}). Total: {collectedMaterials[material]}");
+        OnChanged?.Invoke();
     }
 
     public bool ConsumeMaterial(MaterialSO material, int amount)
@@ -46,6 +51,7 @@ public class InventoryManager : MonoBehaviour
             if (collectedMaterials[material] == 0)
                 collectedMaterials.Remove(material); // Bersihkan memori jika habis
 
+            OnChanged?.Invoke();
             return true;
         }
         return false;
@@ -71,6 +77,7 @@ public class InventoryManager : MonoBehaviour
             craftedItems.Add(key, amount);
 
         GameLog.Log($"[Inventory] Barang Jadi: {key.item.itemName} @{key.price} (+{amount}). Total: {craftedItems[key]}");
+        OnChanged?.Invoke();
     }
 
     // Dipakai saat barang ditaruh di etalase
@@ -84,6 +91,7 @@ public class InventoryManager : MonoBehaviour
             if (craftedItems[key] == 0)
                 craftedItems.Remove(key);
 
+            OnChanged?.Invoke();
             return true;
         }
         return false;
@@ -93,5 +101,16 @@ public class InventoryManager : MonoBehaviour
     {
         if (craftedItems.ContainsKey(key)) return craftedItems[key];
         return 0;
+    }
+
+    // ==========================================
+    // BAGIAN 3: LOAD DARI SAVE
+    // ==========================================
+
+    // Mengganti seluruh isi inventory secara diam-diam (tanpa OnChanged), khusus dipakai saat load save
+    public void LoadState(Dictionary<MaterialSO, int> materials, Dictionary<CraftedItemKey, int> crafted)
+    {
+        collectedMaterials = new Dictionary<MaterialSO, int>(materials);
+        craftedItems = new Dictionary<CraftedItemKey, int>(crafted);
     }
 }

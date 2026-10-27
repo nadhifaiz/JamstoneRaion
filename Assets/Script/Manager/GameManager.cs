@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             transitionCanvasGroup.gameObject.SetActive(false);
         }
 
+        if (SaveManager.Instance != null) SaveManager.Instance.LoadGame();
         UpdateDayUI();
         ChangeState(GameState.Hub);
     }
@@ -147,6 +148,8 @@ public class GameManager : MonoBehaviour
             case GameState.Craft: EnterCraft(); break;
             case GameState.Sell: EnterSell(); break;
         }
+
+        if (SaveManager.Instance != null) SaveManager.Instance.MarkDirty();
     }
 
     private void HideAllPanels()
@@ -241,6 +244,7 @@ public class GameManager : MonoBehaviour
     public void Button_StartCollect() => ChangeState(GameState.Collect);
     public void Button_StartCraft() => ChangeState(GameState.Craft);
     public void Button_StartSell() => ChangeState(GameState.Sell);
+    public void Button_GoToMainMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
 
     // ==========================================
     // MENGAKHIRI FASE
