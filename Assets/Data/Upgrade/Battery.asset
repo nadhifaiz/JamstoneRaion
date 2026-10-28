@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16a5afff228c0e4fbfbbf074cb1f559, type: 3}
+  m_Name: Battery
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
+  id: 8298981a66be4d82bca0228031f7331b
+  displayName: Battery Durability
+  icon: {fileID: 3618158266435439999, guid: 0e499eaef423864469ecf8244d65be47, type: 3}
+  description: Increase your material revenue by enhancing the battery endurance
+    of your crane.
+  type: 0
+  levels:
+  - amberCost: 60
+    requirements:
+    - material: {fileID: 11400000, guid: cf3f2dcdc3e75cd4cbb568e3432f27b9, type: 2}
+      craftedItem: {fileID: 0}
+      count: 4
+    effectValue: 0.2
+    effectLabel: +20% Battery Endurance
+  - amberCost: 120
+    requirements:
+    - material: {fileID: 11400000, guid: e5ee3f16885c12d4887e83b9512ac989, type: 2}
+      craftedItem: {fileID: 0}
+      count: 3
+    - material: {fileID: 11400000, guid: cf3f2dcdc3e75cd4cbb568e3432f27b9, type: 2}
+      craftedItem: {fileID: 0}
+      count: 6
+    effectValue: 0.4
+    effectLabel: +40% Battery Endurance
+  - amberCost: 220
+    requirements:
+    - material: {fileID: 11400000, guid: e5ee3f16885c12d4887e83b9512ac989, type: 2}
+      craftedItem: {fileID: 0}
+      count: 5
+    - material: {fileID: 11400000, guid: cf3f2dcdc3e75cd4cbb568e3432f27b9, type: 2}
+      craftedItem: {fileID: 0}
+      count: 8
+    - material: {fileID: 0}
+      craftedItem: {fileID: 11400000, guid: e8a9bf9c0e36b6240a41191661ce279d, type: 2}
+      count: 1
+    effectValue: 0.7
+    effectLabel: +70% Battery Endurance

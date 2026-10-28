@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+// Data + logika etalase (tanpa UI). Item yang ditaruh di etalase DIPINDAH dari inventory,
+// dikembalikan saat ditarik atau saat fase Sell berakhir, dan hilang kalau terjual.
+// Tiap slot menyimpan item + harganya (CraftedItemKey); default(CraftedItemKey) = slot kosong.
 public class EtalaseManager : MonoBehaviour
 {
     [Min(1)] public int slotCount = 3;
@@ -18,7 +21,21 @@ public class EtalaseManager : MonoBehaviour
         }
     }
 
+    // Jumlah slot dasar dari inspector; jumlah sebenarnya bisa lebih banyak karena upgrade
+    public int BaseSlotCount => slotCount;
+
     public int SlotCount => Slots.Length;
+
+    // Dipanggil saat fase Sell dimulai. Etalase seharusnya sudah kosong; kalau tidak, isinya dikembalikan dulu.
+    public void SetSlotCount(int count)
+    {
+        count = Mathf.Max(1, count);
+        if (slots != null && slots.Length == count) return;
+
+        ReturnAllToInventory();
+        slots = new CraftedItemKey[count];
+        OnChanged?.Invoke();
+    }
 
     public CraftedItemKey GetSlot(int index)
     {
@@ -67,6 +84,8 @@ public class EtalaseManager : MonoBehaviour
         return true;
     }
 
+    // Dipanggil saat pelanggan membeli. Kalau ada beberapa unit item yang sama,
+    // yang terjual adalah slot paling kiri. Harga yang dibayar = harga unit itu.
     public bool TrySell(CraftedItemSO wanted, out int price)
     {
         price = 0;

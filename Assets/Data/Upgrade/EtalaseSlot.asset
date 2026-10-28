@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16a5afff228c0e4fbfbbf074cb1f559, type: 3}
+  m_Name: EtalaseSlot
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
+  id: 2c7f4f3b7f2d4a6b8f3f999ee2a05f50
+  displayName: Space Ship Capacity
+  icon: {fileID: -1449163395686060404, guid: fd421a61d8c81b843b5cc51c618b2f08, type: 3}
+  description: Your sales venture begins with a dilapidated spaceship. Upgrade your
+    spaceship so it can hold more items!
+  type: 3
+  levels:
+  - amberCost: 90
+    requirements:
+    - material: {fileID: 11400000, guid: c6cc792f3ca5f404182bc24d01847a62, type: 2}
+      craftedItem: {fileID: 0}
+      count: 3
+    - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
+      craftedItem: {fileID: 0}
+      count: 1
+    effectValue: 4
+    effectLabel: +1 Slot in the Display Case
+  - amberCost: 180
+    requirements:
+    - material: {fileID: 11400000, guid: c6cc792f3ca5f404182bc24d01847a62, type: 2}
+      craftedItem: {fileID: 0}
+      count: 4
+    - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
+      craftedItem: {fileID: 0}
+      count: 2
+    - material: {fileID: 0}
+      craftedItem: {fileID: 11400000, guid: e8a9bf9c0e36b6240a41191661ce279d, type: 2}
+      count: 1
+    effectValue: 6
+    effectLabel: +2 Slot in the Display Case
+  - amberCost: 320
+    requirements:
+    - material: {fileID: 11400000, guid: c6cc792f3ca5f404182bc24d01847a62, type: 2}
+      craftedItem: {fileID: 0}
+      count: 4
+    - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
+      craftedItem: {fileID: 0}
+      count: 4
+    - material: {fileID: 0}
+      craftedItem: {fileID: 11400000, guid: e8a9bf9c0e36b6240a41191661ce279d, type: 2}
+      count: 2
+    effectValue: 8
+    effectLabel: +2 Slot in the Display Case

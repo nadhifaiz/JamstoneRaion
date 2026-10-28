@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
+// Letakkan di dalam sellUIPanel. panelRoot = panel "Etalase" yang di-toggle.
 public class EtalaseUIManager : MonoBehaviour
 {
     [Header("References")]
@@ -8,8 +9,8 @@ public class EtalaseUIManager : MonoBehaviour
     public SellManager sellManager;
     public GameObject panelRoot;
     public Transform gridContent;
-    public GameObject gridItemPrefab;
-    public EtalaseSlotUI[] slotUIs;
+    public GameObject gridItemPrefab;          // prefab dengan EtalaseItemUI
+    public EtalaseSlotUI[] slotUIs;            // urutan array = urutan slot (tanpa ID manual)
 
     public bool IsOpen => panelRoot.activeSelf;
 
@@ -44,10 +45,22 @@ public class EtalaseUIManager : MonoBehaviour
         else Open();
     }
 
+    // Hanya slot yang di-refresh saat etalase berubah (mis. pelanggan beli),
+    // grid TIDAK dibangun ulang supaya drag yang sedang berjalan tidak rusak.
     private void RefreshSlots()
     {
-        int count = Mathf.Min(slotUIs.Length, etalase.SlotCount);
-        for (int i = 0; i < count; i++) slotUIs[i].SetItem(etalase.GetSlot(i));
+        if (etalase.SlotCount > slotUIs.Length)
+        {
+            Debug.LogWarning($"[EtalaseUIManager] Etalase punya {etalase.SlotCount} slot tapi UI hanya menyiapkan {slotUIs.Length}. Tambahkan slot UI.");
+        }
+
+        // Slot di atas jumlah yang sudah dibuka (upgrade) tampil terkunci
+        for (int i = 0; i < slotUIs.Length; i++)
+        {
+            bool unlocked = i < etalase.SlotCount;
+            slotUIs[i].SetLocked(!unlocked);
+            if (unlocked) slotUIs[i].SetItem(etalase.GetSlot(i));
+        }
     }
 
     private void RefreshGrid()
@@ -64,9 +77,7 @@ public class EtalaseUIManager : MonoBehaviour
         });
     }
 
-    // ==========================================
-    // Fungsi Eksternal
-    // ==========================================
+    // --- Dipanggil EtalaseItemUI / EtalaseSlotUI / tombol ---
 
     public void PlaceItem(CraftedItemKey key, int slotIndex)
     {
@@ -83,13 +94,14 @@ public class EtalaseUIManager : MonoBehaviour
         if (etalase.Remove(slotIndex)) RefreshGrid();
     }
 
+    // Tombol "put all item": isi slot kosong dengan stok yang ada (harga tertinggi lebih dulu)
     public void PutAll()
     {
         var snapshot = InventoryManager.Instance.craftedItems
             .Where(kvp => kvp.Value > 0)
             .OrderBy(kvp => kvp.Key.item.itemName)
             .ThenByDescending(kvp => kvp.Key.price)
-            .ToList();
+            .ToList(); // snapshot, karena dictionary berubah saat item ditaruh
 
         foreach (var kvp in snapshot)
         {

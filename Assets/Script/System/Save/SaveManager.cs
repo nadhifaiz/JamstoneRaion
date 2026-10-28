@@ -129,6 +129,11 @@ public class SaveManager : MonoBehaviour
             RecipeBookManager.Instance.LoadDiscovered(ReadRecipes(data));
         }
 
+        if (UpgradeManager.Instance != null)
+        {
+            UpgradeManager.Instance.LoadState(ReadUpgrades(data));
+        }
+
         isLoading = false;
         GameLog.Log($"[Save] Slot '{slotId}' dimuat. Hari {data.currentDay}, Amber {data.amber}.");
     }
@@ -153,6 +158,18 @@ public class SaveManager : MonoBehaviour
             CraftedItemSO so = database.GetCraftedItem(entry.id);
             if (so == null) { Debug.LogWarning($"[Save] Barang dengan ID '{entry.id}' tidak ada di GameDatabase, dilewati."); continue; }
             if (entry.count > 0) result[new CraftedItemKey(so, entry.price)] = entry.count;
+        }
+        return result;
+    }
+
+    private Dictionary<UpgradeSO, int> ReadUpgrades(SaveData data)
+    {
+        var result = new Dictionary<UpgradeSO, int>();
+        foreach (UpgradeEntry entry in data.upgrades)
+        {
+            UpgradeSO so = database.GetUpgrade(entry.id);
+            if (so == null) { Debug.LogWarning($"[Save] Upgrade dengan ID '{entry.id}' tidak ada di GameDatabase, dilewati."); continue; }
+            if (entry.level > 0) result[so] = entry.level;
         }
         return result;
     }
@@ -269,6 +286,19 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        if (UpgradeManager.Instance != null)
+        {
+            foreach (var kvp in UpgradeManager.Instance.AllLevels)
+            {
+                if (kvp.Key == null || kvp.Value <= 0) continue;
+                if (database.GetUpgrade(kvp.Key.Id) != kvp.Key)
+                {
+                    Debug.LogWarning($"[Save] Upgrade '{kvp.Key.name}' belum terdaftar (atau ID bentrok) di GameDatabase.", kvp.Key);
+                }
+                data.upgrades.Add(new UpgradeEntry { id = kvp.Key.Id, level = kvp.Value });
+            }
+        }
+
         return data;
     }
 
@@ -284,6 +314,7 @@ public class SaveManager : MonoBehaviour
         if (InventoryManager.Instance != null) InventoryManager.Instance.OnChanged += MarkDirty;
         if (CurrencyManager.Instance != null) CurrencyManager.Instance.OnAmberChanged += OnAmberChanged;
         if (RecipeBookManager.Instance != null) RecipeBookManager.Instance.OnChanged += MarkDirty;
+        if (UpgradeManager.Instance != null) UpgradeManager.Instance.OnChanged += MarkDirty;
         if (etalase != null) etalase.OnChanged += MarkDirty;
     }
 
@@ -295,6 +326,7 @@ public class SaveManager : MonoBehaviour
         if (InventoryManager.Instance != null) InventoryManager.Instance.OnChanged -= MarkDirty;
         if (CurrencyManager.Instance != null) CurrencyManager.Instance.OnAmberChanged -= OnAmberChanged;
         if (RecipeBookManager.Instance != null) RecipeBookManager.Instance.OnChanged -= MarkDirty;
+        if (UpgradeManager.Instance != null) UpgradeManager.Instance.OnChanged -= MarkDirty;
         if (etalase != null) etalase.OnChanged -= MarkDirty;
     }
 

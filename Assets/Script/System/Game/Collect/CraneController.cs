@@ -21,6 +21,7 @@ public class CraneController : MonoBehaviour
     [SerializeField] private InputActionReference grabAction;
 
     private Rigidbody2D rb;
+    private float speedMultiplier = 1f;
     private Vector2 moveInput;
     private MaterialObject grabbedMaterial;
 
@@ -31,6 +32,9 @@ public class CraneController : MonoBehaviour
 
     void OnEnable()
     {
+        // Crane diaktifkan tiap fase Collect dimulai, jadi upgrade dibaca di sini
+        speedMultiplier = UpgradeManager.Instance != null ? UpgradeManager.Instance.GetSpeedMultiplier() : 1f;
+
         moveAction.action.Enable();
         grabAction.action.Enable();
 
@@ -54,12 +58,12 @@ public class CraneController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        rb.linearVelocity = moveInput * (moveSpeed * speedMultiplier);
     }
 
     private void OnGrabStarted(InputAction.CallbackContext context)
     {
-        if (PauseManager.IsPaused) return; // event Input System tetap jalan saat timeScale = 0
+        if (PauseManager.IsPaused) return;
         if (grabbedMaterial == null) TryGrab();
     }
 
@@ -162,6 +166,10 @@ public class CraneController : MonoBehaviour
         MaterialObject released = grabbedMaterial;
         released.Detach();
 
+        // Material yang dilepas selalu menempati layer teratas, jadi material di layer teratas
+        // pada titik yang sama dipaksa turun dulu.
+        // Catatan: collider sudah aktif lagi di sini, jadi hasilnya bisa mengenai material itu
+        // sendiri kalau layernya memang sudah teratas (perilaku asli dipertahankan).
         Collider2D topHit = Physics2D.OverlapPoint(released.transform.position, MaterialLayers.TopMask);
         if (topHit != null && topHit.TryGetComponent(out MaterialObject underneath))
         {

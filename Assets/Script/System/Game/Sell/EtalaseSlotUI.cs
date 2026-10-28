@@ -11,6 +11,8 @@ public class EtalaseSlotUI : MonoBehaviour, IPointerClickHandler
     public Image itemImage;
     [Tooltip("Opsional: menampilkan harga jual item di slot")]
     public TextMeshProUGUI priceText;
+    [Tooltip("Opsional: gambar gembok untuk slot yang belum dibuka. Kosong = slot disembunyikan saat terkunci.")]
+    [SerializeField] private GameObject lockedOverlay;
 
     private EtalaseUIManager ui;
     private ItemDetailTrigger detailTrigger;
@@ -25,6 +27,27 @@ public class EtalaseSlotUI : MonoBehaviour, IPointerClickHandler
     {
         ui = manager;
         Index = index;
+    }
+
+    // Slot di atas jumlah slot yang sudah dibuka oleh upgrade
+    public void SetLocked(bool locked)
+    {
+        if (lockedOverlay != null)
+        {
+            lockedOverlay.SetActive(locked);
+            if (locked) ClearVisual();
+        }
+        else
+        {
+            gameObject.SetActive(!locked);
+        }
+    }
+
+    private void ClearVisual()
+    {
+        itemImage.enabled = false;
+        if (priceText != null) priceText.gameObject.SetActive(false);
+        if (detailTrigger != null) detailTrigger.Clear();
     }
 
     public void SetItem(CraftedItemKey key)

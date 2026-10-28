@@ -2,12 +2,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+// Taruh di objek yang SELALU aktif (di luar sellUIPanel), mis. "SellSystem".
 public class SellManager : MonoBehaviour
 {
     [Header("References")]
     public EtalaseManager etalase;
     public EtalaseUIManager etalaseUI;
-    public CraftingManager recipeManager;
+    public CraftingManager recipeManager;      // sumber daftar item yang bisa diinginkan pelanggan (allRecipes)
 
     [Header("Fase")]
     public float phaseDuration = 60f;
@@ -18,10 +19,12 @@ public class SellManager : MonoBehaviour
     public CustomerController customerPrefab;
     public Transform spawnPoint;
     public Transform centerPoint;
-    public Transform exitPoint;
+    public Transform exitPoint;                // kosong = keluar lewat spawnPoint
     [Tooltip("Jeda setelah pelanggan sebelumnya pergi (nanti bisa di-upgrade)")]
     public float spawnIntervalMin = 3f;
     public float spawnIntervalMax = 6f;
+    [Tooltip("Jeda terendah setelah upgrade interval diterapkan")]
+    public float minIntervalFloor = 1f;
     public float waitAtCenter = 1.5f;
 
     [Header("UI")]
@@ -32,14 +35,20 @@ public class SellManager : MonoBehaviour
     private bool timerEnded;
     private float timeRemaining;
     private float spawnCountdown;
+    private float intervalMultiplier = 1f;
     private CustomerController activeCustomer;
 
     // ---------- Dipanggil GameManager / UI ----------
 
     public void StartSellPhase()
     {
-        isActive = true;
+        isActive = true; // di-set dulu supaya tombol Skip tetap berfungsi kalau setup belum lengkap
         if (!ValidateReferences()) return;
+
+        // Upgrade dibaca saat fase dimulai
+        UpgradeManager upgrades = UpgradeManager.Instance;
+        intervalMultiplier = upgrades != null ? upgrades.GetIntervalMultiplier() : 1f;
+        etalase.SetSlotCount(upgrades != null ? upgrades.GetEtalaseSlotCount(etalase.BaseSlotCount) : etalase.BaseSlotCount);
 
         timerEnded = false;
         isSelling = !startTimerOnFirstClose;
@@ -47,7 +56,7 @@ public class SellManager : MonoBehaviour
         ResetSpawnCountdown();
         UpdateTimerText();
 
-        etalaseUI.Open();
+        etalaseUI.Open(); // pemain diminta mengisi etalase di awal fase
     }
 
     // Memberi tahu persis referensi mana yang belum diisi di inspector
@@ -103,7 +112,7 @@ public class SellManager : MonoBehaviour
             if (timeRemaining <= 0f)
             {
                 timeRemaining = 0f;
-                timerEnded = true;
+                timerEnded = true; // tidak ada pelanggan baru; tunggu yang sedang ada selesai
             }
             UpdateTimerText();
         }
@@ -135,7 +144,9 @@ public class SellManager : MonoBehaviour
 
     private void ResetSpawnCountdown()
     {
-        spawnCountdown = Random.Range(spawnIntervalMin, spawnIntervalMax);
+        float min = Mathf.Max(minIntervalFloor, spawnIntervalMin * intervalMultiplier);
+        float max = Mathf.Max(min, spawnIntervalMax * intervalMultiplier);
+        spawnCountdown = Random.Range(min, max);
     }
 
     private void SpawnCustomer()

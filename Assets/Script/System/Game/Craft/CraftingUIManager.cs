@@ -77,11 +77,26 @@ public class CraftingUIManager : MonoBehaviour
             isNewDiscovery = RecipeBookManager.Instance != null && RecipeBookManager.Instance.Discover(resultItem);
         }
 
-        ShowOverview(resultItem, finalPrice, isNewDiscovery);
+        // Craft gagal: upgrade "Bahan Selamat" memberi peluang satu bahan kembali (di frame yang sama
+        // dengan konsumsi bahan, jadi tersimpan bersamaan)
+        MaterialSO salvaged = resultItem == null ? TrySalvageMaterial(usedMat1, usedMat2) : null;
+
+        ShowOverview(resultItem, finalPrice, isNewDiscovery, salvaged);
 
         ResetMejaRakit();
         RefreshInventoryUI();
         SetInputBlocked(false);
+    }
+
+    private MaterialSO TrySalvageMaterial(MaterialSO a, MaterialSO b)
+    {
+        UpgradeManager upgrades = UpgradeManager.Instance;
+        if (upgrades == null) return null;
+        if (Random.value >= upgrades.GetSalvageChance()) return null;
+
+        MaterialSO saved = Random.value < 0.5f ? a : b;
+        InventoryManager.Instance.AddMaterial(saved, 1);
+        return saved;
     }
 
     private bool HasEnoughStock(MaterialSO a, MaterialSO b)
@@ -111,7 +126,6 @@ public class CraftingUIManager : MonoBehaviour
         if (slot == slot1) mat1 = material;
         else if (slot == slot2) mat2 = material;
 
-        // Tombol RAKIT hanya bisa ditekan jika KEDUA slot terisi
         craftButton.interactable = (mat1 != null && mat2 != null);
     }
 
@@ -132,7 +146,7 @@ public class CraftingUIManager : MonoBehaviour
         });
     }
 
-    private void ShowOverview(CraftedItemSO resultItem, int finalPrice, bool isNewDiscovery)
+    private void ShowOverview(CraftedItemSO resultItem, int finalPrice, bool isNewDiscovery, MaterialSO salvaged)
     {
         overviewPanel.SetActive(true);
 
@@ -150,6 +164,7 @@ public class CraftingUIManager : MonoBehaviour
             overviewItemImage.sprite = failSprite;
             overviewTitleText.text = "GAGAL MERAKIT!";
             overviewDetailText.text = "Bahan baku hangus menjadi debu...";
+            if (salvaged != null) overviewDetailText.text += $"\n{salvaged.itemName} berhasil diselamatkan!";
             overviewPriceText.enabled = false;
         }
     }

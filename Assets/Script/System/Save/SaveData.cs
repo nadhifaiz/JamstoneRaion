@@ -27,6 +27,16 @@ public class SaveData
 
     // Buku resep
     public List<string> discoveredRecipes = new List<string>();
+
+    // Upgrade yang sudah dibeli (hanya level di atas 0)
+    public List<UpgradeEntry> upgrades = new List<UpgradeEntry>();
+}
+
+[Serializable]
+public class UpgradeEntry
+{
+    public string id;
+    public int level;
 }
 
 [Serializable]

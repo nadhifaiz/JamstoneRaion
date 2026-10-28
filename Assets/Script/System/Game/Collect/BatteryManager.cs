@@ -28,15 +28,17 @@ public class BatteryManager : MonoBehaviour
 
     public event Action OnBatteryEmpty;
 
-    // Read-only untuk UI baterai nanti
     public float CurrentBattery => currentBattery;
-    public float MaxBattery => maxBattery;
+
+    // Kapasitas efektif = nilai dasar x upgrade
+    public float MaxBattery => maxBattery * (UpgradeManager.Instance != null ? UpgradeManager.Instance.GetBatteryMultiplier() : 1f);
 
     private bool isActive = false;
 
     public void StartBattery()
     {
-        currentBattery = maxBattery;
+        // Menggunakan MaxBattery yang sudah dikalkulasi dengan upgrade
+        currentBattery = MaxBattery;
         isActive = true;
         UpdateBatteryUI();
     }
@@ -78,7 +80,9 @@ public class BatteryManager : MonoBehaviour
 
     private void UpdateBatteryUI()
     {
-        float normalized = maxBattery > 0f ? Mathf.Clamp01(currentBattery / maxBattery) : 0f;
+        // Pastikan UI dinormalisasi berdasarkan kapasitas setelah upgrade (MaxBattery) bukan maxBattery dasar
+        float effectiveMax = MaxBattery;
+        float normalized = effectiveMax > 0f ? Mathf.Clamp01(currentBattery / effectiveMax) : 0f;
 
         if (batterySlider != null) batterySlider.value = normalized;
         if (batteryFillImage != null) batteryFillImage.fillAmount = normalized;

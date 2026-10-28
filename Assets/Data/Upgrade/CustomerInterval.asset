@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16a5afff228c0e4fbfbbf074cb1f559, type: 3}
+  m_Name: CustomerInterval
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
+  id: e20b73ab6e6e4e0eae903d2885030fd6
+  displayName: Selling Ability
+  icon: {fileID: 41778864168247212, guid: f5d1731d8a1d89d42872dd3032b0ac43, type: 3}
+  description: Your efforts to build a business start with your sales skills! Enhance
+    your abilities to attract more customers.
+  type: 2
+  levels:
+  - amberCost: 80
+    requirements:
+    - material: {fileID: 11400000, guid: cf3f2dcdc3e75cd4cbb568e3432f27b9, type: 2}
+      craftedItem: {fileID: 0}
+      count: 5
+    effectValue: 0.85
+    effectLabel: Customer interval increase 15%
+  - amberCost: 160
+    requirements:
+    - material: {fileID: 11400000, guid: cf3f2dcdc3e75cd4cbb568e3432f27b9, type: 2}
+      craftedItem: {fileID: 0}
+      count: 7
+    - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
+      craftedItem: {fileID: 0}
+      count: 3
+    effectValue: 0.7
+    effectLabel: Customer interval increase 30%
+  - amberCost: 280
+    requirements:
+    - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
+      craftedItem: {fileID: 0}
+      count: 5
+    - material: {fileID: 0}
+      craftedItem: {fileID: 11400000, guid: 0942ba8219f781441b648d2b2053ce30, type: 2}
+      count: 1
+    effectValue: 0.55
+    effectLabel: Customer interval increase 45%
