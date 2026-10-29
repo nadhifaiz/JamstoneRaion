@@ -30,6 +30,10 @@ public class SaveData
 
     // Upgrade yang sudah dibeli (hanya level di atas 0)
     public List<UpgradeEntry> upgrades = new List<UpgradeEntry>();
+
+    // Cerita: cutscene yang sudah dilihat dan status ending (setelah ending, game berjalan endless)
+    public List<string> seenCutscenes = new List<string>();
+    public bool endingSeen;
 }
 
 [Serializable]

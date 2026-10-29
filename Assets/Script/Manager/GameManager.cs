@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     [Header("Game Data")]
     public GameState currentState;
     public int currentDay = 1;
-    public int maxDays = 30;
 
     [Header("Daily Progress (Urutan)")]
     public bool hasCollectedToday = false;
@@ -180,6 +179,10 @@ public class GameManager : MonoBehaviour
         {
             ChangeState(GameState.DayEnd);
         }
+        else if (CutsceneManager.Instance != null)
+        {
+            CutsceneManager.Instance.TryPlayPending();
+        }
     }
 
     private void EnterCollect()
@@ -284,18 +287,8 @@ public class GameManager : MonoBehaviour
     private void EndDayLogic()
     {
         GameLog.Log($"Hari ke-{currentDay} berakhir.");
-
         if (isTransitioning) return;
-
-        if (currentDay < maxDays)
-        {
-            StartCoroutine(DayTransitionRoutine());
-        }
-        else
-        {
-            GameLog.Log($"GAME TAMAT! {maxDays} Hari Selesai.");
-            // TODO: tampilkan panel Game Over / ending di sini
-        }
+        StartCoroutine(DayTransitionRoutine());
     }
 
     private IEnumerator DayTransitionRoutine()
@@ -316,6 +309,8 @@ public class GameManager : MonoBehaviour
         yield return FadeText(0f, 1f, textFadeDuration);
         yield return new WaitForSecondsRealtime(textHoldDuration);
         yield return FadeText(1f, 0f, textFadeDuration);
+        if (CutsceneManager.Instance != null)
+            yield return CutsceneManager.Instance.PlayEndingIfNeeded(currentDay);
 
         // 3. Di balik layar hitam: naikkan hari, reset progres, kembali ke Hub
         currentDay++;
@@ -325,6 +320,8 @@ public class GameManager : MonoBehaviour
 
         UpdateDayUI();
         ChangeState(GameState.Hub);
+        if (CutsceneManager.Instance != null)
+            yield return CutsceneManager.Instance.PlayPendingRoutine();
 
         // 4. Teks "Day X+1 Started..." fade in -> tahan -> fade out
         transitionText.text = $"Day {currentDay} Started...";

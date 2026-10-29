@@ -171,6 +171,9 @@ public class SellManager : MonoBehaviour
         // Dicek saat sampai (pemain masih bisa menarik/menaruh item selama pelanggan jalan)
         if (etalase.TrySell(wanted, out int price))
         {
+            // Kejadian harga season: harga unit dikali pengali saat DIJUAL (stok lama ikut naik)
+            if (SeasonManager.Instance != null) price = SeasonManager.Instance.ApplyPrice(wanted, price);
+
             CurrencyManager.Instance.Add(price);
             GameLog.Log($"[Sell] Pelanggan membeli {wanted.itemName} seharga {price}");
             customer.NotifyBought();

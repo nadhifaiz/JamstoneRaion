@@ -134,6 +134,11 @@ public class SaveManager : MonoBehaviour
             UpgradeManager.Instance.LoadState(ReadUpgrades(data));
         }
 
+        if (CutsceneManager.Instance != null)
+        {
+            CutsceneManager.Instance.LoadState(data.seenCutscenes, data.endingSeen);
+        }
+
         isLoading = false;
         GameLog.Log($"[Save] Slot '{slotId}' dimuat. Hari {data.currentDay}, Amber {data.amber}.");
     }
@@ -208,17 +213,12 @@ public class SaveManager : MonoBehaviour
 
     private void UpdateMeta(SaveData data)
     {
-        GameManager gm = GameManager.Instance;
-
         currentMeta.currentDay = data.currentDay;
         currentMeta.amber = data.amber;
         currentMeta.lastPlayedUtcTicks = System.DateTime.UtcNow.Ticks;
 
-        // Tamat = hari terakhir tercapai dan ketiga fase hari itu selesai (dihitung, bukan disimpan,
-        // sehingga save versi lite (7 hari) bisa lanjut kalau maxDays dinaikkan nanti)
-        currentMeta.isCompleted = gm != null
-            && data.currentDay >= gm.maxDays
-            && data.hasCollectedToday && data.hasCraftedToday && data.hasSoldToday;
+        // "Selesai" = ending cerita sudah dilihat (versi 1: Bersambung). Save tetap bisa dimainkan (endless).
+        currentMeta.isCompleted = data.endingSeen;
     }
 
     private SaveData BuildSaveData()
@@ -299,6 +299,12 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        if (CutsceneManager.Instance != null)
+        {
+            data.seenCutscenes.AddRange(CutsceneManager.Instance.SeenCutscenes);
+            data.endingSeen = CutsceneManager.Instance.EndingSeen;
+        }
+
         return data;
     }
 
@@ -315,6 +321,7 @@ public class SaveManager : MonoBehaviour
         if (CurrencyManager.Instance != null) CurrencyManager.Instance.OnAmberChanged += OnAmberChanged;
         if (RecipeBookManager.Instance != null) RecipeBookManager.Instance.OnChanged += MarkDirty;
         if (UpgradeManager.Instance != null) UpgradeManager.Instance.OnChanged += MarkDirty;
+        if (CutsceneManager.Instance != null) CutsceneManager.Instance.OnChanged += MarkDirty;
         if (etalase != null) etalase.OnChanged += MarkDirty;
     }
 
@@ -327,6 +334,7 @@ public class SaveManager : MonoBehaviour
         if (CurrencyManager.Instance != null) CurrencyManager.Instance.OnAmberChanged -= OnAmberChanged;
         if (RecipeBookManager.Instance != null) RecipeBookManager.Instance.OnChanged -= MarkDirty;
         if (UpgradeManager.Instance != null) UpgradeManager.Instance.OnChanged -= MarkDirty;
+        if (CutsceneManager.Instance != null) CutsceneManager.Instance.OnChanged -= MarkDirty;
         if (etalase != null) etalase.OnChanged -= MarkDirty;
     }
 

@@ -95,7 +95,7 @@ public static class SaveStorage
             slotName = "(tanpa nama)",
             currentDay = data.currentDay,
             amber = data.amber,
-            isCompleted = false, // tidak bisa diketahui tanpa maxDays
+            isCompleted = data.endingSeen,
             createdUtcTicks = lastWrite,
             lastPlayedUtcTicks = lastWrite
         };

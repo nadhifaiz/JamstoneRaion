@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc980167ba78f44ab3c3aed9f7e2404, type: 3}
+  m_Name: Opening Cutscene
+  m_EditorClassIdentifier: Assembly-CSharp::CutsceneSO
+  id: f39d579e24f842b1a2655f2bb863e2f3
+  title: Game Start
+  placeholderText: Halohalo hai!
