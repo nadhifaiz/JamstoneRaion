@@ -29,6 +29,10 @@ public class CraftingUIManager : MonoBehaviour
     public TextMeshProUGUI overviewPriceText;
     public Sprite failSprite;
 
+    [Header("Animasi Crafting")]
+    [Tooltip("Opsional. Kalau kosong, pakai jeda 1,2 detik seperti sebelumnya.")]
+    public CraftingAnimationController craftAnimator;
+
     private MaterialSO mat1;
     private MaterialSO mat2;
 
@@ -49,12 +53,14 @@ public class CraftingUIManager : MonoBehaviour
     {
         SetInputBlocked(true);
 
-        // TODO: Animasi 4 frame
-        yield return new WaitForSeconds(1.2f);
+        // Fase 1: overlay + anvil + palu memalu
+        if (craftAnimator != null) yield return craftAnimator.PlayHammerPhase();
+        else yield return new WaitForSeconds(1.2f);
 
-        // Cek ulang stok tepat sebelum konsumsi (jangan percaya pengecekan 1,2 detik lalu)
+        // Cek ulang stok tepat sebelum konsumsi (jangan percaya pengecekan sebelum animasi)
         if (!HasEnoughStock(usedMat1, usedMat2))
         {
+            if (craftAnimator != null) craftAnimator.HideImmediate();
             SetInputBlocked(false);
             yield break;
         }
@@ -80,6 +86,16 @@ public class CraftingUIManager : MonoBehaviour
         // Craft gagal: upgrade "Bahan Selamat" memberi peluang satu bahan kembali (di frame yang sama
         // dengan konsumsi bahan, jadi tersimpan bersamaan)
         MaterialSO salvaged = resultItem == null ? TrySalvageMaterial(usedMat1, usedMat2) : null;
+
+        // Fase 2: flash + item muncul, lalu overlay hilang
+        if (craftAnimator != null)
+        {
+            bool success = resultItem != null;
+            yield return craftAnimator.PlayReveal(
+                success ? resultItem.itemSprite : failSprite,
+                success ? resultItem.itemName : "Gagal",
+                success);
+        }
 
         ShowOverview(resultItem, finalPrice, isNewDiscovery, salvaged);
 

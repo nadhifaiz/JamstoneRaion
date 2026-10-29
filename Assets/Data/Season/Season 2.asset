@@ -17,7 +17,7 @@ MonoBehaviour:
   storyBlurb: Burung-burung pemangsa mulai tidak suka akan perlawanan dari rakyat
     semut pada musim paceklik sebelumnya, rencana rahasia mereka yang gagal pada
     musim sebelumnya membuahkan bencana bagi para semut.
-  introCutscene: {fileID: 11400000, guid: 07fb411514106eb49a68e9ea448f76d2, type: 2}
+  introCutscene: {fileID: 11400000, guid: e8adf074d788c7341ae658375b2bd7c3, type: 2}
   priceEvents:
   - item: {fileID: 11400000, guid: 9a23db072d6c4974cb226f163612769e, type: 2}
     multiplier: 1.3

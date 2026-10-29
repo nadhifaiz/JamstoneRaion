@@ -12,13 +12,20 @@ public class EndingScreenUI : MonoBehaviour
     [SerializeField] private string toBeContinuedTitle = "Bersambung...";
     [SerializeField] private string theEndTitle = "Tamat";
     [SerializeField] private string menuSceneName = "MainMenu";
+    [Tooltip("Lama fade masuk dan keluar (detik). 0 = tanpa fade.")]
+    [SerializeField] private float fadeDuration = 0.6f;
 
+    private CanvasGroup canvasGroup;
     private bool choiceMade;
 
     public bool ReturnToMenuRequested { get; private set; }
 
     void Awake()
     {
+        // CanvasGroup ditambahkan otomatis di panel kalau belum ada
+        canvasGroup = panelRoot.GetComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = panelRoot.AddComponent<CanvasGroup>();
+
         panelRoot.SetActive(false);
     }
 
@@ -29,10 +36,14 @@ public class EndingScreenUI : MonoBehaviour
         ReturnToMenuRequested = false;
 
         titleText.text = type == EndingType.ToBeContinued ? toBeContinuedTitle : theEndTitle;
+
+        canvasGroup.alpha = 0f;
         panelRoot.SetActive(true);
+        yield return UIFade.Fade(canvasGroup, 0f, 1f, fadeDuration);
 
         yield return new WaitUntil(() => choiceMade);
 
+        yield return UIFade.Fade(canvasGroup, 1f, 0f, fadeDuration);
         panelRoot.SetActive(false);
     }
 
