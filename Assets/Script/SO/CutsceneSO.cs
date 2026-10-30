@@ -1,27 +1,37 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-// Data satu cutscene. Saat ini hanya judul + teks sementara untuk pemutar dummy.
-// Nanti field untuk cutscene sungguhan (slide gambar, video, dll.) cukup ditambahkan di sini,
-// tanpa mengubah pemicu, penyimpanan, atau alur game.
+// Satu halaman cutscene berisi kumpulan sprite panel yang ditampilkan berurutan.
+[Serializable]
+public class CutscenePage
+{
+    [Tooltip("Sprite panel dalam urutan kemunculan. Setiap elemen akan ditampilkan satu per satu.")]
+    public List<Sprite> panels = new List<Sprite>();
+}
+
+// Data satu cutscene. Pemutar sungguhan (PanelSequenceCutscenePlayer) memakai 'pages';
+// pemutar dummy memakai 'title' dan 'placeholderText'.
 [CreateAssetMenu(fileName = "NewCutscene", menuName = "Game/Cutscene Data")]
 public class CutsceneSO : ScriptableObject
 {
     [Header("ID Save")]
-    [Tooltip("Dibuat otomatis. Dipakai save untuk menandai cutscene yang sudah dilihat. " +
-             "Jangan menduplikasi aset dengan Ctrl+D; kalau terlanjur, klik kanan > Buat ID Baru.")]
+    [Tooltip("Dibuat otomatis. Dipakai save untuk menandai cutscene yang sudah dilihat. Jangan menduplikasi ID antar aset.")]
     [SerializeField] private string id;
     public string Id => id;
 
-    [Header("Data")]
+    [Header("Halaman (pemutar komik)")]
+    public List<CutscenePage> pages = new List<CutscenePage>();
+
+    [Header("Pemutar dummy / cadangan")]
     public string title;
 
     [TextArea(3, 8)]
-    [Tooltip("Teks sementara yang ditampilkan pemutar dummy")]
+    [Tooltip("Teks sementara yang ditampilkan pemutar dummy kalau cutscene belum punya halaman")]
     public string placeholderText;
 
 #if UNITY_EDITOR
-    void OnValidate()
+    private void OnValidate()
     {
         if (string.IsNullOrEmpty(id)) AssignNewId();
     }

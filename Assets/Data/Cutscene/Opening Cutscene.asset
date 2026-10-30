@@ -13,5 +13,21 @@ MonoBehaviour:
   m_Name: Opening Cutscene
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneSO
   id: f39d579e24f842b1a2655f2bb863e2f3
+  pages:
+  - panels:
+    - {fileID: -2645050474553366069, guid: 3b125c92c9294194184b211b320bcc2b, type: 3}
+    - {fileID: 5505175967292992014, guid: 3b125c92c9294194184b211b320bcc2b, type: 3}
+    - {fileID: 3259112334163829068, guid: 3b125c92c9294194184b211b320bcc2b, type: 3}
+    - {fileID: -7053671889381469823, guid: 3b125c92c9294194184b211b320bcc2b, type: 3}
+  - panels:
+    - {fileID: -6535061216159887078, guid: b8e5901714564df4cbddb1914cf3b574, type: 3}
+    - {fileID: -1776436303946811204, guid: b8e5901714564df4cbddb1914cf3b574, type: 3}
+    - {fileID: -3673623380806571207, guid: b8e5901714564df4cbddb1914cf3b574, type: 3}
+    - {fileID: 5382345134079497254, guid: b8e5901714564df4cbddb1914cf3b574, type: 3}
+  - panels:
+    - {fileID: 4204284292704615366, guid: a9dde32063b46454c9e06abc01d106f2, type: 3}
+    - {fileID: -1514154424147227792, guid: a9dde32063b46454c9e06abc01d106f2, type: 3}
+    - {fileID: -3423624066841397619, guid: a9dde32063b46454c9e06abc01d106f2, type: 3}
+    - {fileID: -7864893055322501000, guid: a9dde32063b46454c9e06abc01d106f2, type: 3}
   title: Game Start
-  placeholderText: Halohalo hai!
+  placeholderText: Ini Cutscene Pembuka
