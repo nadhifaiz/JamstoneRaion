@@ -117,4 +117,23 @@ public class EtalaseManager : MonoBehaviour
         }
         if (changed) OnChanged?.Invoke();
     }
+
+    public bool TryGetPrice(CraftedItemSO wanted, out int price)
+    {
+        price = 0;
+        if (wanted == null) return false;
+
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            CraftedItemKey slot = Slots[i];
+
+            if (!slot.IsEmpty && slot.item == wanted)
+            {
+                price = slot.price;
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

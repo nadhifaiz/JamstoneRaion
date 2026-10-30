@@ -7,6 +7,7 @@ public enum UpgradeType
     CraneBattery,       // kapasitas baterai crane
     CraneSpeed,         // kecepatan gerak crane
     CustomerInterval,   // jeda antar pelanggan
+    CustomerCapacity, // jumlah maksimal customer dalam antrean
     EtalaseSlots,       // jumlah slot etalase
     SalvageChance       // peluang satu bahan kembali saat craft gagal
 }
@@ -33,6 +34,7 @@ public class UpgradeLevel
              "CraneBattery: tambahan kapasitas (0.2 = +20%)\n" +
              "CraneSpeed: tambahan kecepatan (0.1 = +10%)\n" +
              "CustomerInterval: pengali jeda (0.85 = 15% lebih cepat)\n" +
+             "CustomerCapacity: jumlah maksimal customer (2, 3, 4)\n" +
              "EtalaseSlots: jumlah slot TOTAL (4, 5, 6)\n" +
              "SalvageChance: peluang 0-1 (0.15 = 15%)")]
     public float effectValue;

@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 8091258167589033186, guid: 45213da484132bf498305c803717bddb, type: 3}
   description: Your crafting ability will improve by learning special techniques
     from the master. So u can save your item more!
-  type: 4
+  type: 5
   levels:
   - amberCost: 70
     requirements:

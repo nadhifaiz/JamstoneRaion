@@ -136,6 +136,13 @@ public class UpgradeManager : MonoBehaviour
     public int GetEtalaseSlotCount(int baseCount) => Mathf.Max(baseCount, Mathf.RoundToInt(GetEffect(UpgradeType.EtalaseSlots, baseCount)));
 
     public float GetSalvageChance() => Mathf.Clamp01(GetEffect(UpgradeType.SalvageChance, 0f));
+    public int GetCustomerCapacity()
+    {
+        return Mathf.Max(
+            1,
+            Mathf.RoundToInt(GetEffect(UpgradeType.CustomerCapacity, 1f))
+        );
+    }
 
     // Nilai efek di level sekarang; fallback kalau upgrade belum dibeli
     private float GetEffect(UpgradeType type, float fallback)

@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: -1449163395686060404, guid: fd421a61d8c81b843b5cc51c618b2f08, type: 3}
   description: Your sales venture begins with a dilapidated spaceship. Upgrade your
     spaceship so it can hold more items!
-  type: 3
+  type: 4
   levels:
   - amberCost: 90
     requirements:
