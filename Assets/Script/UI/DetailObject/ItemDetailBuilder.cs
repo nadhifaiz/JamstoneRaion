@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Mengubah sumber data sebuah ItemDetailTrigger (MaterialSO / CraftedItemKey) menjadi ItemDetailData.
 public static class ItemDetailBuilder
 {
     public static ItemDetailData Build(ItemDetailTrigger trigger, CraftingManager recipeManager, TagVisualsSO tagVisuals)
@@ -61,6 +62,18 @@ public static class ItemDetailBuilder
         data.tags.Add(item.requiredTag2);
 
         data.infoLines.Add($"Harga Jual: {key.price} Amber");
+
+        // Kalau season sekarang punya kejadian harga untuk barang ini, tampilkan harga pasarnya
+        if (SeasonManager.Instance != null)
+        {
+            float multiplier = SeasonManager.Instance.GetPriceMultiplier(item);
+            if (!Mathf.Approximately(multiplier, 1f))
+            {
+                int marketPrice = Mathf.RoundToInt(key.price * multiplier);
+                int percent = Mathf.RoundToInt(Mathf.Abs(multiplier - 1f) * 100f);
+                data.infoLines.Add($"Harga Pasar Sekarang: {marketPrice} Amber ({(multiplier > 1f ? "naik" : "turun")} {percent}%)");
+            }
+        }
         data.infoLines.Add($"Dibuat dari: {tagVisuals.GetName(item.requiredTag1)} + {tagVisuals.GetName(item.requiredTag2)}");
 
         if (showStock && InventoryManager.Instance != null)

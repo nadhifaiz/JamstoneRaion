@@ -1,20 +1,34 @@
+
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// Tempel di prefab item mana pun (material atau barang jadi). Klik 1x membuka panel rincian.
-// Sengaja HANYA mengimplementasi klik, bukan drag, supaya drag pada item tetap diteruskan
-// ke ScrollRect induknya dan ke script drag milik item itu sendiri.
-// Aksi cepat memakai klik 2x di script masing-masing (MaterialUI, EtalaseItemUI, slot).
 public class ItemDetailTrigger : MonoBehaviour, IPointerClickHandler
 {
-    public enum SourceKind { None, Material, CraftedItem }
+    public enum SourceKind
+    {
+        None,
+        Material,
+        CraftedItem
+    }
+
+    public enum ClickMode
+    {
+        Standalone,
+        External
+    }
+
+    [Header("Click Settings")]
+    [SerializeField] private ClickMode clickMode = ClickMode.Standalone;
+    [SerializeField, Min(0.05f)] private float doubleClickInterval = 0.35f;
 
     public SourceKind Kind { get; private set; }
     public MaterialSO Material { get; private set; }
     public CraftedItemKey CraftedItem { get; private set; }
-
-    // true = tampilkan baris "Dimiliki" (jumlah di inventory). Matikan untuk item yang sedang di slot meja/etalase.
     public bool ShowStock { get; private set; }
+
+    private Coroutine pendingClick;
 
     public void SetMaterial(MaterialSO material, bool showStock)
     {
@@ -34,28 +48,77 @@ public class ItemDetailTrigger : MonoBehaviour, IPointerClickHandler
 
     public void Clear()
     {
+        CancelPendingClick();
+
         Kind = SourceKind.None;
         Material = null;
         CraftedItem = default;
+
         HidePanelIfOwner();
     }
 
+    // Digunakan otomatis pada mode Standalone.
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Kind == SourceKind.None) return;
-        if (eventData.dragging || eventData.clickCount != 1) return;
+        if (clickMode != ClickMode.Standalone) return;
 
-        if (ItemDetailPanel.Instance != null) ItemDetailPanel.Instance.Show(this);
+        HandlePointerClick(eventData);
     }
 
-    // Item hilang/grid dibangun ulang: kalau panel sedang menampilkan item ini, tutup
-    void OnDisable()
+    // Digunakan script eksternal untuk mengelola klik.
+    public void HandlePointerClick(
+        PointerEventData eventData,
+        Action onDoubleClick = null)
     {
+        if (Kind == SourceKind.None) return;
+        if (eventData.dragging) return;
+
+        // Double click
+        if (eventData.clickCount >= 2)
+        {
+            CancelPendingClick();
+
+            onDoubleClick?.Invoke();
+            return;
+        }
+
+        // Single click
+        if (eventData.clickCount != 1) return;
+
+        CancelPendingClick();
+        pendingClick = StartCoroutine(WaitForSingleClick());
+    }
+
+    private IEnumerator WaitForSingleClick()
+    {
+        yield return new WaitForSecondsRealtime(doubleClickInterval);
+
+        pendingClick = null;
+
+        if (Kind != SourceKind.None &&
+            ItemDetailPanel.Instance != null)
+        {
+            ItemDetailPanel.Instance.Show(this);
+        }
+    }
+
+    private void CancelPendingClick()
+    {
+        if (pendingClick == null) return;
+
+        StopCoroutine(pendingClick);
+        pendingClick = null;
+    }
+
+    private void OnDisable()
+    {
+        CancelPendingClick();
         HidePanelIfOwner();
     }
 
     private void HidePanelIfOwner()
     {
-        if (ItemDetailPanel.Instance != null) ItemDetailPanel.Instance.HideIfOwner(this);
+        if (ItemDetailPanel.Instance != null)
+            ItemDetailPanel.Instance.HideIfOwner(this);
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
   m_Name: Busur
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: fa097cba6bdc45d7acccbd7859251c0f
   itemName: Busur Panah
   itemSprite: {fileID: -5917275153293277177, guid: 8553e83537ffe124b8207977f0721b44, type: 3}
   description: Senjata kuat yang berpotensi menjadi senjata utama para semut!!!

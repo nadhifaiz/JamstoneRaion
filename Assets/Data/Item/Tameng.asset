@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
   m_Name: Tameng
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: 8a683483e4874bf1aaa5243d2911cb1a
   itemName: Tameng Pertahanan
   itemSprite: {fileID: -1968991776694640386, guid: 3a3514f35298bb246be7c68ace999562, type: 3}
   description: sebuah pertahanan utama dalam peperangan tiada henti.

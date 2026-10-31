@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
   m_Name: Paku Bengkok
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: 5630318796fa4b4db52765c1826536fb
   itemName: Paku Bengkok
   itemSprite: {fileID: 7493301303658258465, guid: 5c7435e4726e91648a2b3ab14378f56d, type: 3}
   materialType: 2

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
   m_Name: Palu
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: bbbdd13a1ae441ac985143911d9bfb4f
   itemName: Palu Rongsok
   itemSprite: {fileID: 4844192931909955856, guid: 62fd4ba25d262bf4d8606f1403dd0690, type: 3}
   description: Seonggok senjata tua yang dapat digunakan utuk memukul lawan.
