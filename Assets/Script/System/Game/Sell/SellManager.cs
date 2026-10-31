@@ -42,6 +42,7 @@ public class SellManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
+    public GameObject background;
 
     private bool isActive;
     private bool isSelling;
@@ -67,6 +68,8 @@ public class SellManager : MonoBehaviour
             return;
 
         isActive = true;
+        if (background != null)
+            background.SetActive(true);
 
         UpgradeManager upgrades = UpgradeManager.Instance;
 
@@ -124,6 +127,9 @@ public class SellManager : MonoBehaviour
 
         if (etalase != null)
             etalase.ReturnAllToInventory();
+
+        if (background != null)
+            background.SetActive(false);
     }
 
     // ---------- Validasi ----------

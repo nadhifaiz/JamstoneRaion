@@ -19,8 +19,8 @@ public class InventoryPanelUI : MonoBehaviour
     [Header("Tabs")]
     public Button tabMaterialsButton;
     public Button tabCraftedButton;
-    public Color selectedTabColor = Color.white;
-    public Color normalTabColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+    public Sprite selectedTabSprite;
+    public Sprite normalTabSprite;
     public InventoryTab defaultTab = InventoryTab.Materials;
 
     private InventoryTab currentTab;
@@ -99,7 +99,7 @@ public class InventoryPanelUI : MonoBehaviour
 
     private void SetTabVisual(Button tab, bool selected)
     {
-        if (tab.targetGraphic != null)
-            tab.targetGraphic.color = selected ? selectedTabColor : normalTabColor;
+        if (tab.image != null)
+            tab.image.sprite = selected ? selectedTabSprite : normalTabSprite;
     }
 }
