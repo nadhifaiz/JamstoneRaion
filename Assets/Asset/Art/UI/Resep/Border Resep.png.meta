@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 21fdfe0a390c40146be95913f1447f72
+guid: c26f48c69e23a8d45af2eafb10c98c5a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5474616651055477959
-    second: Group 59629_0
+      213: 4745566213400118244
+    second: Border Resep_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 59629_0
+      name: Border Resep_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1637
+        width: 475
         height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 93b466069214604b0800000000000000
-      internalID: -5474616651055477959
+      spriteID: 4e34fc7f353abd140800000000000000
+      internalID: 4745566213400118244
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Group 59629_0: -5474616651055477959
+      Border Resep_0: 4745566213400118244
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public CraneController craneController;
     public BatteryManager batteryManager;
     public BinController bin;
+    public bool deferCollectStart; // kalau true, fase Collect tidak langsung mulai, tapi menunggu loading selesai.
 
     [Header("Craft System References")]
     public CraftingUIManager craftingUIManager;
@@ -74,8 +75,6 @@ public class GameManager : MonoBehaviour
     public Button btnSell;
 
     private bool isTransitioning = false;
-
-    // Dipakai PauseManager supaya pause tidak menyela transisi pergantian hari
     public bool IsTransitioning => isTransitioning;
 
     // ==========================================
@@ -151,6 +150,18 @@ public class GameManager : MonoBehaviour
         if (SaveManager.Instance != null) SaveManager.Instance.MarkDirty();
     }
 
+    private void RequestPhase(GameState target, Button focusButton)
+    {
+        if (PhaseTransition.Instance != null) PhaseTransition.Instance.GoToPhase(target, focusButton.transform);
+        else ChangeState(target);
+    }
+
+    private void ReturnToHub(Button focusButton)
+    {
+        if (PhaseTransition.Instance != null) PhaseTransition.Instance.ReturnToHub(focusButton.transform);
+        else ChangeState(GameState.Hub);
+    }
+
     private void HideAllPanels()
     {
         hubPanel.SetActive(false);
@@ -188,8 +199,10 @@ public class GameManager : MonoBehaviour
     private void EnterCollect()
     {
         collectUIPanel.SetActive(true);
-        InitializeCollectPhaseObjects();
+        if (!deferCollectStart) StartCollectGameplay();
     }
+
+    public void StartCollectGameplay() => InitializeCollectPhaseObjects();
 
     private void EnterCraft()
     {
@@ -244,10 +257,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Dipanggil dari tombol UI
-    public void Button_StartCollect() => ChangeState(GameState.Collect);
-    public void Button_StartCraft() => ChangeState(GameState.Craft);
-    public void Button_StartSell() => ChangeState(GameState.Sell);
-    public void Button_GoToMainMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    public void Button_StartCollect() => RequestPhase(GameState.Collect, btnCollect);
+    public void Button_StartCraft() => RequestPhase(GameState.Craft, btnCraft);
+    public void Button_StartSell() => RequestPhase(GameState.Sell, btnSell);
+    public void Button_GoToMainMenu() => ScreenTransition.LoadScene("MainMenu");
 
     // ==========================================
     // MENGAKHIRI FASE
@@ -263,21 +276,21 @@ public class GameManager : MonoBehaviour
     {
         GameLog.Log("Fase Collect Selesai.");
         hasCollectedToday = true;
-        ChangeState(GameState.Hub);
+        ReturnToHub(btnCollect);
     }
 
     public void EndCraftPhase()
     {
         GameLog.Log("Fase Craft Selesai.");
         hasCraftedToday = true;
-        ChangeState(GameState.Hub);
+        ReturnToHub(btnCraft);
     }
 
     public void EndSellPhase()
     {
         GameLog.Log("Fase Sell Selesai.");
         hasSoldToday = true;
-        ChangeState(GameState.Hub);
+        ReturnToHub(btnSell);
     }
 
     // ==========================================

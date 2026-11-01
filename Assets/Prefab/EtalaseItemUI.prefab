@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6059161971824711073}
   - component: {fileID: 1947020430825007542}
   - component: {fileID: 2679720663811549035}
+  - component: {fileID: 8528768047264126724}
   m_Layer: 5
   m_Name: EtalaseItemUI
   m_TagString: Untagged
@@ -93,6 +94,20 @@ MonoBehaviour:
   itemIcon: {fileID: 6859334527433712387}
   countText: {fileID: 6474291473914892191}
   priceText: {fileID: 0}
+--- !u!114 &8528768047264126724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5771784826356150193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60332516293cc624fb5da8ece260f71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDetailTrigger
+  clickMode: 1
+  doubleClickInterval: 0.35
 --- !u!1 &7336686437417367985
 GameObject:
   m_ObjectHideFlags: 0

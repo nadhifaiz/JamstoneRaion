@@ -13,6 +13,8 @@ public class MaterialSpawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 0.5f;
     [Tooltip("Batas maksimal rongsokan UNTUK SETIAP LAYER tumpukan (total = batas x jumlah layer)")]
     [SerializeField] private int maxPerLayer = 30;
+    [Tooltip("Jumlah material yang dimunculkan per frame saat area diisi penuh di layar loading")]
+    [SerializeField] private int prewarmPerFrame = 6;
 
     [Header("Probability Curves (X = Hari, Y = Bobot)")]
     [Tooltip("Bobot relatif, tidak harus berjumlah 100: dinormalisasi otomatis. Setelah keyframe terakhir, nilainya bertahan.")]
@@ -82,9 +84,10 @@ public class MaterialSpawner : MonoBehaviour
         return activeMaterials.Count(m => m.LayerIndex == layer);
     }
 
-    private void SpawnAtLayer(int targetLayer)
+    // Mengembalikan true kalau material berhasil dimunculkan
+    private bool SpawnAtLayer(int targetLayer)
     {
-        if (availableMaterials.Length == 0 || materialPrefabTemplate == null) return;
+        if (availableMaterials.Length == 0 || materialPrefabTemplate == null) return false;
 
         Vector2 spawnPosition = Vector2.zero;
         bool positionFound = false;
@@ -130,6 +133,58 @@ public class MaterialSpawner : MonoBehaviour
             matObj.Initialize(selectedData, targetLayer);
             activeMaterials.Add(matObj);
         }
+
+        return positionFound;
+    }
+
+    // ==========================================
+    // PENGISIAN AWAL (layar loading Collect)
+    // ==========================================
+
+    // Mengisi seluruh layer sampai penuh secara bertahap sebelum gameplay Collect dimulai.
+    // onProgress menerima 0-1 dan dipanggil di akhir dengan 1.
+    public IEnumerator PrewarmRoutine(System.Action<float> onProgress)
+    {
+        int total = maxPerLayer * MaterialLayers.Count;
+        int spawned = 0;
+        int failedInARow = 0;
+
+        // Berhenti kalau berkali-kali gagal berturut-turut (mis. tidak ada tempat untuk layer atas);
+        // sisanya akan diisi spawn normal saat gameplay berjalan
+        while (spawned < total && failedInARow < 20)
+        {
+            int batch = 0;
+            while (batch < prewarmPerFrame && spawned < total && failedInARow < 20)
+            {
+                if (TrySpawnNextLayer())
+                {
+                    spawned++;
+                    batch++;
+                    failedInARow = 0;
+                }
+                else
+                {
+                    failedInARow++;
+                }
+            }
+
+            // Kolider yang baru dibuat harus terdaftar sebelum pengecekan tumpukan berikutnya
+            Physics2D.SyncTransforms();
+
+            onProgress?.Invoke((float)spawned / total);
+            yield return null;
+        }
+
+        onProgress?.Invoke(1f);
+    }
+
+    private bool TrySpawnNextLayer()
+    {
+        for (int layer = 0; layer <= MaterialLayers.MaxIndex; layer++)
+        {
+            if (CountAtLayer(layer) < maxPerLayer) return SpawnAtLayer(layer);
+        }
+        return false;
     }
 
     // ==========================================

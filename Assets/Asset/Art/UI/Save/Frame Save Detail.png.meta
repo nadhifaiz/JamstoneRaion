@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: da397b92271ce5649b00a09780d09e43
+guid: b324d626f3bda0d4594d291fae706f5c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -77223554262544186
-    second: Group 59628_0
+      213: -7593590361317362730
+    second: Frame Save Detail_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 59628_0
+      name: Frame Save Detail_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1637
+        width: 554
         height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6c053e72695adeef0800000000000000
-      internalID: -77223554262544186
+      spriteID: 6d339d78cc52e9690800000000000000
+      internalID: -7593590361317362730
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Group 59628_0: -77223554262544186
+      Frame Save Detail_0: -7593590361317362730
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

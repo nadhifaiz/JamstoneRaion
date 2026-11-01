@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f85a9cd507054d143b19de555402b9bf
+guid: 5e956ddc5462386469af333a4697810f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2790649197729674935
-    second: Group 59631_0
+      213: -5289782971911160042
+    second: Tittle Resep_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 59631_0
+      name: Tittle Resep_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 62
         y: 0
-        width: 1637
+        width: 2161
         height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7b6f76be8a06ab620800000000000000
-      internalID: 2790649197729674935
+      spriteID: 61f335cd96ae696b0800000000000000
+      internalID: -5289782971911160042
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Group 59631_0: 2790649197729674935
+      Tittle Resep_0: -5289782971911160042
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

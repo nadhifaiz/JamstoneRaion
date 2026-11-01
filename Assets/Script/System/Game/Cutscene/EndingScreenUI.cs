@@ -3,8 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Layar ending sementara: judul ("Bersambung..." atau "Tamat") + pilihan Lanjut Main / Kembali ke Menu.
-// Panel perlu background layar penuh dengan raycastTarget aktif dan Canvas di atas layar transisi hari.
 public class EndingScreenUI : MonoBehaviour
 {
     [SerializeField] private GameObject panelRoot;
@@ -65,6 +63,6 @@ public class EndingScreenUI : MonoBehaviour
     {
         yield return null; // beri satu frame agar live save (LateUpdate) selesai menulis
         Time.timeScale = 1f;
-        SceneManager.LoadScene(menuSceneName);
+        ScreenTransition.LoadScene(menuSceneName); // fade + loading screen (langsung pindah kalau ScreenTransition tidak ada)
     }
 }

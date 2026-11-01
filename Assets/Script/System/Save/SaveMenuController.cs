@@ -171,7 +171,7 @@ public class SaveMenuController : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(gameSceneName);
+        ScreenTransition.LoadScene(gameSceneName);
     }
 
     // Tombol Delete pada panel preview: tampilkan konfirmasi dahulu.
