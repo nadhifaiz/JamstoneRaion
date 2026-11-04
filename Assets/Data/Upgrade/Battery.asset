@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: 8298981a66be4d82bca0228031f7331b
   displayName: Battery Durability
-  icon: {fileID: 3618158266435439999, guid: 0e499eaef423864469ecf8244d65be47, type: 3}
+  icon: {fileID: -7811049940346266955, guid: c40a2eacff721d748a7a3ed65457b7e5, type: 3}
   description: Increase your material revenue by enhancing the battery endurance
     of your crane.
   type: 0

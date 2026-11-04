@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2c817d8e77e30624881b9f923603062c
+guid: d2bd2dda1f4ca694188a43a91fb59c4a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4228831564075722525
-    second: spark_star_0
+      213: -6772136071761763774
+    second: Loading_Progress-removebg-preview_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spark_star_0
+      name: Loading_Progress-removebg-preview_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 14
-        height: 14
+        x: 156
+        y: 11
+        width: 355
+        height: 355
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d1761b7f6e3dfaa30800000000000000
-      internalID: 4228831564075722525
+      spriteID: 242e7008f1a8402a0800000000000000
+      internalID: -6772136071761763774
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      spark_star_0: 4228831564075722525
+      Loading_Progress-removebg-preview_0: -6772136071761763774
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

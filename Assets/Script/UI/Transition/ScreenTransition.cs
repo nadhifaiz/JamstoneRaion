@@ -96,7 +96,11 @@ public class ScreenTransition : MonoBehaviour
             return;
         }
 
-        if (!Instance.IsBusy) Instance.StartCoroutine(Instance.LoadSceneRoutine(sceneName));
+        if (!Instance.IsBusy)
+        {
+            Instance.StartCoroutine(Instance.LoadSceneRoutine(sceneName));
+            AudioManager.Instance?.StopMusic(); // Sementara ga ada musik di loading screen, jadi stop dulu
+        }
     }
 
     private IEnumerator LoadSceneRoutine(string sceneName)

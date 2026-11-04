@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: 1d30791e4000469696a0e95c6d3df898
   displayName: Crafting Ability
-  icon: {fileID: 8091258167589033186, guid: 45213da484132bf498305c803717bddb, type: 3}
+  icon: {fileID: 21300000, guid: 0b1cc225893adcc4ca8f375051df02cb, type: 3}
   description: Your crafting ability will improve by learning special techniques
     from the master. So u can save your item more!
   type: 5

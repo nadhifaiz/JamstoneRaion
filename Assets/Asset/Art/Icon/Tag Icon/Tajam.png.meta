@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0cbc125485d98984699d8452a3b68725
+guid: 2fcd19cd4fbd1dd42bf113559a4c316b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1635274857747006575
-    second: Anvil-removebg-preview_0
+      213: 2071276013148267222
+    second: Tajam_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Anvil-removebg-preview_0
+      name: Tajam_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 29
-        width: 320
-        height: 232
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f64432ea1d9a1b610800000000000000
-      internalID: 1635274857747006575
+      spriteID: 6d26d735f86aebc10800000000000000
+      internalID: 2071276013148267222
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Anvil-removebg-preview_0: 1635274857747006575
+      Tajam_0: 2071276013148267222
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

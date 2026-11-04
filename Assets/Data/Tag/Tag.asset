@@ -15,17 +15,17 @@ MonoBehaviour:
   entries:
   - tag: 0
     displayName: Berat
-    icon: {fileID: 3484287900037411390, guid: 0d9a1736db0e8e242874bf3a747b5f31, type: 3}
+    icon: {fileID: 1645956071071829363, guid: 112d8dd3e8ee39c4e870d7269a4ed67e, type: 3}
   - tag: 1
     displayName: Keras
-    icon: {fileID: 6134023227185873535, guid: 90b3d4d2a4c9d594d98dbd7b5528059f, type: 3}
+    icon: {fileID: 7793846444926555423, guid: 7c13e20e28185004fb04420a26dc76fb, type: 3}
   - tag: 2
     displayName: Tajam
-    icon: {fileID: 6119827986880376333, guid: ad5559342e43f4f4094556f0d3a233bd, type: 3}
+    icon: {fileID: 2071276013148267222, guid: 2fcd19cd4fbd1dd42bf113559a4c316b, type: 3}
   - tag: 3
     displayName: Elastis
-    icon: {fileID: 3991752001248089607, guid: c7263b2c51f4721459346cc36c41b77f, type: 3}
+    icon: {fileID: 2436083128338509832, guid: 84602db52e0cb3f4486b2a1ad6bd9571, type: 3}
   - tag: 4
     displayName: Gagang
-    icon: {fileID: 2741225206318957235, guid: db6fff9bc753cf64c94b24d105139917, type: 3}
-  unknownIcon: {fileID: 1684023404858563738, guid: b15fe32e9c98a4b41be3a743bb15dae4, type: 3}
+    icon: {fileID: 1960342834038081718, guid: 01fff5de2e1b1494584a140b648abb38, type: 3}
+  unknownIcon: {fileID: 21300000, guid: f1f43c19a6d4a1d408f2383e67145ee2, type: 3}

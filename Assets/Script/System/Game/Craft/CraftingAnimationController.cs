@@ -59,12 +59,6 @@ public class CraftingAnimationController : MonoBehaviour
     [Tooltip("Pengali ukuran efek kalau Canvas Scaler kamu beda dengan 420px tinggi")]
     public float unitScale = 1f;
 
-    [Header("Audio (opsional)")]
-    public AudioSource sfx;
-    public AudioClip hitClip;
-    public AudioClip successClip;
-    public AudioClip failClip;
-
     // --- konstanta gerak palu (radian) ---
     const float AngBase = 0.6f;
     const float AngWind = 0.5f;
@@ -114,7 +108,7 @@ public class CraftingAnimationController : MonoBehaviour
                     Burst(last);
                     shake = last ? 9f : 4f;
                     squash = 1f;
-                    Sfx(hitClip, 1f + i * 0.12f); // pitch naik tiap ketukan
+                    AudioManager.Play(SoundId.HammerHit);
                 }
             }
 
@@ -203,12 +197,12 @@ public class CraftingAnimationController : MonoBehaviour
         {
             StartCoroutine(FlashRoutine());
             Burst(true);
-            Sfx(successClip, 1f);
+            AudioManager.Play(SoundId.CraftComplete);
         }
         else
         {
             shake = 5f;
-            Sfx(failClip, 1f);
+            AudioManager.Play(SoundId.CraftFail);
         }
 
         // pop: 0 -> 1.2 -> 1.0
@@ -370,12 +364,5 @@ public class CraftingAnimationController : MonoBehaviour
             pool.Push(s.img);
         }
         active.Clear();
-    }
-
-    void Sfx(AudioClip clip, float pitch)
-    {
-        if (sfx == null || clip == null) return;
-        sfx.pitch = pitch;
-        sfx.PlayOneShot(clip);
     }
 }

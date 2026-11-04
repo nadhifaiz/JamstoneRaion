@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: e20b73ab6e6e4e0eae903d2885030fd6
   displayName: Selling Ability
-  icon: {fileID: 41778864168247212, guid: f5d1731d8a1d89d42872dd3032b0ac43, type: 3}
+  icon: {fileID: -8810579669523702471, guid: c40a2eacff721d748a7a3ed65457b7e5, type: 3}
   description: Your efforts to build a business start with your sales skills! Enhance
     your abilities to attract more customers.
   type: 2

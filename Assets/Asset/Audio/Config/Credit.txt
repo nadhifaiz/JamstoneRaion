@@ -1,0 +1,12 @@
+BGM
+1. In Game - Your Chase Is Closed: Music: 'Your Case Is Closed' by Alex Besss on #Uppbeat https://uppbeat.io/c/alex-besss
+License code: ZEKUXRFU7COK36GF
+
+2. Main Menu - Free Fall: ....
+
+SFX
+1. Hammer Hit - Hammer on Anvil: Sound Effect by <a href="https://pixabay.com/id/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=71902">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=71902">Pixabay</a>
+
+2. CraftSuccess: Sound Effect by <a href="https://pixabay.com/id/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6297">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6297">Pixabay</a>
+
+3. CraftFail: Sound Effect by <a href="https://pixabay.com/id/users/lesiakower-25701529/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=437420">Lesiakower</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=437420">Pixabay</a>

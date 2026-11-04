@@ -1,13 +1,25 @@
 fileFormatVersion: 2
-guid: b15fe32e9c98a4b41be3a743bb15dae4
+guid: c40a2eacff721d748a7a3ed65457b7e5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1684023404858563738
-    second: Tanda_tanya-removebg-preview_0
+      213: -7811049940346266955
+    second: Upgrade Icon_0
   - first:
-      213: 7800725487707625923
-    second: Tanda_tanya-removebg-preview_1
+      213: 4643331996660763195
+    second: Upgrade Icon_1
+  - first:
+      213: -2138278862590220042
+    second: Upgrade Icon_2
+  - first:
+      213: -8810579669523702471
+    second: Upgrade Icon_3
+  - first:
+      213: 4560525498260717153
+    second: Upgrade Icon_4
+  - first:
+      213: 161946685842607804
+    second: Upgrade Icon_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tanda_tanya-removebg-preview_0
+      name: Upgrade Icon_0
       rect:
         serializedVersion: 2
-        x: 129
-        y: 254
-        width: 165
-        height: 170
+        x: 178
+        y: 1850
+        width: 1263
+        height: 1276
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a9cd9084d5ade5710800000000000000
-      internalID: 1684023404858563738
+      spriteID: 5ba13d6c673999390800000000000000
+      internalID: -7811049940346266955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tanda_tanya-removebg-preview_1
+      name: Upgrade Icon_1
       rect:
         serializedVersion: 2
-        x: 178
-        y: 159
-        width: 69
-        height: 71
+        x: 1654
+        y: 1850
+        width: 1261
+        height: 1275
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +152,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3c91625408eb14c60800000000000000
-      internalID: 7800725487707625923
+      spriteID: b3a8b2b79dd607040800000000000000
+      internalID: 4643331996660763195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade Icon_2
+      rect:
+        serializedVersion: 2
+        x: 3124
+        y: 1852
+        width: 1257
+        height: 1272
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f8659c14be4352e0800000000000000
+      internalID: -2138278862590220042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade Icon_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 315
+        width: 1241
+        height: 1247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93dd2c498788ab580800000000000000
+      internalID: -8810579669523702471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade Icon_4
+      rect:
+        serializedVersion: 2
+        x: 1671
+        y: 315
+        width: 1243
+        height: 1246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16ef0f827cd3a4f30800000000000000
+      internalID: 4560525498260717153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade Icon_5
+      rect:
+        serializedVersion: 2
+        x: 3126
+        y: 315
+        width: 1245
+        height: 1246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbe433a17a95f3200800000000000000
+      internalID: 161946685842607804
       vertices: []
       indices: 
       edges: []
@@ -160,8 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Tanda_tanya-removebg-preview_0: 1684023404858563738
-      Tanda_tanya-removebg-preview_1: 7800725487707625923
+      Upgrade Icon_0: -7811049940346266955
+      Upgrade Icon_1: 4643331996660763195
+      Upgrade Icon_2: -2138278862590220042
+      Upgrade Icon_3: -8810579669523702471
+      Upgrade Icon_4: 4560525498260717153
+      Upgrade Icon_5: 161946685842607804
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

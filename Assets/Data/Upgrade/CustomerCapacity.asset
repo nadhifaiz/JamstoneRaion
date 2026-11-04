@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: 67bc8ee9738443f19238e43270c78894
   displayName: Shop
-  icon: {fileID: 7608517195190540159, guid: 7ec3857019d371b42869dfc7ed2170a6, type: 3}
-  description: Upgrde your store to serve more customer!!!
+  icon: {fileID: -2138278862590220042, guid: c40a2eacff721d748a7a3ed65457b7e5, type: 3}
+  description: Upgrade your store to serve more customers!!!
   type: 3
   levels:
   - amberCost: 100
@@ -24,7 +24,7 @@ MonoBehaviour:
       craftedItem: {fileID: 0}
       count: 5
     effectValue: 2
-    effectLabel: +2 Queued Customer Slot
+    effectLabel: +1 Customer Slots in Queue
   - amberCost: 210
     requirements:
     - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
@@ -34,7 +34,7 @@ MonoBehaviour:
       craftedItem: {fileID: 0}
       count: 3
     effectValue: 3
-    effectLabel: +3 Queued Customer Slot
+    effectLabel: +1 Customer Slots in Queue
   - amberCost: 350
     requirements:
     - material: {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
@@ -47,4 +47,4 @@ MonoBehaviour:
       craftedItem: {fileID: 11400000, guid: e8a9bf9c0e36b6240a41191661ce279d, type: 2}
       count: 2
     effectValue: 5
-    effectLabel: +5 Queued Customer Slot
+    effectLabel: +2 Customer Slots in Queue

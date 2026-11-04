@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 246ef3e498ba11f498e89ed84fcfb5a3
+guid: 112d8dd3e8ee39c4e870d7269a4ed67e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6772136071761763774
-    second: Loading_Progress-removebg-preview_0
+      213: 1645956071071829363
+    second: Beban_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Loading_Progress-removebg-preview_0
+      name: Beban_0
       rect:
         serializedVersion: 2
-        x: 156
-        y: 11
-        width: 355
-        height: 355
+        x: 0
+        y: 0
+        width: 517
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 242e7008f1a8402a0800000000000000
-      internalID: -6772136071761763774
+      spriteID: 37d4224735c97d610800000000000000
+      internalID: 1645956071071829363
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Loading_Progress-removebg-preview_0: -6772136071761763774
+      Beban_0: 1645956071071829363
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

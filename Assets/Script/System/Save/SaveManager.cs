@@ -1,16 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Live save: setiap perubahan data penting menandai save sebagai "kotor", lalu ditulis di akhir frame itu.
-// Beberapa perubahan di frame yang sama (mis. craft: bahan berkurang + barang bertambah) digabung
-// jadi satu penulisan, sehingga save tidak pernah berisi "setengah craft".
-//
-// Slot yang dipakai berasal dari SaveSession (dipilih di menu utama). Kalau scene game dijalankan
-// langsung dari Editor tanpa menu, memakai slot 'debug'.
-//
-// Taruh di objek yang SELALU aktif. Dipanggil dari GameManager:
-//   Start()          -> SaveManager.Instance.LoadGame()   (sebelum UpdateDayUI/ChangeState(Hub))
-//   akhir ChangeState -> SaveManager.Instance.MarkDirty()
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
@@ -29,7 +19,7 @@ public class SaveManager : MonoBehaviour
 
     private bool dirty;
     private bool isLoading;
-    private bool isReady;       // true setelah LoadGame selesai
+    private bool isReady;
     private bool subscribed;
 
     void Awake()
@@ -106,11 +96,8 @@ public class SaveManager : MonoBehaviour
         if (gm != null)
         {
             gm.currentDay = Mathf.Max(1, data.currentDay);
-            gm.hasCraftedToday = data.hasCraftedToday;
-            gm.hasSoldToday = data.hasSoldToday;
-
-            // Game tertutup di tengah Collect = fase itu dianggap selesai. Bahan yang sudah masuk
-            // tetap milik pemain, tapi Collect hari itu tidak bisa diulang (mencegah farming lewat keluar-masuk).
+            gm.hasCraftedToday = data.hasCraftedToday || data.craftInProgress;
+            gm.hasSoldToday = data.hasSoldToday || data.sellInProgress;
             gm.hasCollectedToday = data.hasCollectedToday || data.collectInProgress;
         }
 
@@ -233,6 +220,8 @@ public class SaveManager : MonoBehaviour
             data.hasCraftedToday = gm.hasCraftedToday;
             data.hasSoldToday = gm.hasSoldToday;
             data.collectInProgress = gm.currentState == GameState.Collect;
+            data.craftInProgress = gm.currentState == GameState.Craft;
+            data.sellInProgress = gm.currentState == GameState.Sell;
         }
 
         if (CurrencyManager.Instance != null)

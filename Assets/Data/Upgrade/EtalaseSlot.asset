@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: 2c7f4f3b7f2d4a6b8f3f999ee2a05f50
   displayName: Space Ship Capacity
-  icon: {fileID: -1449163395686060404, guid: fd421a61d8c81b843b5cc51c618b2f08, type: 3}
+  icon: {fileID: 4560525498260717153, guid: c40a2eacff721d748a7a3ed65457b7e5, type: 3}
   description: Your sales venture begins with a dilapidated spaceship. Upgrade your
     spaceship so it can hold more items!
   type: 4

@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-// Isi satu file save. Hanya tipe sederhana + ID teks (JsonUtility tidak bisa menyimpan Dictionary
-// atau ScriptableObject). Menambah field baru aman: save lama otomatis memakai nilai default.
-// Naikkan 'version' hanya kalau struktur berubah secara tidak kompatibel.
 [Serializable]
 public class SaveData
 {
@@ -17,8 +14,10 @@ public class SaveData
     public bool hasCraftedToday;
     public bool hasSoldToday;
 
-    // True kalau game tertutup saat fase Collect berlangsung (lihat SaveManager.ApplyLoadedData)
+    // Menandai kalau fase sudah dilakukan
     public bool collectInProgress;
+    public bool craftInProgress;
+    public bool sellInProgress;
 
     // Ekonomi & inventory
     public int amber;
