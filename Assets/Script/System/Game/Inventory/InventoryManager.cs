@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
 
     // Dipicu setiap kali isi inventory berubah (dipakai SaveManager untuk live save)
     public event Action OnChanged;
+    public event Action<String> OnMaterialChanged;
 
     void Awake()
     {
@@ -41,6 +42,7 @@ public class InventoryManager : MonoBehaviour
 
         GameLog.Log($"[Inventory] {material.itemName} (+{amount}). Total: {collectedMaterials[material]}");
         OnChanged?.Invoke();
+        OnMaterialChanged?.Invoke($"{material.itemName} (+{amount}). Total: {collectedMaterials[material]}");
     }
 
     public bool ConsumeMaterial(MaterialSO material, int amount)

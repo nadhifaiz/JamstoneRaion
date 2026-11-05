@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
   id: 5630318796fa4b4db52765c1826536fb
   itemName: Paku Bengkok
-  itemSprite: {fileID: 7493301303658258465, guid: 5c7435e4726e91648a2b3ab14378f56d, type: 3}
+  itemSprite: {fileID: -5999539502369151043, guid: 86349180ff216234a9dc0a5d5b23f003, type: 3}
   materialType: 2
   tier: 2
-  description: Material untuk membuat item.
+  description: Sebuah benda yang sangat tajam yang tidak diketahui asal muasalnya.
+    Benda itu melekuk dan meliuk seakan ujungnya yang runcing siam menembus apapun.

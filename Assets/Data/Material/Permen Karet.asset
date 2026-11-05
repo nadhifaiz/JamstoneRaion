@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
+  m_Name: Permen Karet
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: e3dad00d2cc34fa88133129721690559
+  itemName: Permen Karet
+  itemSprite: {fileID: 3668728383178906961, guid: 4ba314be10f2c3642bb3a7adca8ed6a9, type: 3}
+  materialType: 0
+  tier: 1
+  description: Benda kenyal yang tercipta dari pati glukosa yang lezat dan bergizi.

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
   id: 8a683483e4874bf1aaa5243d2911cb1a
   itemName: Tameng Pertahanan
-  itemSprite: {fileID: -1968991776694640386, guid: 3a3514f35298bb246be7c68ace999562, type: 3}
+  itemSprite: {fileID: -6482214888948375821, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
   description: sebuah pertahanan utama dalam peperangan tiada henti.
   requiredTag1: 1
   requiredTag2: 1

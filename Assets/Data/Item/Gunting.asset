@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
+  m_Name: Gunting
+  m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: 8883a0cdd05742a382e04f1bd985b7b0
+  itemName: Gunting
+  itemSprite: {fileID: 3202866767410423347, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
+  description: Alat sehari-hari yang mudah digunakan. Sering digunakan oleh para
+    petani untuk memotong gulma.
+  requiredTag1: 2
+  requiredTag2: 1
+  basePrice: 20

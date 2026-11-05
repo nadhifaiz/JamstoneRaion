@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: 67bc8ee9738443f19238e43270c78894
   displayName: Shop
-  icon: {fileID: -2138278862590220042, guid: c40a2eacff721d748a7a3ed65457b7e5, type: 3}
+  icon: {fileID: -8390549007870398771, guid: fd8be8224d60c154992871e7ba92564a, type: 3}
   description: Upgrade your store to serve more customers!!!
   type: 3
   levels:
@@ -46,5 +46,5 @@ MonoBehaviour:
     - material: {fileID: 0}
       craftedItem: {fileID: 11400000, guid: e8a9bf9c0e36b6240a41191661ce279d, type: 2}
       count: 2
-    effectValue: 5
-    effectLabel: +2 Customer Slots in Queue
+    effectValue: 4
+    effectLabel: +1 Customer Slots in Queue

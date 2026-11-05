@@ -14,9 +14,9 @@ public class LoadingScreenUI : MonoBehaviour
     [SerializeField]
     private string[] tips =
     {
-        "Resep yang salah membuat kedua bahan hangus. Catat hasil rakitanmu di Buku Resep!",
+        "Resep yang salah membuat kedua bahan hangus. Buku Resep akan membantumu!",
         "Klik dua kali pada material untuk langsung memasangnya di meja rakit.",
-        "Pelanggan hanya datang kalau etalase berisi barang.",
+        "Saat kamu keluar ditengah fase berjalan, maka fase itu akan dianggap selesai. Jadi pastikan kamu sudah siap sebelum memulai fase.",
         "Harga barang bisa naik di season tertentu. Cek Kabar Pasar di Hub.",
         "Barang yang belum laku dikembalikan ke inventory saat fase Sell berakhir.",
         "Upgrade baterai membuat waktu Collect lebih lama."

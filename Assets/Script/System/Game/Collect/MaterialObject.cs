@@ -49,6 +49,8 @@ public class MaterialObject : MonoBehaviour
         body.bodyType = RigidbodyType2D.Kinematic;
         body.linearVelocity = Vector2.zero;
         bodyCollider.enabled = false;
+
+        if (spriteRenderer != null) spriteRenderer.enabled = false;
     }
 
     public void Detach()
@@ -57,6 +59,8 @@ public class MaterialObject : MonoBehaviour
 
         body.bodyType = RigidbodyType2D.Dynamic;
         bodyCollider.enabled = true;
+
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
     }
 
     // --- Naik/turun layer tumpukan ---

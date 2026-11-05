@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Busur
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
   id: fa097cba6bdc45d7acccbd7859251c0f
-  itemName: Busur Panah
-  itemSprite: {fileID: -5917275153293277177, guid: 8553e83537ffe124b8207977f0721b44, type: 3}
+  itemName: Anak Panah
+  itemSprite: {fileID: -4803117450337365706, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
   description: Senjata kuat yang berpotensi menjadi senjata utama para semut!!!
   requiredTag1: 2
-  requiredTag2: 3
+  requiredTag2: 0
   basePrice: 25

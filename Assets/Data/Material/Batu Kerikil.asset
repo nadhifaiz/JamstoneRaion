@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
   id: dc0e78e7d81f47e1955aa670361a3a85
   itemName: Batu Kerikil
-  itemSprite: {fileID: -1064632321852759441, guid: a889ba7e72abc9042a814d2df8d490a6, type: 3}
+  itemSprite: {fileID: -1757728171036170387, guid: 4ba314be10f2c3642bb3a7adca8ed6a9, type: 3}
   materialType: 0
   tier: 1
-  description: batu kerikil alami dari planet bumi yang berguna untukmembuat peralatan.
+  description: Batu kerikil alami dari planet bumi yang berguna untuk meningkatkan.

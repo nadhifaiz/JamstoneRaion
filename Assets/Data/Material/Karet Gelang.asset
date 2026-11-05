@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
   id: b7b5f123ca684406816c10235762bb1a
   itemName: Karet Gelang
-  itemSprite: {fileID: 554853047495989017, guid: 3dc63ae5ad6e1ef47a5b84905bb043a7, type: 3}
+  itemSprite: {fileID: 675974093422533320, guid: 86349180ff216234a9dc0a5d5b23f003, type: 3}
   materialType: 3
   tier: 2
-  description: Material untuk membuat item.
+  description: Gelang karet ini kembali ditemukan, tapi permukaannya terlihat lebih
+    bersinar dan lentur serta membentuk sebuah lingkaran tak berujung.

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
   id: a7f2d3873b4047f1963ecc3894033ca3
   itemName: Daun Kering
-  itemSprite: {fileID: -3793382921514480323, guid: 2b3341060374df544913c58a85ceeed3, type: 3}
+  itemSprite: {fileID: 3773412135041246788, guid: 4ba314be10f2c3642bb3a7adca8ed6a9, type: 3}
   materialType: 0
   tier: 1
-  description: daun yang jatuh tidak pernah lupa bagaimana angin menerpa.
+  description: Daun yang jatuh tidak pernah lupa bagaimana angin menerpa.

@@ -21,6 +21,10 @@ public class SellManager : MonoBehaviour
     public Transform centerPoint;
     public Transform[] waitingPoints;
     public Transform exitPoint;
+    [Header("Customer Sprites")]
+    [SerializeField]
+    private List<CustomerSpriteVariant> customerSpriteVariants =
+    new List<CustomerSpriteVariant>();
 
     [Tooltip("Jeda dasar antar kedatangan pelanggan")]
     public float spawnIntervalMin = 3f;
@@ -229,6 +233,49 @@ public class SellManager : MonoBehaviour
     }
 
     // ---------- Antrean pelanggan ----------
+    private void AssignRandomSprites(CustomerController customer)
+    {
+        if (customerSpriteVariants == null ||
+            customerSpriteVariants.Count == 0)
+        {
+            Debug.LogWarning(
+                "[SellManager] Customer Sprite Variants masih kosong.",
+                this
+            );
+            return;
+        }
+
+        // Kumpulkan konfigurasi yang valid.
+        List<CustomerSpriteVariant> validVariants =
+            new List<CustomerSpriteVariant>();
+
+        foreach (CustomerSpriteVariant variant in customerSpriteVariants)
+        {
+            if (variant != null &&
+                variant.walkSprite != null &&
+                variant.buySprite != null)
+            {
+                validVariants.Add(variant);
+            }
+        }
+
+        if (validVariants.Count == 0)
+        {
+            Debug.LogWarning(
+                "[SellManager] Tidak ada konfigurasi sprite pelanggan yang valid.",
+                this
+            );
+            return;
+        }
+
+        CustomerSpriteVariant selected =
+            validVariants[Random.Range(0, validVariants.Count)];
+
+        customer.SetSprites(
+            selected.walkSprite,
+            selected.buySprite
+        );
+    }
 
     private void SpawnCustomer()
     {
@@ -241,10 +288,13 @@ public class SellManager : MonoBehaviour
         }
 
         CustomerController customer = Instantiate(
-            customerPrefab,
-            spawnPoint.position,
-            Quaternion.identity
-        );
+    customerPrefab,
+    spawnPoint.position,
+    Quaternion.identity
+);
+
+        // Tentukan sprite pelanggan secara random.
+        AssignRandomSprites(customer);
 
         customer.Setup(PickWantedItem(recipes));
         customers.Add(customer);
@@ -314,6 +364,9 @@ public class SellManager : MonoBehaviour
         CraftedItemSO wanted = customer.WantedItem;
 
         yield return customer.MoveTo(centerPoint.position);
+
+        // Pelanggan sudah tiba di center, masuk fase pembelian.
+        customer.SetBuyingSprite();
 
         // Bubble permintaan SELALU tampil. Harga hanya muncul kalau barangnya ada.
         bool inStock = etalase.TryGetPrice(wanted, out int shelfPrice);
@@ -408,4 +461,11 @@ public class SellManager : MonoBehaviour
 
         timerText.text = $"{seconds / 60:00}:{seconds % 60:00}";
     }
+}
+
+[System.Serializable]
+public class CustomerSpriteVariant
+{
+    public Sprite walkSprite;
+    public Sprite buySprite;
 }

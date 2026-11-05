@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8301c3e7aa2c52e4a89564cabff24ff3, type: 3}
+  m_Name: Silet Mengkilap
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
+  id: 3655ae53c4de4a339c31296c6a10428e
+  itemName: Besi tipis bergerigi
+  itemSprite: {fileID: 1280591856259473057, guid: 86349180ff216234a9dc0a5d5b23f003, type: 3}
+  materialType: 2
+  tier: 3
+  description: Silet cukur utuh yang masih tajam. Di tengah tumpukan rongsokan itu
+    sebuah benda berpendar2 yang tidak lain dan tidak bukan sebuah benda persegi
+    yang sangat tajam.

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSO
   id: 450f262f2912430eb6138b6e3db67d66
   itemName: Kancing Emas
-  itemSprite: {fileID: 8269234595954245631, guid: 47a39ff7b50d3b042b6c25d0a5cde7ed, type: 3}
+  itemSprite: {fileID: 8923719979362595365, guid: 86349180ff216234a9dc0a5d5b23f003, type: 3}
   materialType: 1
   tier: 3
-  description: Material untuk membuat item.
+  description: Kancing logam jaket yang mewah. Sepertinya penyihir terdahulu bosan
+    melihat giginya berwarna emas dan menjadikannya hiasan di bajunya.

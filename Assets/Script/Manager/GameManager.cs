@@ -48,11 +48,12 @@ public class GameManager : MonoBehaviour
     public float textHoldDuration = 1.2f;
 
     [Header("Collect System References")]
+    public GameObject collectBackground;
     public MaterialSpawner spawner;
     public CraneController craneController;
     public BatteryManager batteryManager;
     public BinController bin;
-    public bool deferCollectStart; // kalau true, fase Collect tidak langsung mulai, tapi menunggu loading selesai.
+    public bool deferCollectStart;
 
     [Header("Craft System References")]
     public CraftingUIManager craftingUIManager;
@@ -188,12 +189,11 @@ public class GameManager : MonoBehaviour
 
         if (hasCollectedToday && hasCraftedToday && hasSoldToday)
         {
-            ChangeState(GameState.DayEnd);
+            ChangeState(GameState.DayEnd); // musiknya diatur EndDayLogic
+            return;
         }
-        else if (CutsceneManager.Instance != null)
-        {
-            CutsceneManager.Instance.TryPlayPending();
-        }
+
+        if (CutsceneManager.Instance != null) CutsceneManager.Instance.TryPlayPending();
     }
 
     private void EnterCollect()
@@ -301,6 +301,7 @@ public class GameManager : MonoBehaviour
     {
         GameLog.Log($"Hari ke-{currentDay} berakhir.");
         if (isTransitioning) return;
+        AudioManager.Music(MusicId.None);
         StartCoroutine(DayTransitionRoutine());
     }
 
@@ -335,6 +336,8 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.Hub);
         if (CutsceneManager.Instance != null)
             yield return CutsceneManager.Instance.PlayPendingRoutine();
+
+        AudioManager.Music(MusicId.InGame);
 
         // 4. Teks "Day X+1 Started..." fade in -> tahan -> fade out
         transitionText.text = $"Day {currentDay} Started...";
@@ -386,6 +389,7 @@ public class GameManager : MonoBehaviour
     private void InitializeCollectPhaseObjects()
     {
         craneController.gameObject.SetActive(true);
+        collectBackground.SetActive(true);
         bin.gameObject.SetActive(true);
 
         spawner.StartSpawning();
@@ -397,6 +401,7 @@ public class GameManager : MonoBehaviour
         spawner.StopSpawning();
         spawner.ClearAllMaterials();
 
+        collectBackground.SetActive(false);
         bin.gameObject.SetActive(false);
         craneController.gameObject.SetActive(false);
         batteryManager.StopBattery();

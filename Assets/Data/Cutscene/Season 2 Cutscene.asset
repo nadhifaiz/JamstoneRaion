@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Season 2 Cutscene
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneSO
   id: 3bf544591587404bb1b3cfe5efdf69f8
+  pages: []
   title: Season 2 Start
-  placeholderText: 'season dua, peperangan tiada henti '
+  placeholderText: Saat para burung menyadari rencananya gagal, mereka berbondong-bondong
+    datang menyerbu bangsa semut...

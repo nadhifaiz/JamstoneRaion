@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: 86349180ff216234a9dc0a5d5b23f003
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5999539502369151043
+    second: Sampah Tier 2 (Revised)_0
+  - first:
+      213: 6558432707032639091
+    second: Sampah Tier 2 (Revised)_1
+  - first:
+      213: 675974093422533320
+    second: Sampah Tier 2 (Revised)_2
+  - first:
+      213: -5869322182505437571
+    second: Sampah Tier 2 (Revised)_3
+  - first:
+      213: 1280591856259473057
+    second: Sampah Tier 2 (Revised)_4
+  - first:
+      213: 8923719979362595365
+    second: Sampah Tier 2 (Revised)_5
+  - first:
+      213: 1083828999886451415
+    second: Sampah Tier 2 (Revised)_6
+  - first:
+      213: -8192484615305770725
+    second: Sampah Tier 2 (Revised)_7
+  - first:
+      213: 3091738644811168870
+    second: Sampah Tier 2 (Revised)_8
+  - first:
+      213: -3088172681928205496
+    second: Sampah Tier 2 (Revised)_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 640
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_0
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 1615
+        width: 916
+        height: 916
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db7ec590c9a5dbca0800000000000000
+      internalID: -5999539502369151043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_1
+      rect:
+        serializedVersion: 2
+        x: 1863
+        y: 1690
+        width: 811
+        height: 811
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 376ebf98ccb340b50800000000000000
+      internalID: 6558432707032639091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_2
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 1523
+        width: 1171
+        height: 1139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ca11d34bda816900800000000000000
+      internalID: 675974093422533320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_3
+      rect:
+        serializedVersion: 2
+        x: 4559
+        y: 1513
+        width: 1181
+        height: 1124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d76617f629afb8ea0800000000000000
+      internalID: -5869322182505437571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_4
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 364
+        width: 841
+        height: 841
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ae9a96228395c110800000000000000
+      internalID: 1280591856259473057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_5
+      rect:
+        serializedVersion: 2
+        x: 1868
+        y: 310
+        width: 906
+        height: 901
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 522b6f49a0c67db70800000000000000
+      internalID: 8923719979362595365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_6
+      rect:
+        serializedVersion: 2
+        x: 3273
+        y: 350
+        width: 916
+        height: 936
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d2bf77abb88a0f00800000000000000
+      internalID: 1083828999886451415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_7
+      rect:
+        serializedVersion: 2
+        x: 4733
+        y: 605
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b19c8d4e5a27e4e80800000000000000
+      internalID: -8192484615305770725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_8
+      rect:
+        serializedVersion: 2
+        x: 4753
+        y: 385
+        width: 821
+        height: 821
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66c315eaaef08ea20800000000000000
+      internalID: 3091738644811168870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sampah Tier 2 (Revised)_9
+      rect:
+        serializedVersion: 2
+        x: 3723
+        y: 90
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84b9a90ce4b9425d0800000000000000
+      internalID: -3088172681928205496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: bad4970b6eccf044d8e415a6c16f47ac
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Sampah Tier 2 (Revised)_0: -5999539502369151043
+      Sampah Tier 2 (Revised)_1: 6558432707032639091
+      Sampah Tier 2 (Revised)_2: 675974093422533320
+      Sampah Tier 2 (Revised)_3: -5869322182505437571
+      Sampah Tier 2 (Revised)_4: 1280591856259473057
+      Sampah Tier 2 (Revised)_5: 8923719979362595365
+      Sampah Tier 2 (Revised)_6: 1083828999886451415
+      Sampah Tier 2 (Revised)_7: -8192484615305770725
+      Sampah Tier 2 (Revised)_8: 3091738644811168870
+      Sampah Tier 2 (Revised)_9: -3088172681928205496
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

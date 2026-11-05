@@ -33,6 +33,9 @@ public enum MusicId
     None = 0,
     MainMenu,
     InGame,
+    CollectPhase,
+    CraftingPhase,
+    SellPhase,
 }
 
 [CreateAssetMenu(menuName = "Audio/Sound Library", fileName = "SoundLibrary")]

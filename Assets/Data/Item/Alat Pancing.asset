@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
+  m_Name: Alat Pancing
+  m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: 4e92d8433f0543af8307d3357ef0371e
+  itemName: Alat Pancing
+  itemSprite: {fileID: -1463922387993793746, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
+  description: Sebuah batang dengan senar yang lentur dan kuat siap untuk membawa
+    pulang seember ikan.
+  requiredTag1: 4
+  requiredTag2: 3
+  basePrice: 30

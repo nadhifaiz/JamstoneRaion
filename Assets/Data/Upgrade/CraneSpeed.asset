@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   id: 1906b1d77fbb45cd8301c75e27dfea2d
   displayName: Crane
-  icon: {fileID: 4643331996660763195, guid: c40a2eacff721d748a7a3ed65457b7e5, type: 3}
+  icon: {fileID: -4342199233760417538, guid: 9e422b3cc59b12448a21ceb1562d491a, type: 3}
   description: An old crane that you own will become Faster than you expected.
   type: 1
   levels:

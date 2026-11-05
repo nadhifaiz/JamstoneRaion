@@ -27,6 +27,16 @@ public class CraneController : MonoBehaviour
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference grabAction;
 
+    [Header("UI Floating Text Settings")]
+    [SerializeField] private GameObject floatingTextPrefab;
+    [SerializeField] private Color floatingTextColor = Color.yellow;
+    [SerializeField] private Transform canvasParent;
+
+    [Header("Crane Sprites")]
+    [SerializeField] private Sprite craneOpenSprite;
+    [SerializeField] private Sprite craneClosedSprite;
+    [SerializeField] private SpriteRenderer craneSpriteRenderer;
+
     private Rigidbody2D rb;
     private float speedMultiplier = 1f;
     private Vector2 moveInput;
@@ -39,8 +49,6 @@ public class CraneController : MonoBehaviour
 
     void OnEnable()
     {
-        // Crane diaktifkan tiap fase Collect dimulai,
-        // jadi upgrade dibaca di sini.
         speedMultiplier = UpgradeManager.Instance != null
             ? UpgradeManager.Instance.GetSpeedMultiplier()
             : 1f;
@@ -59,6 +67,18 @@ public class CraneController : MonoBehaviour
 
         grabAction.action.started -= OnGrabStarted;
         grabAction.action.canceled -= OnGrabCanceled;
+    }
+
+    void Start()
+    {
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.OnMaterialChanged += ShowFloatingText;
+    }
+
+    void OnDestroy()
+    {
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.OnMaterialChanged -= ShowFloatingText;
     }
 
     void Update()
@@ -157,6 +177,12 @@ public class CraneController : MonoBehaviour
         target.AttachTo(grabPoint);
         PromoteMaterialsUnder(originalPos);
         PushNearbyMaterials();
+
+        // TAMBAHAN: Ubah sprite capit menjadi tertutup saat berhasil mencapit
+        if (craneSpriteRenderer != null && craneClosedSprite != null)
+        {
+            craneSpriteRenderer.sprite = craneClosedSprite;
+        }
     }
 
     // Material terdekat di radius capit yang terekspos
@@ -270,7 +296,6 @@ public class CraneController : MonoBehaviour
         MaterialObject released = grabbedMaterial;
         released.Detach();
 
-        // Material yang dilepas selalu menempati layer teratas.
         Collider2D topHit = Physics2D.OverlapPoint(
             released.transform.position,
             MaterialLayers.TopMask
@@ -288,6 +313,12 @@ public class CraneController : MonoBehaviour
         );
 
         grabbedMaterial = null;
+
+        // TAMBAHAN: Kembalikan sprite capit menjadi terbuka setelah melepas barang
+        if (craneSpriteRenderer != null && craneOpenSprite != null)
+        {
+            craneSpriteRenderer.sprite = craneOpenSprite;
+        }
     }
 
     // ==========================================
@@ -303,5 +334,31 @@ public class CraneController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(grabPoint.position, pushRadius);
+    }
+
+    // ==========================================
+    // FEEDBACK
+    // ==========================================
+    public void ShowFloatingText(string message)
+    {
+        if (floatingTextPrefab == null || canvasParent == null)
+            return;
+
+        GameObject floatingTextObj = Instantiate(
+            floatingTextPrefab,
+            canvasParent.position,
+            Quaternion.identity,
+            canvasParent
+        );
+
+        Vector3 randomOffset = new Vector3(Random.Range(-30f, 30f), Random.Range(-30f, 30f), 0f);
+        floatingTextObj.transform.position += randomOffset;
+
+        FloatingText floatingText = floatingTextObj.GetComponent<FloatingText>();
+        if (floatingText != null)
+        {
+            floatingText.SetText(message);
+            floatingText.SetColor(floatingTextColor);
+        }
     }
 }

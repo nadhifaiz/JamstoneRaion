@@ -28,10 +28,24 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c9cc2e79a8143dd40b946d05e6330daa, type: 3}
     volume: 0.5
     pitchVariation: 0
+  - id: 1
+    clips:
+    - {fileID: 8300000, guid: 51377c0ba51044a4cbe1c7ddabab2e24, type: 3}
+    volume: 0.5
+    pitchVariation: 0
   music:
   - id: 1
     clip: {fileID: 8300000, guid: a4ec3631ff4a25a41957e83859a273c2, type: 3}
     volume: 1
   - id: 2
     clip: {fileID: 8300000, guid: aacfbc269b5debd40b117d475f667e39, type: 3}
+    volume: 1
+  - id: 3
+    clip: {fileID: 8300000, guid: 48869394918feaa479ac461bdb554ad2, type: 3}
+    volume: 1
+  - id: 4
+    clip: {fileID: 8300000, guid: 45a3cfb480982324f8611df093732c9b, type: 3}
+    volume: 1
+  - id: 5
+    clip: {fileID: 8300000, guid: a6b19ff9850cbf24bb87a26828e48eb4, type: 3}
     volume: 1

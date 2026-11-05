@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Tombak
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
   id: 77750985c9c94e26a486a2951a3c75eb
-  itemName: Tombak
-  itemSprite: {fileID: -2791450573545181145, guid: 13a86fec5a5815a4f91d0198c0e025ae, type: 3}
-  description: senjata yang kuat dan mematikan, namun susah dikuasai.
+  itemName: Pedang
+  itemSprite: {fileID: -6722400938540003197, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
+  description: Senjata yang kuat dan mematikan, namun susah dikuasai.
   requiredTag1: 4
   requiredTag2: 2
   basePrice: 20

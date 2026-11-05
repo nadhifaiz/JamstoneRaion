@@ -14,18 +14,23 @@ public class CustomerController : MonoBehaviour
     [Header("Bubble UI")]
     [SerializeField] private CustomerBubbleUI bubbleUI;
 
-    // Barang yang diinginkan pelanggan ini (diisi SellManager saat spawn).
+    [Header("Customer Sprite")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private Sprite walkSprite;
+    private Sprite buySprite;
+
     public CraftedItemSO WantedItem { get; private set; }
 
     private int movementVersion;
 
     private void Awake()
     {
-        // Cadangan kalau lupa di-assign di prefab.
         if (bubbleUI == null)
             bubbleUI = GetComponentInChildren<CustomerBubbleUI>(true);
 
-        // Bubble menyembunyikan dirinya sendiri di Awake-nya.
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Setup(CraftedItemSO wanted)
@@ -33,16 +38,39 @@ public class CustomerController : MonoBehaviour
         WantedItem = wanted;
     }
 
-    // ---------- Gerak ----------
+    // ---------- Sprite ----------
 
-    // Dipakai dengan "yield return" kalau pemanggil perlu menunggu sampai tiba.
+    public void SetSprites(Sprite walk, Sprite buy)
+    {
+        walkSprite = walk;
+        buySprite = buy;
+
+        SetWalkingSprite();
+    }
+
+    public void SetWalkingSprite()
+    {
+        if (spriteRenderer != null && walkSprite != null)
+            spriteRenderer.sprite = walkSprite;
+    }
+
+    public void SetBuyingSprite()
+    {
+        if (spriteRenderer != null && buySprite != null)
+            spriteRenderer.sprite = buySprite;
+    }
+
+    // ---------- Movement ----------
+
     public IEnumerator MoveTo(Vector3 target)
     {
         int currentVersion = ++movementVersion;
 
+        // Setiap kali bergerak, gunakan sprite berjalan.
+        SetWalkingSprite();
+
         while ((transform.position - target).sqrMagnitude > 0.0001f)
         {
-            // Ada perintah gerak yang lebih baru: batalkan yang ini.
             if (currentVersion != movementVersion)
                 yield break;
 
@@ -59,8 +87,6 @@ public class CustomerController : MonoBehaviour
             transform.position = target;
     }
 
-    // Jalan tanpa ditunggu. Coroutine-nya jalan di pelanggan ini sendiri,
-    // jadi otomatis berhenti kalau pelanggan di-Destroy.
     public void GoTo(Vector3 target)
     {
         StartCoroutine(MoveTo(target));

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
   id: 7b3fe7d17dc442a1a22e6dd555270275
   itemName: Ketapel Tarik
-  itemSprite: {fileID: -2565190333505340326, guid: a8f3335c9fcf6034d8ec5070edc2e6dd, type: 3}
+  itemSprite: {fileID: 5725823211702991844, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
   description: Senjata yang efektif untuk melawan burung dengan daya serang yang
     kuat dan mudah digunakan.
   requiredTag1: 1

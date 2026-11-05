@@ -52,6 +52,7 @@ public class PhaseTransition : MonoBehaviour
             return;
         }
 
+        AudioManager.Music(MusicId.None); // musik fase lama berhenti saat zoom ke tombol fase baru
         StartCoroutine(GoToPhaseRoutine(target, focus));
     }
 
@@ -78,6 +79,11 @@ public class PhaseTransition : MonoBehaviour
 
         // 3. Collect: loading screen (area diisi penuh)
         if (isCollect) yield return RunCollectLoading(screen, gm);
+
+        if (target == GameState.Collect) AudioManager.Music(MusicId.CollectPhase); // musik fase Collect baru dimulai setelah loading selesai
+        else if (target == GameState.Craft) AudioManager.Music(MusicId.CraftingPhase); // musik fase Crafting baru dimulai setelah loading selesai
+        else if (target == GameState.Sell) AudioManager.Music(MusicId.SellPhase); // musik fase Sell baru dimulai setelah loading selesai
+        else AudioManager.Music(MusicId.InGame); // musik fase InGame baru dimulai setelah loading selesai
 
         // 4. Panel tujuan fade-in
         yield return screen.FadeFromBlack(revealDuration);
@@ -146,6 +152,7 @@ public class PhaseTransition : MonoBehaviour
             return;
         }
 
+        AudioManager.Music(MusicId.None); // musik fase lama berhenti saat zoom ke tombol fase baru
         StartCoroutine(ReturnToHubRoutine(focus));
     }
 
@@ -179,6 +186,7 @@ public class PhaseTransition : MonoBehaviour
             yield return null;
         }
 
+        AudioManager.Music(MusicId.InGame); // musik fase InGame baru dimulai setelah zoom-out selesai
         UIZoom.Reset(zoomRoot, restPosition);
         screen.SetBlack(0f);
         screen.SetBlocking(false);

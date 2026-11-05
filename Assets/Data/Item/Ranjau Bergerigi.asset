@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0cf075f4bebbf44811dcea1a962005, type: 3}
+  m_Name: Ranjau Bergerigi
+  m_EditorClassIdentifier: Assembly-CSharp::CraftedItemSO
+  id: e509665303544457b675a960dccd9c99
+  itemName: Ranjau Gerigi
+  itemSprite: {fileID: -6687243199115631265, guid: 08060b45543ae814bae377e46c7f1f8b, type: 3}
+  description: Sebuah senjata efektif untuk membasmi hama tikus dan menjebak para
+    burung.
+  requiredTag1: 2
+  requiredTag2: 2
+  basePrice: 30

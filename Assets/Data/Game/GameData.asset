@@ -16,15 +16,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf3f2dcdc3e75cd4cbb568e3432f27b9, type: 2}
   - {fileID: 11400000, guid: e5ee3f16885c12d4887e83b9512ac989, type: 2}
   - {fileID: 11400000, guid: 3534b213bc7be5e45901d6957a15c851, type: 2}
+  - {fileID: 11400000, guid: 6a18013f97abf7e4fa0209dd812cea00, type: 2}
   - {fileID: 11400000, guid: ab817f542564a254cb08168c206eb8cc, type: 2}
+  - {fileID: 11400000, guid: 02f085a134539c940a94b3f2d67e01e6, type: 2}
+  - {fileID: 11400000, guid: ac47057bcc8c5794fbde9e488f18144e, type: 2}
   - {fileID: 11400000, guid: c6cc792f3ca5f404182bc24d01847a62, type: 2}
+  - {fileID: 11400000, guid: 29dac14021d2a504fbbe50f81e80db8d, type: 2}
+  - {fileID: 11400000, guid: 30460d28068def3449d94815a5fe9774, type: 2}
+  - {fileID: 11400000, guid: 6b50f2783c3d45a4e85b5cb064f80508, type: 2}
   - {fileID: 11400000, guid: 8bf37a6522c313541a51ad03bc087bec, type: 2}
+  - {fileID: 11400000, guid: 48f35b09ee13d624883f6ce2e981a98c, type: 2}
+  - {fileID: 11400000, guid: 19ed2cf519e9a1e46af7f285c7a3067f, type: 2}
+  - {fileID: 11400000, guid: 6aaa3d5d6a3d147438ec85fc1f76a4d9, type: 2}
   craftedItems:
   - {fileID: 11400000, guid: 9a23db072d6c4974cb226f163612769e, type: 2}
   - {fileID: 11400000, guid: 1fcbc2cbc854131409bdfbf64a4e15a5, type: 2}
   - {fileID: 11400000, guid: e8a9bf9c0e36b6240a41191661ce279d, type: 2}
   - {fileID: 11400000, guid: 0942ba8219f781441b648d2b2053ce30, type: 2}
   - {fileID: 11400000, guid: 77346d8eb88d24a4b989d9ee127d16bd, type: 2}
+  - {fileID: 11400000, guid: 7f8e598e71d529547aa33c666052994c, type: 2}
+  - {fileID: 11400000, guid: cb7ed0ff9ad9b494eaa0f8e849a95e9d, type: 2}
+  - {fileID: 11400000, guid: 18c152834dd62fc45bd1b14bde77ec39, type: 2}
   upgrades:
   - {fileID: 11400000, guid: a72ee63b67fb8954c940626ea3e56825, type: 2}
   - {fileID: 11400000, guid: 91e9817b035af604b89a30dca9547090, type: 2}
